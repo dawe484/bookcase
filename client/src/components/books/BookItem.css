@@ -1,0 +1,140 @@
+.books-divider {
+  display: grid;
+  grid-template-columns: auto 744px;
+  column-gap: 1rem;
+}
+
+.book-item-sm {
+  width: 168px;
+  /* height: 222px; */
+  /* background: white; */
+  margin: 0 12px 24px;
+  border: 2px solid var(--light-color);
+  box-shadow: 0 14px 20px -8px rgba(0, 0, 0, 0.2);
+}
+
+.book-item-sm:hover {
+  /* border: 2px solid var(--warning-color); */
+  cursor: pointer;
+  box-shadow: 0 14px 30px 0px rgba(0, 0, 0, 0.2);
+}
+
+.book-item-sm:nth-child(4n + 1) {
+  margin-left: 0;
+}
+
+.book-item-sm:nth-child(4n) {
+  margin-right: 0;
+}
+
+.book-card-sm {
+  position: relative;
+  height: 189px;
+  /* background: white; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  /* border-bottom: 1px solid white; */
+}
+
+.book-item-sm:hover .book-card-sm_content {
+  transform: rotateY(0deg);
+}
+
+.book-item-sm:hover .book-card-sm_image {
+  transform: rotateY(180deg);
+}
+
+.book-card-sm_image {
+  margin-top: 6px;
+}
+
+.book-card-sm_content,
+.book-card-sm_image {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.book-card-sm_image img {
+  width: 152px;
+  height: 176px;
+  object-fit: contain;
+}
+
+.book-card-sm_content {
+  /* width: 152px; */
+  /* height: 176px; */
+  position: absolute;
+  margin-top: 4px;
+  padding: 0 12px;
+  z-index: 2;
+  transform: rotateY(180deg);
+}
+
+.bc-sm-content_inner {
+  text-align: center;
+}
+
+.book-card-sm_content p {
+  font-size: 0.85rem;
+}
+
+.book-spec {
+  text-align: center;
+}
+
+.book-spec .line {
+  width: 152px;
+  height: 2px;
+  margin: auto;
+  border-top: 1px solid var(--neutral-color);
+  opacity: 0.7;
+}
+
+.book-spec span {
+  font-size: 0.85rem;
+  color: var(--neutral-color);
+  font-style: italic;
+}
+
+.book-spec h2 {
+  opacity: 0.75;
+  font-size: 0.9rem;
+  margin-top: 2px;
+}
+
+.book-spec span:hover,
+.book-spec h2:hover {
+  color: var(--danger-color);
+  opacity: 0.9;
+}
+
+/* .add-to-sm {
+  width: 168px;
+  z-index: 1;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  opacity: 0.9;
+  border-top: 1px solid var(--danger-color);
+}
+
+.add-to-sm .far {
+  font-size: 1rem;
+}
+
+.add-to-sm span {
+  margin-left: 6px;
+}
+
+.add-to-sm .btn-sm {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */

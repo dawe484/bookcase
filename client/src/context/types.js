@@ -1,0 +1,37 @@
+export const GET_AUTHORS = 'GET_AUTHORS';
+export const CLEAR_AUTHOR_ERRORS = 'CLEAR_AUTHOR_ERRORS';
+export const GET_AUTHOR = 'GET_AUTHOR';
+export const CLEAR_AUTHOR = 'CLEAR_AUTHOR';
+export const ADD_AUTHOR = 'ADD_AUTHOR';
+export const DELETE_AUTHOR = 'DELETE_AUTHOR';
+export const UPDATE_AUTHOR = 'UPDATE_AUTHOR';
+export const SET_AUTHOR_FAVOURITE = 'SET_AUTHOR_FAVOURITE';
+export const CLEAR_AUTHOR_FAVOURITE = 'CLEAR_AUTHOR_FAVOURITE';
+export const FILTER_AUTHORS = 'FILTER_AUTHORS';
+export const CLEAR_AUTHORS_FILTER = 'CLEAR_AUTHOR_FILTER';
+export const AUTHOR_ERROR = 'AUTHOR_ERROR';
+
+export const GET_BOOKS = 'GET_BOOKS';
+export const CLEAR_BOOK_ERRORS = 'CLEAR_BOOK_ERRORS';
+export const GET_BOOK = 'GET_BOOK';
+export const CLEAR_BOOK = 'CLEAR_BOOK';
+export const ADD_BOOK = 'ADD_BOOK';
+export const DELETE_BOOK = 'DELETE_BOOK';
+export const UPDATE_BOOK = 'UPDATE_BOOK';
+export const SET_READING = 'SET_READING';
+export const CLEAR_READING = 'CLEAR_READING';
+export const FILTER_BOOKS = 'FILTER_BOOKS';
+export const CLEAR_BOOKS_FILTER = 'CLEAR_BOOKS_FILTER';
+export const BOOK_ERROR = 'BOOK_ERROR';
+
+export const SET_ALERT = 'SET_ALERT';
+export const REMOVE_ALERT = 'REMOVE_ALERT';
+
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_FAIL = 'REGISTER_FAIL';
+export const USER_LOADED = 'USER_LOADED';
+export const AUTH_ERROR = 'AUTH_ERROR';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT = 'LOGOUT';
+export const CLEAR_ERRORS = 'CLEAR_ERRORS';

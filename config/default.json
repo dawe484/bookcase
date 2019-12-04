@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://david:hnrA0C1inqGRDEMC@bookcase-cluster-00-vyswg.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtSecret": "secret"
+}

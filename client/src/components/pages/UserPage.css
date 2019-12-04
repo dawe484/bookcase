@@ -1,0 +1,174 @@
+.user-top-section {
+  display: grid;
+  grid-template-columns: 220px auto 220px;
+}
+
+.avatar {
+  /* background: white; */
+  width: 220px;
+  /* height: 280px; */
+  /* padding: 8px; */
+  /* display: flex; */
+  /* align-items: flex-start; */
+}
+
+.avatar img {
+  /* width: 204px; */
+  /* height: 264px; */
+  object-fit: contain;
+}
+
+.user-top-section .user-name {
+  padding: 0 1rem;
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.socials {
+  height: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.socials ul,
+.socials a {
+  display: flex;
+}
+
+.socials ul li {
+  padding: 0 6px;
+}
+
+.socials ul li:first-child {
+  padding-left: 0;
+}
+
+.socials ul li:last-child {
+  padding-right: 0;
+}
+
+.socials ul li a .social-icon {
+  text-align: center;
+  overflow: hidden;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.socials ul li a .social-icon .fas,
+.socials ul li a .social-icon .fab {
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+  font-size: 2.5rem;
+}
+
+.socials ul li a .social-icon .fab.fa-facebook-square:last-child {
+  color: #1778f2;
+}
+
+.socials ul li a .social-icon .fab.fa-instagram:last-child {
+  color: #dd2a7b;
+}
+
+.socials ul li a .social-icon .fab.fa-twitter-square:last-child {
+  color: #1da1f2;
+}
+
+.socials ul li a .social-icon .fas.fa-external-link-square-alt:last-child {
+  color: #fd7e14;
+}
+
+.socials ul li a:hover .social-icon .fas,
+.socials ul li a:hover .social-icon .fab {
+  transform: translateY(-105%);
+}
+
+.right-nav {
+  padding: 1rem;
+  border-left: 2px solid var(--dark-color);
+  opacity: 0.9;
+}
+
+.user-realname {
+  font-size: 1rem;
+}
+
+.bottom-section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--danger-color);
+  height: 2.5rem;
+  margin-top: 1rem;
+}
+
+.bottom-section-title ul li .link {
+  margin: 0 0.25rem;
+  padding: 0.25rem;
+}
+
+.bottom-section-title ul li .link,
+.bottom-section-title ul {
+  display: flex;
+}
+
+.bottom-section-title ul li .link:hover {
+  cursor: pointer;
+}
+
+.bottom-section-title ul li {
+  margin-right: 0.5rem;
+}
+
+.bottom-section-title ul li .link .icon {
+  margin-right: 0.2rem;
+  text-align: center;
+  overflow: hidden;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.bottom-section-title ul li .link .icon .fas {
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+  line-height: 1.5rem;
+}
+
+.bottom-section-title ul li .link .icon .fas:last-child,
+.bottom-section-title ul li .link .name span::before {
+  color: var(--light-color);
+}
+
+.bottom-section-title ul li .link .name {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  height: 1.5rem;
+}
+
+.bottom-section-title ul li .link .name span {
+  display: block;
+  position: relative;
+  transition: 0.5s;
+  font-weight: bold;
+}
+
+.bottom-section-title ul li .link:hover .icon .fas {
+  transform: translateY(-106%);
+}
+
+.bottom-section-title ul li .link .name span:before {
+  content: attr(data-text);
+  position: absolute;
+  top: -100%;
+}
+
+.bottom-section-title ul li .link:hover .name span {
+  transform: translateY(100%);
+}

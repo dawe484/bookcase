@@ -1,0 +1,67 @@
+.author-top-section {
+  display: grid;
+  grid-template-columns: 220px auto;
+}
+
+.author-profile {
+  padding-left: 1rem;
+}
+
+.author-header-divider {
+  border: 2px solid var(--danger-color);
+  width: 306px;
+  margin: 2px 0;
+}
+
+/* .author-bio {
+  padding-top: 4px;
+} */
+
+.author-resume-source {
+  font-size: 0.8rem;
+  opacity: 0.5;
+  text-align: right;
+  padding-right: 2px;
+  font-style: italic;
+}
+
+.read-more-divider {
+  margin-bottom: 1rem;
+}
+
+.ubc-list-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  color: var(--dark-color);
+  padding: 0.5rem 0;
+}
+
+.ubc-list-row .list-title {
+  display: flex;
+  align-items: center;
+  padding-left: 0.55rem;
+  border-left: 4px solid var(--danger-color);
+  height: 36px;
+}
+
+.ubc-list-row .list-title h1 {
+  font-size: 1rem;
+}
+
+.ubc-list-row .icon {
+  /* margin-left: 0.1rem; */
+  margin-right: 0.5rem;
+  /* font-size: 1.6rem; */
+}
+
+.item_search.book {
+  margin-right: 1rem;
+}
+
+.item_search.book select {
+  font-size: 0.9rem;
+  padding: 0.4rem;
+  color: var(--neutral-color);
+}
