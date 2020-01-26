@@ -1,9 +1,4 @@
-.author-header span {
-  font-weight: normal;
-}
-
-.author-header span > span,
-.author-header div > span {
+.bold {
   font-weight: bold;
 }
 

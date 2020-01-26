@@ -379,43 +379,44 @@ const AuthorDetail = ({ authorData }) => {
           <option value='zToA'>Z - A (název knihy)</option>
         </select> */}
       {/* </div> */}
-      <button className='btn btn-sm' onClick={modal}>
+      <button className='btn btn-sm add-book' onClick={modal}>
         {/* Add Book */}
         {buttonText}
       </button>
     </Fragment>
   );
 
-  const booksSection =
-    authorsBooks.length !== 0 ? (
-      <Fragment>
-        <div className='ubc-list-row'>
-          <div className='list-title'>
-            <i className='icon fas fa-book'></i>
-            <h1>Knihy ({authorsBooks.length})</h1>
-          </div>
-          <div className='search-pos'>
-            {isAuthenticated && user.role === 'superhero' ? (
-              addLink(toggleAddBookModal, 'Přidat knihu')
-            ) : (
-              <BookFilter />
-            )
-            // :  null
-            }
-          </div>
+  const booksSection = (
+    // authorsBooks.length !== 0 ? (
+    <Fragment>
+      <div className='ubc-list-row'>
+        <div className='list-title'>
+          <i className='icon fas fa-book'></i>
+          <h1>Knihy ({authorsBooks.length})</h1>
         </div>
-        <div className='ubc-header' id='ubc-header'>
-          <div className='items-list' id='items-list'>
-            {/* <h2>{selectedOption.selectedOptionOrder}</h2> */}
-            {authorsBooks.length !== 0
-              ? authorsBooks.map(book => (
-                  <BookItem key={book._id} book={book} />
-                ))
-              : null}
-          </div>
+        <div className='search-pos'>
+          {isAuthenticated && user.role === 'superhero' ? (
+            addLink(toggleAddBookModal, 'Přidat knihu')
+          ) : (
+            <BookFilter />
+          )
+          // :  null
+          }
         </div>
-      </Fragment>
-    ) : null;
+      </div>
+      <div className='ubc-header' id='ubc-header'>
+        <div className='items-list' id='items-list'>
+          {/* <h2>{selectedOption.selectedOptionOrder}</h2> */}
+          {authorsBooks.length !== 0 ? (
+            authorsBooks.map(book => <BookItem key={book._id} book={book} />)
+          ) : (
+            <div>Autor nemá v databázi zatím žádnou knihu.</div>
+          )}
+        </div>
+      </div>
+    </Fragment>
+  );
+  // ) : null;
 
   let bookSeriesArr = [];
 
@@ -453,30 +454,59 @@ const AuthorDetail = ({ authorData }) => {
       </Fragment>
     ) : null;
 
-  const awardsSection =
-    authorsAwards.length !== 0 ? (
-      <Fragment>
-        <div className='ubc-list-row'>
-          <div className='list-title'>
-            <i className='icon fas fa-trophy'></i>
-            <h1>Ocenění ({authorsAwards.length})</h1>
-          </div>
-          <div className='search-pos'>
-            {isAuthenticated &&
-              user.role === 'superhero' &&
-              addLink(toggleAddAwardModal, 'Přidat ocenění')}
-          </div>
+  const storiesSection = (
+    <Fragment>
+      <div className='ubc-list-row'>
+        <div className='list-title'>
+          <i className='icon fas fa-trophy'></i>
+          <h1>Povídky ({authorsAwards.length})</h1>
         </div>
-        <div className='ubc-header' id='ubc-header'>
-          {authorsAwards.map(award => (
+        <div className='search-pos'>
+          {isAuthenticated &&
+            user.role === 'superhero' &&
+            addLink(toggleAddAwardModal, 'Přidat ocenění')}
+        </div>
+      </div>
+      <div className='ubc-header' id='ubc-header'>
+        {authorsAwards.length !== 0 ? (
+          authorsAwards.map(award => (
             <p key={award._id}>
               {award.yearOfAward} – {award.awardTitle} ({award.awardCategory}) –{' '}
               {award.bookOfAward}
             </p>
-          ))}
+          ))
+        ) : (
+          <div>Autor nemá v databázi zatím žádnou povídku.</div>
+        )}
+      </div>
+    </Fragment>
+  );
+
+  const awardsSection = (
+    // authorsAwards.length !== 0 ? (
+    <Fragment>
+      <div className='ubc-list-row'>
+        <div className='list-title'>
+          <i className='icon fas fa-trophy'></i>
+          <h1>Ocenění ({authorsAwards.length})</h1>
         </div>
-      </Fragment>
-    ) : null;
+        <div className='search-pos'>
+          {isAuthenticated &&
+            user.role === 'superhero' &&
+            addLink(toggleAddAwardModal, 'Přidat ocenění')}
+        </div>
+      </div>
+      <div className='ubc-header' id='ubc-header'>
+        {authorsAwards.map(award => (
+          <p key={award._id}>
+            {award.yearOfAward} – {award.awardTitle} ({award.awardCategory}) –{' '}
+            {award.bookOfAward}
+          </p>
+        ))}
+      </div>
+    </Fragment>
+  );
+  // ) : null;
 
   const [state, setState] = useState({
     content: booksSection
@@ -486,6 +516,7 @@ const AuthorDetail = ({ authorData }) => {
 
   const handleBooksClick = () => changeContent(booksSection);
   const handleSeriesClick = () => changeContent(seriesSection);
+  const handleStoriesClick = () => changeContent(storiesSection);
   const handleAwardsClick = () => changeContent(awardsSection);
 
   return (
@@ -586,28 +617,33 @@ const AuthorDetail = ({ authorData }) => {
             )}
             <div className='author-profile'>
               <div className='author-header'>
-                {pseudonym.length !== 0 &&
-                  pseudonym.map(authorsPseudonym =>
-                    pseudonym.length === 1 ? (
-                      <span key={pseudonym.indexOf(authorsPseudonym)}>
-                        <span>pseudonym: </span>
-                        {authorsPseudonym}
-                      </span>
-                    ) : pseudonym.indexOf(authorsPseudonym) === 0 ? (
-                      <span key={pseudonym.indexOf(authorsPseudonym)}>
-                        <span>pseudonymy: </span>
-                        {authorsPseudonym}
-                      </span>
-                    ) : (
-                      <span key={pseudonym.indexOf(authorsPseudonym)}>
-                        , {authorsPseudonym}
-                      </span>
-                    )
-                  )}
+                {pseudonym.length !== 0 && (
+                  <div className='author-pseudonym'>
+                    {pseudonym.length !== 0 &&
+                      pseudonym.map(authorsPseudonym =>
+                        pseudonym.length === 1 ? (
+                          <span key={pseudonym.indexOf(authorsPseudonym)}>
+                            <span className='bold'>pseudonym: </span>
+                            {authorsPseudonym}
+                          </span>
+                        ) : pseudonym.indexOf(authorsPseudonym) === 0 ? (
+                          <span key={pseudonym.indexOf(authorsPseudonym)}>
+                            <span className='bold'>pseudonymy: </span>
+                            {authorsPseudonym}
+                          </span>
+                        ) : (
+                          <span key={pseudonym.indexOf(authorsPseudonym)}>
+                            , {authorsPseudonym}
+                          </span>
+                        )
+                      )}
+                  </div>
+                )}
                 {nationality && (
                   <div>
-                    <span>národnost: </span>
-                    {nationality},&nbsp;{birthdate && birth}{' '}
+                    <span className='bold'>národnost: </span>
+                    {nationality}
+                    {birthdate ? <span>,&nbsp;{birth}</span> : null}
                     {deathdate && <span>– {death} </span>}
                   </div>
                 )}
@@ -644,56 +680,67 @@ const AuthorDetail = ({ authorData }) => {
               : null} */}
           {/* </div>
           </div> */}
-          {authorsBooks.length !== 0 ||
-          bookSeriesArr.length !== 0 ||
-          authorsAwards.length !== 0 ? (
-            <div className='user-bottom-section'>
-              <div className='bottom-section-title'>
-                <ul>
-                  {authorsBooks.length !== 0 ? (
-                    <li>
-                      <div className='link' onClick={handleBooksClick}>
-                        <div className='icon'>
-                          <i className='fas fa-book' aria-hidden='true' />
-                          <i className='fas fa-book' aria-hidden='true' />
-                        </div>
-                        <div className='name'>
-                          <span data-text='Knihy'>Knihy</span>
-                        </div>
+          {/* {authorsBooks.length !== 0 || */}
+          {/* bookSeriesArr.length !== 0 || */}
+          {/* authorsAwards.length !== 0 ? ( */}
+          <div className='user-bottom-section'>
+            <div className='bottom-section-title'>
+              <ul>
+                {/* {authorsBooks.length !== 0 ? ( */}
+                <li>
+                  <div className='link' onClick={handleBooksClick}>
+                    <div className='icon'>
+                      <i className='fas fa-book' aria-hidden='true' />
+                      <i className='fas fa-book' aria-hidden='true' />
+                    </div>
+                    <div className='name'>
+                      <span data-text='Knihy'>Knihy</span>
+                    </div>
+                  </div>
+                </li>
+                {/* ) : null} */}
+                {bookSeriesArr.length !== 0 ? (
+                  <li>
+                    <div className='link' onClick={handleSeriesClick}>
+                      <div className='icon'>
+                        <i className='fas fa-folder' aria-hidden='true' />
+                        <i className='fas fa-folder' aria-hidden='true' />
                       </div>
-                    </li>
-                  ) : null}
-                  {bookSeriesArr.length !== 0 ? (
-                    <li>
-                      <div className='link' onClick={handleSeriesClick}>
-                        <div className='icon'>
-                          <i className='fas fa-folder' aria-hidden='true' />
-                          <i className='fas fa-folder' aria-hidden='true' />
-                        </div>
-                        <div className='name'>
-                          <span data-text='Série'>Série</span>
-                        </div>
+                      <div className='name'>
+                        <span data-text='Série'>Série</span>
                       </div>
-                    </li>
-                  ) : null}
-                  {authorsAwards.length !== 0 ? (
-                    <li>
-                      <div className='link' onClick={handleAwardsClick}>
-                        <div className='icon'>
-                          <i className='fas fa-trophy' aria-hidden='true' />
-                          <i className='fas fa-trophy' aria-hidden='true' />
-                        </div>
-                        <div className='name'>
-                          <span data-text='Ocenění'>Ocenění</span>
-                        </div>
-                      </div>
-                    </li>
-                  ) : null}
-                </ul>
-              </div>
-              <div className='user-books-carousel'>{state.content}</div>
+                    </div>
+                  </li>
+                ) : null}
+                <li>
+                  <div className='link' onClick={handleStoriesClick}>
+                    <div className='icon'>
+                      <i className='fas fa-trophy' aria-hidden='true' />
+                      <i className='fas fa-trophy' aria-hidden='true' />
+                    </div>
+                    <div className='name'>
+                      <span data-text='Povídky'>Povídky</span>
+                    </div>
+                  </div>
+                </li>
+                {/* {authorsAwards.length !== 0 ? ( */}
+                <li>
+                  <div className='link' onClick={handleAwardsClick}>
+                    <div className='icon'>
+                      <i className='fas fa-trophy' aria-hidden='true' />
+                      <i className='fas fa-trophy' aria-hidden='true' />
+                    </div>
+                    <div className='name'>
+                      <span data-text='Ocenění'>Ocenění</span>
+                    </div>
+                  </div>
+                </li>
+                {/* ) : null} */}
+              </ul>
             </div>
-          ) : null}
+            <div className='user-books-carousel'>{state.content}</div>
+          </div>
+          {/* ) : null} */}
         </section>
       </div>
       <div className='author-content'>

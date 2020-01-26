@@ -1,6 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import ReadMoreReact from 'read-more-react';
+import Rating from 'react-rating';
+
+import AuthContext from '../../context/auth/authContext';
 
 import './BookDetail.css';
 
@@ -31,8 +34,14 @@ const BookDetail = ({ bookData }) => {
     bookComments,
     bookEditions,
     author,
-    date
+    date,
+    rating,
+    numberOfRatings
   } = bookData;
+
+  const authContext = useContext(AuthContext);
+
+  const { user } = authContext;
 
   const annotationSection = annotation ? (
     <Fragment>
@@ -147,6 +156,75 @@ const BookDetail = ({ bookData }) => {
     return months <= 0 ? 0 : months;
   };
 
+  const [ratingState, setRatingState] = useState({
+    value: 0
+  });
+
+  const handleClick = () => {
+    setRatingState({ value: 0 });
+  };
+
+  const otherAuthorsBook = author ? (
+    <Fragment>
+      {author.book.map(book =>
+        book.rating >= 80 ? (
+          book.title !== title ? (
+            <p key={book._id}>
+              <i
+                className='fas fa-star'
+                style={{ color: 'var(--danger-color)' }}
+              />
+              {book.title}&nbsp;({book.publishDate})
+            </p>
+          ) : null
+        ) : book.rating >= 40 && book.rating < 80 ? (
+          book.title !== title ? (
+            <p key={book._id}>
+              <i
+                className='fas fa-star'
+                style={{ color: 'var(--neutral-color)' }}
+              />
+              {book.title}&nbsp;({book.publishDate})
+            </p>
+          ) : null
+        ) : book.rating >= 0 && book.rating < 40 ? (
+          book.title !== title ? (
+            <p key={book._id}>
+              <i
+                className='fas fa-star'
+                style={{ color: 'var(--dark-color)' }}
+              />
+              {book.title}&nbsp;({book.publishDate})
+            </p>
+          ) : null
+        ) : book.title !== title ? (
+          <p key={book._id}>
+            <i className='far fa-star' style={{ color: 'var(--dark-color)' }} />
+            {book.title}&nbsp;({book.publishDate})
+          </p>
+        ) : null
+      )}
+    </Fragment>
+  ) : null;
+
+  const readedOnClick = async () => {
+    const obj = {
+      bookId: bookData._id,
+      bookRate: 0
+    };
+
+    if (user.alreadyRead.length === 0) user.alreadyRead.unshift(obj);
+    else
+      for (let i = 0; i < user.alreadyRead.length; i++) {
+        if (user.alreadyRead[i].bookId === bookData._id)
+          user.alreadyRead.splice(i, 1);
+        else user.alreadyRead.unshift(obj);
+      }
+
+    // authContext.updateUser(user);
+    console.log(user);
+  };
+
   return (
     <div className='container'>
       <div className='book-container'>
@@ -155,11 +233,59 @@ const BookDetail = ({ bookData }) => {
             <i className='icon fas fa-book' />
             <h1>{title}</h1>
           </div>
-          {/* <div className='socials'> */}
-          {/* Tady by mohly být hvězdičky = hodnocení knihy ??? */}
-          {/* </div> */}
+          {rating >= 80 ? (
+            <div className='overall-rating'>
+              <Link
+                to={{
+                  pathname: `/book-rating/${urlTitle}`,
+                  urlTitle: urlTitle
+                }}
+                className='btn-sm overall-rating-pro red'
+                title='Bližší info k procentuálnímu hodnocení'
+              >
+                {rating} %
+              </Link>
+              <div className='btn-sm overall-rating-no'>
+                {numberOfRatings} hodnocení
+              </div>
+            </div>
+          ) : rating >= 40 && rating < 80 ? (
+            <div className='overall-rating'>
+              <Link
+                to={{
+                  pathname: `/book-rating/${urlTitle}`,
+                  urlTitle: urlTitle
+                }}
+                className='btn-sm overall-rating-pro neutral'
+                title='Bližší info k procentuálnímu hodnocení'
+              >
+                {rating} %
+              </Link>
+              <div className='btn-sm overall-rating-no'>
+                {numberOfRatings} hodnocení
+              </div>
+            </div>
+          ) : rating >= 0 && rating < 40 ? (
+            <div className='overall-rating'>
+              <Link
+                to={{
+                  pathname: `/book-rating/${urlTitle}`,
+                  urlTitle: urlTitle
+                }}
+                className='btn-sm overall-rating-pro dark'
+                title='Bližší info k procentuálnímu hodnocení'
+              >
+                {rating} %
+              </Link>
+              <div className='btn-sm overall-rating-no light'>
+                {numberOfRatings} hodnocení
+              </div>
+            </div>
+          ) : (
+            <div className='btn-sm overall-rating-no'>nehodnoceno</div>
+          )}
         </div>
-        <div className='author-header'>
+        <div className='book-header'>
           <div className='author-name book-author'>
             kniha od&nbsp;
             <Link
@@ -172,6 +298,28 @@ const BookDetail = ({ bookData }) => {
               <span>{author.name}</span>
             </Link>
           </div>
+          {user && (
+            <div className='book-rating'>
+              {ratingState.value !== 0 && (
+                <span className='reset-rating'>
+                  <button className='btn-sm' onClick={handleClick}>
+                    Zrušit
+                  </button>
+                </span>
+              )}
+              <span className='my-rating-text'>Mé hodnocení:</span>
+              <Rating
+                initialRating={ratingState.value}
+                emptySymbol='fa fa-star-o'
+                fullSymbol='fa fa-star'
+                fractions={2}
+                onChange={rate => {
+                  console.log(rate);
+                  setRatingState({ value: rate });
+                }}
+              />
+            </div>
+          )}
         </div>
         <section className='info'>
           <div className='book-top-section'>
@@ -296,50 +444,113 @@ const BookDetail = ({ bookData }) => {
                           <td>{translator}</td>
                         </tr>
                       ) : null}
-                      {/* {youtube
-                        ? <tr>
-                          <td>Upoutávka</td>
-                          <td>{youtube}</td>
-                        </tr>
-                        : null
-                      } */}
                     </tbody>
                   </table>
                 </div>
               </div>
+              <div className='book-btn'>
+                <div className='aside-btn-item'>
+                  <Link to='/' className='btn'>
+                    Číst knihu
+                  </Link>
+                </div>
+                <div className='aside-btn-item' id='addTo'>
+                  <button className='btn'>Přidat do</button>
+                  <div className='addTo-dropdown'>
+                    <div className='addTo-dropdown-content'>
+                      <input
+                        type='checkbox'
+                        id='readNowCheck'
+                        name='readNow'
+                        value='readNow'
+                      />
+                      <label htmlFor='readNowCheck'>
+                        <i></i>
+                        <span>Právě čtu</span>
+                      </label>
+                      <br />
+                      <input
+                        type='checkbox'
+                        id='toReadCheck'
+                        name='toRead'
+                        value='toRead'
+                      />
+                      <label htmlFor='toReadCheck'>
+                        <i></i>
+                        <span>Chystám se číst</span>
+                      </label>
+                      <br />
+                      <input
+                        type='checkbox'
+                        id='readedCheck'
+                        name='readed'
+                        value='readed'
+                        onClick={readedOnClick}
+                      />
+                      <label htmlFor='readedCheck'>
+                        <i></i>
+                        <span>Přečteno</span>
+                      </label>
+                      <br />
+                      <input
+                        type='checkbox'
+                        id='favouriteCheck'
+                        name='favourite'
+                        value='favourite'
+                      />
+                      <label htmlFor='favouriteCheck'>
+                        <i></i>
+                        <span>Oblíbené</span>
+                      </label>
+                      <br />
+                      <input
+                        type='checkbox'
+                        id='ebookcaseCheck'
+                        name='ebookcase'
+                        value='ebookcase'
+                      />
+                      <label htmlFor='ebookcaseCheck'>
+                        <i></i>
+                        <span>E-knihotéka</span>
+                      </label>
+                      <br />
+                      <input
+                        type='checkbox'
+                        id='wishlistCheck'
+                        name='wishlist'
+                        value='wishlist'
+                      />
+                      <label htmlFor='wishlistCheck'>
+                        <i></i>
+                        <span>Chci si půjčit</span>
+                      </label>
+                      <br />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <aside className='aside-btn'>
-              <div className='book-rating'>
-                <div className='book-rating-star'>
-                  <i className='far fa-star'></i>
+            {author.book.length > 1 && (
+              <aside className='aside-column'>
+                <div className='authors-books'>
+                  <h1>Další knihy od autora/ky:</h1>
+                  {author ? (
+                    <div className='ab-p'>{otherAuthorsBook}</div>
+                  ) : null}
                 </div>
-                <div className='book-rating-star'>
-                  <i className='far fa-star'></i>
-                </div>
-                <div className='book-rating-star'>
-                  <i className='far fa-star'></i>
-                </div>
-                <div className='book-rating-star'>
-                  <i className='far fa-star'></i>
-                </div>
-                <div className='book-rating-star'>
-                  <i className='far fa-star'></i>
-                </div>
-              </div>
-              <div className='aside-btn-item'>
-                <a href='/' className='btn'>
-                  Číst knihu
-                </a>
-              </div>
-              <div className='aside-btn-item'>
-                <a href='/' className='btn'>
-                  Přidat do
-                </a>
-              </div>
-              <div>
-                <h1>Další knihy od autora/ky</h1>
-              </div>
-            </aside>
+                <Link
+                  to={{
+                    pathname: `/authors/${author.urlAuthorName}`,
+                    urlName: author.urlAuthorName
+                  }}
+                  className='btn btn-sm btn-all'
+                >
+                  všech {author.book.length} knih autora/ky
+                </Link>
+                {/* <button className='btn btn-sm btn-all'>
+                </button> */}
+              </aside>
+            )}
           </div>
           {annotation || series || bookComments || bookEditions || youtube ? (
             <div className='user-bottom-section'>

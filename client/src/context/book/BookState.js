@@ -107,6 +107,9 @@ const BookState = props => {
   };
 
   // Update Book
+  const updateBook = async book => {
+    dispatch({ type: UPDATE_BOOK, payload: book });
+  };
 
   // Set Book to Reading
 
@@ -122,6 +125,23 @@ const BookState = props => {
     dispatch({ type: CLEAR_BOOKS_FILTER });
   };
 
+  // Get Book Rating
+  // const getBookRating = async urlTitle => {
+  //   try {
+  //     const res = await axios.get(`/api/book-rating/${urlTitle}`);
+
+  //     dispatch({
+  //       type: GET_BOOK,
+  //       payload: res.data
+  //     });
+  //   } catch (err) {
+  //     dispatch({
+  //       type: BOOK_ERROR,
+  //       payload: err.response.data.msg
+  //     });
+  //   }
+  // };
+
   return (
     <BookContext.Provider
       value={{
@@ -135,8 +155,10 @@ const BookState = props => {
         clearBook,
         addBook,
         deleteBook,
+        updateBook,
         filterBooks,
         clearBooksFilter
+        // getBookRating
       }}
     >
       {props.children}

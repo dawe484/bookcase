@@ -224,8 +224,8 @@ router.get('/:urlAuthorName', async (req, res) => {
     let author = await Author.findOne({
       urlAuthorName: req.params.urlAuthorName
     })
-      .populate('book');
-      // .sort({ date: -1 });
+      .populate('book')
+      .sort({ date: -1 });
 
     if (!author) return res.status(404).json({ msg: 'Author not found' });
     else console.log('Server author:', req.params.urlAuthorName);

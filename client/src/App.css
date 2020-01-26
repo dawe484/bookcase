@@ -51,7 +51,7 @@ button {
 
 /* Utilities */
 .main-content {
-  padding-top: 7rem;
+  padding-top: 6rem;
 }
 
 .container {
@@ -421,18 +421,18 @@ h3 {
   transition: 0.5s;
 }
 
-.headbox h1 a .name span:before,
-.headbox ul li a .name span:before {
+.headbox h1 a .name span::before,
+.headbox ul li a .name span::before {
   color: var(--danger-color);
 }
 
-.navbar ul li a .name span:before {
+.navbar ul li a .name span::before {
   color: var(--light-color);
 }
 
-.headbox h1 a .name span:before,
-.headbox ul li a .name span:before,
-.navbar ul li a .name span:before {
+.headbox h1 a .name span::before,
+.headbox ul li a .name span::before,
+.navbar ul li a .name span::before {
   content: attr(data-text);
   position: absolute;
   top: -100%;
@@ -862,7 +862,7 @@ input:-webkit-autofill:focus {
   transition: 0.5s;
 }
 
-.footer ul li a .name span:before {
+.footer ul li a .name span::before {
   color: var(--light-color);
   content: attr(data-text);
   position: absolute;

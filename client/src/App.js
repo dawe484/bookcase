@@ -11,6 +11,7 @@ import News from './components/pages/NewsPage';
 import Popular from './components/pages/PopularPage';
 import Books from './components/pages/BooksPage';
 import Book from './components/pages/BookPage';
+// import BookRating from './components/pages/BookRatingPage';
 import Authors from './components/pages/AuthorsPage';
 import Author from './components/pages/AuthorPage';
 import Account from './components/pages/UserPage';
@@ -53,9 +54,11 @@ const App = () => {
                       <Route exact path='/popular' component={Popular} />
                       <Route exact path='/books' component={Books} />
                       <Route exact path='/books/:urlTitle' component={Book} />
+                      {/* <Route exact path='/book-rating/:urlTitle' component={BookRating} /> */}
                       <Route exact path='/authors' component={Authors} />
                       <Route exact path='/authors/:urlAuthorName' component={Author} />
-                      <PrivateRoute exact path='/account' component={Account} />
+                      <PrivateRoute exact path='/account/:name' component={Account} />
+                      <PrivateRoute exact path='/account/edit/:name' component={Account} />
                       <Route exact path='/about' component={About} />
                       <Route exact path='/help' component={Help} />
                       <Route component={NotFound} />

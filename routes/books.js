@@ -178,8 +178,37 @@ router.get('/:urlTitle', async (req, res) => {
       .populate('author')
       .sort({ date: -1 });
 
+    if (book.author.name !== null) {
+      let author = await Author.findOne({ name: book.author.name }).populate(
+        'book'
+      );
+
+      for (let i = 0; i < book.author.book.length; i++) {
+        book.author.book[i] = author.book[i];
+      }
+    }
+
     if (!book) return res.status(404).json({ msg: 'Book not found' });
     else console.log('Server book:', req.params.urlTitle);
+
+    res.json(book);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route     GET api/book-rating/:urlTitle
+// @desc      Get the book rating statistics
+// @access    Public
+router.get('/:urlTitle', async (req, res) => {
+  try {
+    let book = await Book.findOne({
+      urlTitle: req.params.urlTitle
+    });
+
+    if (!book) return res.status(404).json({ msg: 'Rating problem. Book not found' });
+    else console.log('Server book rating:', req.params.urlTitle);
 
     res.json(book);
   } catch (err) {

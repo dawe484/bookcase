@@ -11,7 +11,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_ERRORS
+  CLEAR_ERRORS,
+  UPDATE_USER
 } from '../types';
 
 const AuthState = props => {
@@ -100,7 +101,38 @@ const AuthState = props => {
 
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
-  
+
+  // Update User
+  // const updateUser = async user => {
+  //   const config = {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'x-auth-token': localStorage.getItem('token')
+  //     }
+  //   };
+
+  //   console.log(user);
+  //   console.log(localStorage.getItem('token'));
+
+  //   try {
+  //     const res = await axios.put(`/api/users/${user.name}`, user, config);
+
+  //     dispatch({
+  //       type: UPDATE_USER,
+  //       payload: res.data
+  //     });
+
+  //     loadUser();
+
+  //     res.json('User updated!');
+  //   } catch (err) {
+  //     dispatch({
+  //       type: LOGIN_FAIL,
+  //       payload: err.response.data.msg
+  //     });
+  //   }
+  // };
+
   return (
     <AuthContext.Provider
       value={{
@@ -113,11 +145,13 @@ const AuthState = props => {
         loadUser,
         signIn,
         signOut,
-        clearErrors
-      }}>
+        clearErrors,
+        // updateUser
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
-  )
+  );
 };
 
 export default AuthState;

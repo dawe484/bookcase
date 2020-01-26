@@ -1,79 +1,84 @@
 const mongoose = require('mongoose');
 
-const AuthorSchema = mongoose.Schema({
-  urlAuthorName: {
-    type: String
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  pseudonym: [
-    {
+const AuthorSchema = mongoose.Schema(
+  {
+    urlAuthorName: {
       type: String
-    }
-  ],
-  birthdate: {
-    type: String
-  },
-  deathdate: {
-    type: String
-  },
-  nationality: {
-    type: String
-  },
-  portraitAuthorName: {
-    type: String
-  },
-  portrait: {
-    type: String
-  },
-  resumeSource: {
-    type: String
-  },
-  resume: {
-    type: String
-  },
-  website: {
-    type: String
-  },
-  facebook: {
-    type: String
-  },
-  instagram: {
-    type: String
-  },
-  twitter: {
-    type: String
-  },
-  date: {
-    type: Date,
-    default: Date.now
-  },
-  book: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'book'
-    }
-  ],
-  award: {
-    type: [
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    pseudonym: [
       {
-        award: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'award'
-        },
-        yearOfAward: {
-          type: Number
-          // required: true
-        },
-        book: {
-          type: String
-          // required: true
-        }
+        type: String
       }
-    ]
+    ],
+    birthdate: {
+      type: String
+    },
+    deathdate: {
+      type: String
+    },
+    nationality: {
+      type: String
+    },
+    portraitAuthorName: {
+      type: String
+    },
+    portrait: {
+      type: String
+    },
+    resumeSource: {
+      type: String
+    },
+    resume: {
+      type: String
+    },
+    website: {
+      type: String
+    },
+    facebook: {
+      type: String
+    },
+    instagram: {
+      type: String
+    },
+    twitter: {
+      type: String
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    },
+    book: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'book'
+      }
+    ],
+    award: {
+      type: [
+        {
+          award: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'award'
+          },
+          yearOfAward: {
+            type: Number
+            // required: true
+          },
+          book: {
+            type: String
+            // required: true
+          }
+        }
+      ]
+    }
+  },
+  {
+    timestamps: true
   }
-});
+);
 
 module.exports = mongoose.model('author', AuthorSchema);

@@ -10,7 +10,7 @@ const UserPage = () => {
   const authorContext = useContext(AuthorContext);
 
   const { user } = authContext;
-  const { clearAuthor } = authorContext
+  const { clearAuthor } = authorContext;
 
   useEffect(() => {
     clearAuthor();
@@ -18,12 +18,20 @@ const UserPage = () => {
     // eslint-disable-next-line
   }, []);
 
-  const formatDate = (date) => {
+  const formatDate = date => {
     const monthNames = [
-      "January", "February", "March",
-      "April", "May", "June", "July",
-      "August", "September", "October",
-      "November", "December"
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
     ];
 
     const arr = date.split('-');
@@ -31,7 +39,7 @@ const UserPage = () => {
     return `${arr[0]}. ${arr[1]}. ${arr[2]}`;
   };
 
-  const bday = formatDate(user.birthdate);
+  const bday = user.birthdate && formatDate(user.birthdate);
 
   return (
     <div className='container'>
@@ -45,36 +53,67 @@ const UserPage = () => {
         <section className='info'>
           <div className='user-top-section'>
             <div className='avatar'>
-              <img src='https://cdn.albatrosmedia.cz/Images/Author/31462' alt='' />
+              <img
+                src='https://cdn.albatrosmedia.cz/Images/Author/31462'
+                alt=''
+              />
             </div>
             <div className='user-name'>
               <div className='user-header'>
-                <h1>
-                  {user.name}
-                </h1>
+                <h1>{user.name}</h1>
                 <div className='socials'>
                   <ul>
                     <li>
-                      <a href={user.facebook} target='_blank' rel='noopener noreferrer'>
+                      <a
+                        href={user.facebook}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
                         <div className='social-icon'>
-                          <i className='fab fa-facebook-square' aria-hidden='true'></i>
-                          <i className='fab fa-facebook-square' aria-hidden='true'></i>
+                          <i
+                            className='fab fa-facebook-square'
+                            aria-hidden='true'
+                          ></i>
+                          <i
+                            className='fab fa-facebook-square'
+                            aria-hidden='true'
+                          ></i>
                         </div>
                       </a>
                     </li>
                     <li>
-                      <a href={user.instagram} target='_blank' rel='noopener noreferrer'>
+                      <a
+                        href={user.instagram}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
                         <div className='social-icon'>
-                          <i className='fab fa-instagram' aria-hidden='true'></i>
-                          <i className='fab fa-instagram' aria-hidden='true'></i>
+                          <i
+                            className='fab fa-instagram'
+                            aria-hidden='true'
+                          ></i>
+                          <i
+                            className='fab fa-instagram'
+                            aria-hidden='true'
+                          ></i>
                         </div>
                       </a>
                     </li>
                     <li>
-                      <a href={user.twitter} target='_blank' rel='noopener noreferrer'>
+                      <a
+                        href={user.twitter}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
                         <div className='social-icon'>
-                          <i className='fab fa-twitter-square' aria-hidden='true'></i>
-                          <i className='fab fa-twitter-square' aria-hidden='true'></i>
+                          <i
+                            className='fab fa-twitter-square'
+                            aria-hidden='true'
+                          ></i>
+                          <i
+                            className='fab fa-twitter-square'
+                            aria-hidden='true'
+                          ></i>
                         </div>
                       </a>
                     </li>
@@ -83,16 +122,16 @@ const UserPage = () => {
               </div>
               <div className='user-bio'>
                 <div className='user-realname'>
-                  {user.realName} ({bday})
+                  {user.realName} {user.birthdate && { bday }}
                 </div>
-                <div className='user-statistics'>
-                  Statistics
-                </div>
+                <div className='user-statistics'>Statistics</div>
               </div>
             </div>
             <aside className='right-nav'>
               <ul>
-                <li><strong>Můj účet</strong></li>
+                <li>
+                  <strong>Můj účet</strong>
+                </li>
                 <li>Hodnocení</li>
                 <li>Příspěvky</li>
                 <li>Oblíbení autoři</li>
@@ -105,8 +144,8 @@ const UserPage = () => {
                 <li>
                   <div className='link'>
                     <div className='icon'>
-                      <i className="fas fa-newspaper" aria-hidden='true' />
-                      <i className="fas fa-newspaper" aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
                     </div>
                     <div className='name'>
                       <span data-text='Právě čtené'>Právě čtené</span>
@@ -116,8 +155,8 @@ const UserPage = () => {
                 <li>
                   <div className='link'>
                     <div className='icon'>
-                      <i className="fas fa-newspaper" aria-hidden='true' />
-                      <i className="fas fa-newspaper" aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
                     </div>
                     <div className='name'>
                       <span data-text='Chystám se číst'>Chystám se číst</span>
@@ -127,8 +166,8 @@ const UserPage = () => {
                 <li>
                   <div className='link'>
                     <div className='icon'>
-                      <i className="fas fa-newspaper" aria-hidden='true' />
-                      <i className="fas fa-newspaper" aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
                     </div>
                     <div className='name'>
                       <span data-text='Přečtené'>Přečtené</span>
@@ -138,8 +177,8 @@ const UserPage = () => {
                 <li>
                   <div className='link'>
                     <div className='icon'>
-                      <i className="fas fa-newspaper" aria-hidden='true' />
-                      <i className="fas fa-newspaper" aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
                     </div>
                     <div className='name'>
                       <span data-text='Oblíbené'>Oblíbené</span>
@@ -149,19 +188,19 @@ const UserPage = () => {
                 <li>
                   <div className='link'>
                     <div className='icon'>
-                      <i className="fas fa-newspaper" aria-hidden='true' />
-                      <i className="fas fa-newspaper" aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
                     </div>
                     <div className='name'>
-                      <span data-text='E-Knihotéka'>E-Knihotéka</span>
+                      <span data-text='E-knihotéka'>E-knihotéka</span>
                     </div>
                   </div>
                 </li>
                 <li>
                   <div className='link'>
                     <div className='icon'>
-                      <i className="fas fa-newspaper" aria-hidden='true' />
-                      <i className="fas fa-newspaper" aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
+                      <i className='fas fa-newspaper' aria-hidden='true' />
                     </div>
                     <div className='name'>
                       <span data-text='Chci si půjčit'>Chci si půjčit</span>
@@ -170,18 +209,15 @@ const UserPage = () => {
                 </li>
               </ul>
             </div>
-            <div className='user-books-carousel'>
-
-            </div>
+            <div className='user-books-carousel'></div>
           </div>
         </section>
       </div>
       <div className='user-content'>
-        <div className='user-content'>
-        </div>
+        <div className='user-content'></div>
       </div>
     </div>
-  )
+  );
 };
 
 export default UserPage;

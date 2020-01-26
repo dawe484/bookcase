@@ -1,7 +1,13 @@
-import React, { createRef, useState, useContext, useEffect, Fragment } from 'react';
+import React, {
+  createRef,
+  useState,
+  useContext,
+  useEffect,
+  Fragment
+} from 'react';
 import { Link } from 'react-router-dom';
 import Modali, { useModali } from 'modali';
-import Alerts from '../../components/layout/Alerts'
+import Alerts from '../../components/layout/Alerts';
 
 import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
@@ -15,7 +21,15 @@ const Headbox = () => {
   const authContext = useContext(AuthContext);
 
   const { setAlert } = alertContext;
-  const { signUp, signIn, error, clearErrors, isAuthenticated, signOut, user } = authContext;
+  const {
+    signUp,
+    signIn,
+    error,
+    clearErrors,
+    isAuthenticated,
+    signOut,
+    user
+  } = authContext;
 
   useEffect(() => {
     if (localStorage.token) {
@@ -44,7 +58,7 @@ const Headbox = () => {
     signUpEmail: '',
     signUpPassword: ''
   });
-  
+
   const [userSignIn, setUserSignIn] = useState({
     signInEmail: '',
     signInPassword: ''
@@ -53,8 +67,10 @@ const Headbox = () => {
   const { signUpName, signUpEmail, signUpPassword } = userSignUp;
   const { signInEmail, signInPassword } = userSignIn;
 
-  const onSignUpChange = e => setUserSignUp({ ...userSignUp, [e.target.name]: e.target.value });
-  const onSignInChange = e => setUserSignIn({ ...userSignIn, [e.target.name]: e.target.value });
+  const onSignUpChange = e =>
+    setUserSignUp({ ...userSignUp, [e.target.name]: e.target.value });
+  const onSignInChange = e =>
+    setUserSignIn({ ...userSignIn, [e.target.name]: e.target.value });
 
   const onSignUpSubmit = e => {
     e.preventDefault();
@@ -70,7 +86,7 @@ const Headbox = () => {
       toggleCompleteModal();
     }
   };
-  
+
   const onSignInSubmit = e => {
     e.preventDefault();
     if (signInEmail === '' || signInPassword === '') {
@@ -109,7 +125,6 @@ const Headbox = () => {
 
   const onSignOut = () => {
     signOut();
-    
   };
 
   const authLinks = (
@@ -119,8 +134,8 @@ const Headbox = () => {
           <div className='message'>
             <Link to='' className='message-link'>
               <div className='icon'>
-                <i className="fas fa-comment-alt" aria-hidden='true' />
-                <i className="fas fa-comment-alt" aria-hidden='true' />
+                <i className='fas fa-comment-alt' aria-hidden='true' />
+                <i className='fas fa-comment-alt' aria-hidden='true' />
               </div>
               <span className='message-count'>0</span>
             </Link>
@@ -132,8 +147,8 @@ const Headbox = () => {
           <div className='notification'>
             <Link to='' className='notification-link'>
               <div className='icon'>
-                <i className="fas fa-bell" aria-hidden='true' />
-                <i className="fas fa-bell" aria-hidden='true' />
+                <i className='fas fa-bell' aria-hidden='true' />
+                <i className='fas fa-bell' aria-hidden='true' />
               </div>
               <span className='notification-count'>0</span>
             </Link>
@@ -143,38 +158,47 @@ const Headbox = () => {
       <li>
         <div className='account-container'>
           <div className='account-bar'>
-            <img className='user-icon' src='https://avatar.leagueoflegends.com/eune/Lucciii.png' alt='user-icon' />
-            <div className='user-name'>
-              {user && user.name}
-            </div>
+            <img
+              className='user-icon'
+              src='https://avatar.leagueoflegends.com/eune/Lucciii.png'
+              alt='user-icon'
+            />
+            <div className='user-name'>{user && user.name}</div>
             <div className='icon'>
-              <i className="fas fa-angle-down" />
+              <i className='fas fa-angle-down' />
             </div>
           </div>
-          <div className='account-dropdown'>
-            <div className='account-dropdown-links'>
-              <Link to='/account' className='account-link'>
-                <div className='icon'>
-                  <i className='fas fa-id-card' aria-hidden='true' />
-                  <i className='fas fa-id-card' aria-hidden='true' />
-                </div>
-                <div className='name'>
-                  <span data-text='Můj účet'>Můj účet</span>
-                  {/* <span data-text='My Account'>My Account</span> */}
-                </div>
-              </Link>
-              <Link to='/' className='account-link' onClick={onSignOut}>
-                <div className='icon'>
-                  <i className='fas fa-sign-out-alt' aria-hidden='true' />
-                  <i className='fas fa-sign-out-alt' aria-hidden='true' />
-                </div>
-                <div className='name'>
-                  <span data-text='Odhlásit'>Odhlásit</span>
-                  {/* <span data-text='Sign Out'>Sign Out</span> */}
-                </div>
-              </Link>
+          {user && (
+            <div className='account-dropdown'>
+              <div className='account-dropdown-links'>
+                <Link
+                  to={{
+                    pathname: `/account/${user.name}`
+                  }}
+                  className='account-link'
+                >
+                  <div className='icon'>
+                    <i className='fas fa-id-card' aria-hidden='true' />
+                    <i className='fas fa-id-card' aria-hidden='true' />
+                  </div>
+                  <div className='name'>
+                    <span data-text='Můj účet'>Můj účet</span>
+                    {/* <span data-text='My Account'>My Account</span> */}
+                  </div>
+                </Link>
+                <Link to='/' className='account-link' onClick={onSignOut}>
+                  <div className='icon'>
+                    <i className='fas fa-sign-out-alt' aria-hidden='true' />
+                    <i className='fas fa-sign-out-alt' aria-hidden='true' />
+                  </div>
+                  <div className='name'>
+                    <span data-text='Odhlásit'>Odhlásit</span>
+                    {/* <span data-text='Sign Out'>Sign Out</span> */}
+                  </div>
+                </Link>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </li>
     </Fragment>
@@ -219,9 +243,7 @@ const Headbox = () => {
             <i className='fas fa-search' />
           </button>
         </div>
-        <ul>
-          {isAuthenticated ? authLinks : guestLinks}
-        </ul>
+        <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
         <Modali.Modal {...completeExample}>
           <div className='modal-container' ref={modalContainer}>
             <div className='modal-form-container modal-sign-up-container'>
@@ -229,24 +251,56 @@ const Headbox = () => {
                 <h1>Vytvořit účet</h1>
                 {/* <h1>Create Account</h1> */}
                 <div className='modal-social-container'>
-                  <Link to='' className='social'><i className='fab fa-facebook-f'></i></Link>
-                  <Link to='' className='social'><i className='fab fa-google-plus-g'></i></Link>
-                  <Link to='' className='social'><i className='fab fa-linkedin-in'></i></Link>
+                  <Link to='' className='social'>
+                    <i className='fab fa-facebook-f'></i>
+                  </Link>
+                  <Link to='' className='social'>
+                    <i className='fab fa-google-plus-g'></i>
+                  </Link>
+                  <Link to='' className='social'>
+                    <i className='fab fa-linkedin-in'></i>
+                  </Link>
                 </div>
                 <span>nebo použijte svůj e-mail k registraci</span>
                 {/* <span>or use your email for registration</span> */}
                 <div className='input-field'>
-                  <input type='text' name='signUpName' value={signUpName} onChange={onSignUpChange} required />
+                  <input
+                    type='text'
+                    name='signUpName'
+                    value={signUpName}
+                    onChange={onSignUpChange}
+                    required
+                  />
                   <label>Přezdívka</label>
                   {/* <label>Name</label> */}
-                  <input type='email' name='signUpEmail' value={signUpEmail} onChange={onSignUpChange} required />
+                  <input
+                    type='email'
+                    name='signUpEmail'
+                    value={signUpEmail}
+                    onChange={onSignUpChange}
+                    required
+                  />
                   <label>E-mail</label>
                   {/* <label>Email</label> */}
-                  <input type='password' name='signUpPassword' value={signUpPassword} onChange={onSignUpChange} required minLength='6' />
+                  <input
+                    type='password'
+                    name='signUpPassword'
+                    value={signUpPassword}
+                    onChange={onSignUpChange}
+                    required
+                    minLength='6'
+                  />
                   <label>Heslo</label>
                   {/* <label>Password</label> */}
                 </div>
-                <button className='btn' type='submit' value='Sign Up' style={{ marginTop: '1rem' }}>Registrovat</button>
+                <button
+                  className='btn'
+                  type='submit'
+                  value='Sign Up'
+                  style={{ marginTop: '1rem' }}
+                >
+                  Registrovat
+                </button>
                 {/* <button className='btn' type='submit' value='Sign Up' style={{ marginTop: '1rem' }}>Sign Up</button> */}
               </form>
             </div>
@@ -255,23 +309,43 @@ const Headbox = () => {
                 <h1>Přihlásit</h1>
                 {/* <h1>Sign in</h1> */}
                 <div className='modal-social-container'>
-                  <Link to='' className='social'><i className='fab fa-facebook-f'></i></Link>
-                  <Link to='' className='social'><i className='fab fa-google-plus-g'></i></Link>
-                  <Link to='' className='social'><i className='fab fa-linkedin-in'></i></Link>
+                  <Link to='' className='social'>
+                    <i className='fab fa-facebook-f'></i>
+                  </Link>
+                  <Link to='' className='social'>
+                    <i className='fab fa-google-plus-g'></i>
+                  </Link>
+                  <Link to='' className='social'>
+                    <i className='fab fa-linkedin-in'></i>
+                  </Link>
                 </div>
                 <span>nebo použijte svůj účet</span>
                 {/* <span>or use your account</span> */}
                 <div className='input-field'>
-                  <input type='email' name='signInEmail' value={signInEmail} onChange={onSignInChange} required />
+                  <input
+                    type='email'
+                    name='signInEmail'
+                    value={signInEmail}
+                    onChange={onSignInChange}
+                    required
+                  />
                   <label>E-mail</label>
                   {/* <label>Email</label> */}
-                  <input type='password' name='signInPassword' value={signInPassword} onChange={onSignInChange} required />
+                  <input
+                    type='password'
+                    name='signInPassword'
+                    value={signInPassword}
+                    onChange={onSignInChange}
+                    required
+                  />
                   <label>Heslo</label>
                   {/* <label>Password</label> */}
                 </div>
                 <Link to=''>Zapomněli jste heslo?</Link>
                 {/* <Link to=''>Forgot your password?</Link> */}
-                <button className='btn' type='submit' value='Sign In'>Přihlásit</button>
+                <button className='btn' type='submit' value='Sign In'>
+                  Přihlásit
+                </button>
                 {/* <button className='btn' type='submit' value='Sign In'>Sign In</button> */}
               </form>
             </div>
@@ -280,9 +354,19 @@ const Headbox = () => {
                 <div className='modal-overlay-panel modal-overlay-left'>
                   <h1>Vítejte zpět!</h1>
                   {/* <h1>Welcome Back!</h1> */}
-                  <p>Chcete-li s námi zůstat v kontaktu, přihlaste se pomocí svých osobních údajů</p>
+                  <p>
+                    Chcete-li s námi zůstat v kontaktu, přihlaste se pomocí
+                    svých osobních údajů
+                  </p>
                   {/* <p>To keep connected with us please login with your personal info</p> */}
-                  <button className='ghost' id='signIn' ref={signInButton} onClick={handleSignIn}>Přihlásit</button>
+                  <button
+                    className='ghost'
+                    id='signIn'
+                    ref={signInButton}
+                    onClick={handleSignIn}
+                  >
+                    Přihlásit
+                  </button>
                   {/* <button className='ghost' id='signIn' ref={signInButton} onClick={handleSignIn}>Sign In</button> */}
                 </div>
                 <div className='modal-overlay-panel modal-overlay-right'>
@@ -290,7 +374,14 @@ const Headbox = () => {
                   {/* <h1>Hello, Friend!</h1> */}
                   <p>Zadejte své osobní údaje a vydejte se na cestu s námi</p>
                   {/* <p>Enter your personal details and start journey with us</p> */}
-                  <button className='ghost' id='signUp' ref={signUpButton} onClick={handleSignUp}>Registrovat</button>
+                  <button
+                    className='ghost'
+                    id='signUp'
+                    ref={signUpButton}
+                    onClick={handleSignUp}
+                  >
+                    Registrovat
+                  </button>
                   {/* <button className='ghost' id='signUp' ref={signUpButton} onClick={handleSignUp}>Sign Up</button> */}
                 </div>
               </div>
@@ -300,7 +391,7 @@ const Headbox = () => {
         <Modali.Modal {...alertModal} />
       </div>
     </div>
-  )
+  );
 };
 
 export default Headbox;

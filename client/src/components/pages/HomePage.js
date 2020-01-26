@@ -4,10 +4,6 @@ import { Link } from 'react-router-dom';
 
 import BookContext from '../../context/book/bookContext';
 
-// import News from './pageSections/News';
-// import Popular from './pageSections/Popular';
-// import BooksJustRead from './pageSections/BooksJustRead';
-
 import { images } from './images/carouselImages';
 
 import './HomePage.css';
@@ -74,10 +70,12 @@ const HomePage = () => {
 
   if (books !== null && !loading) {
     books.map(book => {
-      if (newBooksArr.length < 5) newBooksArr.push(book);
+      if (dateDiffInDays(new Date(book.date), new Date()) <= 30) {
+        if (newBooksArr.length < 5) newBooksArr.push(book);
+      }
     });
 
-    // console.log(newBooksArr);
+    console.log(newBooksArr);
   }
 
   // Popular
@@ -133,7 +131,9 @@ const HomePage = () => {
               </div>
             </div>
           ) : (
-            <div>No image found</div>
+            <div>
+              <i className='far fa-file-image'></i>
+            </div>
           )}
           {book.bookCover ? (
             sectionTitle === 'Novinky' ? (
@@ -183,7 +183,7 @@ const HomePage = () => {
         </div>
         <div className='homepage-list-news'>
           {books !== null && !loading ? (
-            newBooksArr !== [] && newBooksArr.length === 5 ? (
+            newBooksArr !== [] ? (
               newBooksArr.map(book => renderBook(book, sectionTitle))
             ) : null
           ) : (
@@ -261,7 +261,7 @@ const HomePage = () => {
                     className='category-image'
                   />
                   <img
-                    src='https://www.databazeknih.cz/images_books/36_/3658/bmid_muzi-kteri-nenavidi-zeny-kxn-3658.jpg'
+                    src='https://www.databazeknih.cz/images_books/36_/3658/bmid_muzi-kteri-nenavidi-zeny-sHh-3658.jpg'
                     alt='Muži, kteří nenávidí ženy'
                     className='category-book-cover'
                   />

@@ -1,0 +1,176 @@
+.filters-title {
+  margin-bottom: 0.5rem;
+}
+
+.filters h2 {
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.filters-title h2 i.fas {
+  margin-left: 6px;
+}
+
+.filter {
+  margin: 0 1rem 1rem 0;
+  border: 1px solid var(--neutral-color);
+}
+
+.filter-header {
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+}
+
+.filter-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filter-trigger .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  overflow: hidden;
+}
+
+.filter-trigger .icon .far {
+  line-height: 1.25rem;
+  font-size: 1.25rem;
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+}
+
+.filter-header .filter-trigger .name span::before,
+.filter-trigger .icon .far:last-child {
+  color: var(--danger-color);
+}
+
+.filter-header:hover .filter-trigger .icon .far {
+  transform: translateY(-128%);
+}
+
+/* .filter-header:hover {
+  background: var(--neutral-color);
+} */
+
+.filter-header .filter-trigger .name {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.filter-header .filter-trigger .name span {
+  display: block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.filter-header .filter-trigger .name span::before {
+  content: attr(data-text);
+  position: absolute;
+  top: -100%;
+}
+
+.filter-header:hover .filter-trigger .name span {
+  transform: translateY(100%);
+}
+
+.filter-content {
+  padding: 12px 16px;
+  transition: 0.5s ease-in;
+}
+
+.filter-content label {
+  margin-left: 6px;
+  cursor: pointer;
+  display: inline-block;
+  /* color: white; */
+  margin-bottom: 12px;
+}
+
+.filter-content label:last-of-type {
+  margin: 0;
+}
+
+.filter-content input[type='checkbox'] {
+  -webkit-appearance: none;
+}
+
+/* .filter-content .filter-checkbox {
+  position: relative;
+} */
+
+.filter-content label i {
+  display: inline-block;
+  background: transparent;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  transform-origin: center;
+  border: 2px solid var(--dark-color);
+  border-radius: 50%;
+  vertical-align: -3.5px;
+  margin-right: 6px;
+  transition: background-color 150ms 200ms,
+    transform 350ms cubic-bezier(0.78, -1.22, 0.17, 1.89);
+}
+
+.filter-content label i::before {
+  content: '';
+  width: 0px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--dark-color);
+  position: absolute;
+  transform: rotate(45deg);
+  top: 8.6px;
+  left: 4.6px;
+  transition: width 50ms ease 50ms;
+  transform-origin: 0% 0%;
+}
+
+.filter-content label i::after {
+  content: '';
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--dark-color);
+  position: absolute;
+  transform: rotate(305deg);
+  top: 11.6px;
+  left: 5.6px;
+  transition: width 50ms ease;
+  transform-origin: 0% 0%;
+}
+
+.filter-content label:hover i::before {
+  width: 5px;
+  transition: width 100ms ease;
+}
+
+.filter-content label:hover i::after {
+  width: 10px;
+  transition: width 150ms ease 100ms;
+}
+
+.filter-content input[type='checkbox']:checked + label:hover i,
+.filter-content input[type='checkbox']:checked + label i {
+  background-color: #000;
+  transform: scale(1.15);
+}
+
+.filter-content input[type='checkbox']:checked + label:hover i::after,
+.filter-content input[type='checkbox']:checked + label i::after {
+  width: 10px;
+  background: var(--danger-color);
+  transition: width 150ms ease 100ms;
+}
+
+.filter-content input[type='checkbox']:checked + label:hover i::before,
+.filter-content input[type='checkbox']:checked + label i::before {
+  width: 5px;
+  background: var(--danger-color);
+  transition: width 150ms ease 100ms;
+}

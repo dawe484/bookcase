@@ -8,7 +8,7 @@ const AboutPage = () => {
         This is a full stack React app for reading e-books.
       </p>
       <p className='bg-dark p'>
-        <strong>Version: </strong> 1.0.0
+        <strong>Version: </strong> 1.0.1_20191230
       </p>
     </div>
   )

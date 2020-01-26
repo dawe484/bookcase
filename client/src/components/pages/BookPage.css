@@ -1,6 +1,6 @@
 .book-top-section {
   display: grid;
-  grid-template-columns: 220px auto 220px;
+  grid-template-columns: 220px auto 286px;
 }
 
 .book-top-section .avatar {
@@ -53,24 +53,6 @@
 
 .book-detail table td:first-child {
   width: 10rem;
-}
-
-.aside-btn {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-end;
-}
-
-.book-rating {
-  display: flex;
-  flex-direction: row;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-.aside-btn-item {
-  margin-bottom: 1.5rem;
 }
 
 .book-status-labels {

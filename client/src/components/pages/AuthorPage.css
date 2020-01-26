@@ -56,12 +56,12 @@
   /* font-size: 1.6rem; */
 }
 
-.item_search.book {
-  margin-right: 1rem;
-}
-
 .item_search.book select {
   font-size: 0.9rem;
   padding: 0.4rem;
   color: var(--neutral-color);
+}
+
+.add-book {
+  margin-left: 1rem;
 }

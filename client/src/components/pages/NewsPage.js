@@ -34,8 +34,33 @@ const NewsPage = () => {
       if (dateDiffInDays(new Date(book.date), new Date()) <= 30)
         newBooksArr.push(book);
     });
-    // console.log(newBooksArr);
   }
+
+  let allGenres = [
+    {
+      genre: '',
+      count: 0
+    }
+  ];
+
+  const filterGenres = () => {
+    let index = 0;
+    newBooksArr.map(book => {
+      console.log(book.genres);
+      book.genres.map(genre => {
+        // console.log(genre);
+        // console.log(book.genres.length);
+        for (let i = 0; i <= 2 * newBooksArr.length; i++) {
+          console.log(i, genre);
+        }
+        // console.log(allGenres);
+      });
+    });
+  };
+
+  filterGenres();
+
+  const onFilterClick = () => {};
 
   return (
     <div className='container'>
@@ -46,12 +71,73 @@ const NewsPage = () => {
             {/* <h1>Books</h1> */}
             <h1>Novinky</h1>
           </div>
-          {/* <div className='search-pos'>
-            <BooksFilter />
-          </div> */}
         </div>
         <div className='books-divider'>
-          <aside className='category-aside'></aside>
+          <aside className='filters'>
+            <div className='filters-title'>
+              <h2>
+                Filtrujte
+                <i className='fas fa-filter'></i>
+              </h2>
+            </div>
+            <div className='filters-wrap'>
+              <div className='filter'>
+                <div className='filter-header closed'>
+                  <h4 className='filter-trigger'>
+                    <div className='name'>
+                      <span data-text='Žánry'>Žánry</span>
+                    </div>
+                    <div className='icon'>
+                      <i className='far fa-plus-square' aria-hidden='true' />
+                      <i className='far fa-plus-square' aria-hidden='true' />
+                    </div>
+                  </h4>
+                </div>
+                <div className='filter-content'>
+                  <div className='filter-checkbox'>
+                    <input
+                      type='checkbox'
+                      id='categories'
+                      name='Categories'
+                      value='Categories'
+                    />
+                    <label htmlFor='categories'>
+                      <i></i>
+                      <span>
+                        Fantasy<small>({})</small>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className='filter'>
+                <div className='filter-header closed'>
+                  <h4 className='filter-trigger'>
+                    <div className='name'>
+                      <span data-text='Nakladatelství'>Nakladatelství</span>
+                    </div>
+                    <div className='icon'>
+                      <i className='far fa-plus-square' aria-hidden='true' />
+                      <i className='far fa-plus-square' aria-hidden='true' />
+                    </div>
+                  </h4>
+                </div>
+              </div>
+              <div className='filter'>
+                <div className='filter-header closed'>
+                  <h4 className='filter-trigger'>
+                    <div className='name'>
+                      <span data-text='Jazyky'>Jazyky</span>
+                    </div>
+                    <div className='icon'>
+                      <i className='far fa-plus-square' aria-hidden='true' />
+                      <i className='far fa-plus-square' aria-hidden='true' />
+                    </div>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </aside>
           <div className='items-list'>
             {/* {dateDiffInDays(new Date(book.date), new Date()) <= 30 && (
               <i className='book-status-label bsl--new' data-label='Novinka'>
@@ -62,7 +148,9 @@ const NewsPage = () => {
             {books !== null && newBooksArr !== null && !loading ? (
               newBooksArr.map(book => <BookItem key={book._id} book={book} />)
             ) : (
-              <h1>Načítám novinky...</h1>
+              <div className=''>
+                <h1>Načítám novinky...</h1>
+              </div>
             )}
           </div>
         </div>
