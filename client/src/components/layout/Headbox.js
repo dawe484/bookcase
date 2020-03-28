@@ -160,7 +160,7 @@ const Headbox = () => {
           <div className='account-bar'>
             <img
               className='user-icon'
-              src='https://avatar.leagueoflegends.com/eune/Lucciii.png'
+              src='https://d1u1mce87gyfbn.cloudfront.net/hero/dva/icon-portrait.png'
               alt='user-icon'
             />
             <div className='user-name'>{user && user.name}</div>

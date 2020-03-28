@@ -779,7 +779,7 @@ const AuthorDetail = ({ authorData }) => {
                 name='isbn'
                 value={isbn}
                 onChange={onChange}
-                pattern='([0-9]{2}-[0-9]{3}-[0-9]{4}-[0-9]{1})|([0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1})|([0-9]{2}-[0-9]{2}-[0-9]{5}-([0-9]|X){1})'
+                // pattern='([0-9]{2}-[0-9]{3}-[0-9]{4}-[0-9]{1})|([0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1})|([0-9]{2}-[0-9]{2}-[0-9]{5}-([0-9]|X){1})'
                 title='ISBN musí být ve formátu buď ISBN-10 (XX-XXX-XXXX-X), (XX-XX-XXXXX-X) nebo ISBN-13 (XXX-XX-XXXX-XXX-X)'
                 required
               />

@@ -128,8 +128,10 @@ const BooksPage = () => {
               </ul>
             </nav> */}
           </aside>
-          <div className='items-list'>
-            <Books />
+          <div className='books-origin'>
+            <div className='items-list'>
+              <Books />
+            </div>
           </div>
         </div>
       </div>

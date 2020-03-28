@@ -75,19 +75,19 @@ const HomePage = () => {
       }
     });
 
-    console.log(newBooksArr);
+    // console.log(newBooksArr);
   }
 
   // Popular
-  let popularBooksArr = [];
+  // let popularBooksArr = [];
 
-  if (books !== null && !loading) {
-    books.map(book => {
-      if (popularBooksArr.length < 5) popularBooksArr.push(book);
-    });
+  // if (books !== null && !loading) {
+  //   books.map(book => {
+  //     if (popularBooksArr.length < 5) popularBooksArr.push(book);
+  //   });
 
-    // console.log(popularBooksArr);
-  }
+  //   // console.log(popularBooksArr);
+  // }
 
   const renderBook = (book, sectionTitle) => {
     return (
@@ -183,7 +183,7 @@ const HomePage = () => {
         </div>
         <div className='homepage-list-news'>
           {books !== null && !loading ? (
-            newBooksArr !== [] ? (
+            newBooksArr !== [] && sectionTitle === 'Novinky' ? (
               newBooksArr.map(book => renderBook(book, sectionTitle))
             ) : null
           ) : (
