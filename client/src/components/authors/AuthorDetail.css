@@ -34,3 +34,9 @@
 #ubc-header .book-item-sm:nth-child(6n) {
   margin-right: 0;
 }
+
+.picturefile img {
+  object-fit: contain;
+  height: 176px;
+  width: auto;
+}

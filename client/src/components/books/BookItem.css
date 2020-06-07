@@ -100,7 +100,7 @@
 }
 
 .book-spec .line {
-  width: 152px;
+  /* width: 152px; */
   height: 2px;
   margin: auto;
   border-top: 1px solid var(--neutral-color);

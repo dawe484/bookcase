@@ -21,7 +21,11 @@ const Author = data => {
       {author !== null && !loading ? (
         <AuthorDetail key={author._id} authorData={author} />
       ) : (
-        <h1>Načítám autora...</h1>
+        <div className='container'>
+          <div className='list-row'>
+            <h1>Načítám autora...</h1>
+          </div>
+        </div>
       )}
     </Fragment>
   );

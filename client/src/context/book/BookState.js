@@ -86,10 +86,11 @@ const BookState = props => {
     try {
       const res = await axios.post('/api/books', bookData, config);
 
-      dispatch({
-        type: ADD_BOOK,
-        payload: res.data
-      });
+      // dispatch({
+      //   type: ADD_BOOK,
+      //   payload: res.data
+      // });
+      console.log(res.data);
 
       // getBooks();
       getAuthor(urlAuthorAddress);

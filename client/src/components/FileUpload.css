@@ -1,0 +1,16 @@
+.custom-file {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-input {
+  margin-left: 42%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.custom-div img {
+  width: 50%;
+  margin-left: 25%;
+}

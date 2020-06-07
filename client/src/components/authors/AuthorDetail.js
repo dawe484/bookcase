@@ -114,7 +114,42 @@ const AuthorDetail = ({ authorData }) => {
     annotation
   } = book;
 
-  const onChange = e => setBook({ ...book, [e.target.name]: e.target.value });
+  const [file, setFile] = useState();
+  const [previewUrl, setPreviewUrl] = useState();
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    if (!file) {
+      return;
+    }
+
+    const fileReader = new FileReader();
+
+    fileReader.onload = () => {
+      console.log(fileReader);
+
+      setPreviewUrl(fileReader.result);
+    };
+
+    fileReader.readAsDataURL(file);
+  }, [file]);
+
+  const onChange = e => {
+    console.log(e.target.files);
+
+    let pickedFile;
+
+    if (e.target.files && e.target.files.length === 1) {
+      pickedFile = e.target.files[0];
+      setFile(pickedFile);
+      setIsValid(true);
+    } else {
+      setIsValid(false);
+      // authorData.onInput(authorData._id, pickedFile, isValid);
+    }
+
+    setBook({ ...book, [e.target.name]: e.target.value });
+  };
 
   const modalContainer = createRef();
 
@@ -768,12 +803,22 @@ const AuthorDetail = ({ authorData }) => {
               />
               <label>Název knihy</label>
               <input
-                type='text'
+                type='file'
+                accept='.jpg,.png,.jpeg'
+                name='bookCover'
+                id='bookCover'
+                // value={bookCover}
+                onChange={onChange}
+              />
+              <label>Obálka knihy</label>
+              {/* <input
+                type='file'
+                accept='.jpg,.png,.jpeg'
                 name='bookCover'
                 value={bookCover}
                 onChange={onChange}
               />
-              <label>Obálka knihy</label>
+              <label>Obálka knihy</label> */}
               <input
                 type='text'
                 name='isbn'
@@ -784,7 +829,10 @@ const AuthorDetail = ({ authorData }) => {
                 required
               />
               <label>ISBN</label>
-              <div className='picturefile'></div>
+              <div className='picturefile'>
+                {previewUrl && <img src={previewUrl} alt='Preview' />}
+                {!previewUrl && <p>Vyberte prosím obrázek.</p>}
+              </div>
               <div className='input-field addBookSeries'>
                 <input
                   type='text'
@@ -952,11 +1000,11 @@ const AuthorDetail = ({ authorData }) => {
             </div>
             <div className='list-row add'>
               <div className='list-button'>
-                <button id='btn' className='btn' type='submit' value='Save'>
+                <button id='btnSave' className='btn' type='submit' value='Save'>
                   Uložit
                 </button>
                 <button
-                  id='btn'
+                  id='btnCancel'
                   className='btn'
                   type='reset'
                   value='Cancel'

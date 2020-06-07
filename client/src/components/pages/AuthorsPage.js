@@ -3,14 +3,17 @@ import React, {
   createRef,
   useState,
   useContext,
-  useEffect
+  useEffect,
 } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import Modali, { useModali } from 'modali';
 
 import Alerts from '../layout/Alerts';
 // import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
 // import { cs, enGB } from 'date-fns/esm/locale';
+
+import FileUpload from '../FileUpload';
 
 import Authors from '../authors/Authors';
 import AuthorsFilter from '../authors/AuthorsFilter';
@@ -59,7 +62,7 @@ const AuthorsPage = () => {
     website: '',
     facebook: '',
     instagram: '',
-    twitter: ''
+    twitter: '',
   });
 
   const {
@@ -75,22 +78,32 @@ const AuthorsPage = () => {
     website,
     facebook,
     instagram,
-    twitter
+    twitter,
   } = author;
 
-  const onChange = e =>
+  const [file, setFile] = useState('');
+  const [filename, setFilename] = useState('Choose File');
+  const [uploadedFile, setUploadedFile] = useState({});
+
+  const onFileChange = (e) => {
+    setFile(e.target.files[0]);
+    setFilename(e.target.files[0].name);
+  };
+
+  const onChange = (e) => {
     setAuthor({ ...author, [e.target.name]: e.target.value });
+  };
 
   const modalContainer = createRef();
 
   const [addAuthorModal, toggleAddAuthorModal] = useModali({
-    animated: true
+    animated: true,
   });
 
   const [alertModal, toggleAlertModal] = useModali({
     animated: true,
     message: <Alerts />,
-    onShow: () => setTimeout(toggleAlertModal, 2500)
+    onShow: () => setTimeout(toggleAlertModal, 2500),
   });
 
   const nationalityEnum = () => {
@@ -135,20 +148,20 @@ const AuthorsPage = () => {
     return arr;
   };
 
-  const validURL = str => {
-    let pattern = new RegExp(
-      '^(https?:\\/\\/)?' + // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$',
-      'i'
-    ); // fragment locator
-    return !!pattern.test(str);
-  };
+  // const validURL = (str) => {
+  //   let pattern = new RegExp(
+  //     '^(https?:\\/\\/)?' + // protocol
+  //     '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+  //     '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+  //     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+  //     '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+  //       '(\\#[-a-z\\d_]*)?$',
+  //     'i'
+  //   ); // fragment locator
+  //   return !!pattern.test(str);
+  // };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     // console.log('Author Added');
     // if (validURL(website))
@@ -161,11 +174,30 @@ const AuthorsPage = () => {
     // else
     //   console.log('No valid website');
 
+    // author.portrait = filename;
     console.log(pseudonym.length);
     pseudonym.length !== 0
       ? (author.pseudonym = pseudonymArray())
       : (author.pseudonym = []);
     author.nationality = selectNationality();
+
+    // const formData = new FormData();
+    // formData.append('file', file);
+
+    // try {
+    //   const res = await axios.post('/upload', formData);
+
+    //   const { fileName, filePath } = res.data;
+
+    //   setUploadedFile({ fileName, filePath });
+    // } catch (err) {
+    //   if (err.response.status === 500) {
+    //     console.log('There was a problem with the server');
+    //   } else {
+    //     console.log(err.response.data.msg);
+    //   }
+    // }
+
     authorContext.addAuthor(author);
     console.log(author);
     resetAuthor();
@@ -186,7 +218,7 @@ const AuthorsPage = () => {
       website: '',
       facebook: '',
       instagram: '',
-      twitter: ''
+      twitter: '',
     });
   };
 
@@ -209,10 +241,23 @@ const AuthorsPage = () => {
             )}
           </div>
         </div>
+        <FileUpload />
         <div className='items-list'>
           <Authors />
         </div>
       </div>
+      {/* <Fragment>
+        <form>
+          <div className='custom-file'>
+            <input type="file" className='custom-file-input' id='customFile' />
+            <label className='custom-file-label' htmlFor="customFile">
+              Choose File
+            </label>
+          </div>
+
+          <input type='submit' value='Upload' className='btn'></input>
+        </form>
+      </Fragment> */}
       <Modali.Modal {...addAuthorModal}>
         <div className='modal-container add-container' ref={modalContainer}>
           <div className='list-row add'>
@@ -238,10 +283,12 @@ const AuthorsPage = () => {
               <input
                 type='text'
                 name='portrait'
+                id='portraitFile'
                 value={portrait}
                 onChange={onChange}
               />
-              <label>Fotografie</label>
+              {/* <label htmlFor='portraitFile'>{filename}</label> */}
+              <label htmlFor='portraitFile'>Fotografie</label>
               {/* <label htmlFor='portrait' className='file-select'>
                 <span className='span-add'>
                 Vybrat soubor (PNG, JPG)
@@ -363,11 +410,11 @@ const AuthorsPage = () => {
             </div>
             <div className='list-row add'>
               <div className='list-button'>
-                <button id='btn' className='btn' type='submit' value='Save'>
+                <button id='btnSave' className='btn' type='submit' value='Save'>
                   Uložit
                 </button>
                 <button
-                  id='btn'
+                  id='btnCancel'
                   className='btn'
                   type='reset'
                   value='Cancel'
