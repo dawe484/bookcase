@@ -7,11 +7,19 @@ import AuthorContext from '../../context/author/authorContext';
 const Authors = () => {
   const authorContext = useContext(AuthorContext);
 
-  const { authors, filtered, getAuthors, loading, clearAuthor } = authorContext;
+  const {
+    authors,
+    filtered,
+    getAuthors,
+    loading,
+    clearAuthor,
+    clearAuthorsFilter,
+  } = authorContext;
 
   useEffect(() => {
     clearAuthor();
     getAuthors();
+    clearAuthorsFilter();
 
     // eslint-disable-next-line
   }, []);
@@ -25,7 +33,7 @@ const Authors = () => {
   return (
     <Fragment>
       {authors !== null && !loading ? (
-        (filtered || authors).map(author => (
+        (filtered || authors).map((author) => (
           <AuthorItem key={author._id} author={author} />
         ))
       ) : (

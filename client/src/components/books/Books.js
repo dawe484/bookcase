@@ -9,13 +9,21 @@ const Books = () => {
   const bookContext = useContext(BookContext);
   // const authorContext = useContext(AuthorContext);
 
-  const { books, filtered, getBooks, loading, clearBook } = bookContext;
+  const {
+    books,
+    filtered,
+    getBooks,
+    loading,
+    clearBook,
+    clearBooksFilter,
+  } = bookContext;
   // const { clearAuthor } = authorContext;
 
   useEffect(() => {
     // clearAuthor();
     clearBook();
     getBooks();
+    clearBooksFilter();
 
     // eslint-disable-next-line
   }, []);
@@ -27,7 +35,9 @@ const Books = () => {
   return (
     <Fragment>
       {books !== null && !loading ? (
-        (filtered || books).map(book => <BookItem key={book._id} book={book} />)
+        (filtered || books).map((book) => (
+          <BookItem key={book._id} book={book} />
+        ))
       ) : (
         <h1>Načítám knihy...</h1>
         // <Spinner />

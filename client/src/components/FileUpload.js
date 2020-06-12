@@ -15,6 +15,7 @@ const FileUpload = () => {
   const onChange = (e) => {
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
+    console.log(`${__dirname}/client/public/img/authors/`);
   };
 
   const onSubmit = async (e) => {

@@ -18,7 +18,7 @@ const UserPage = () => {
     // eslint-disable-next-line
   }, []);
 
-  const formatDate = date => {
+  const formatDate = (date) => {
     const monthNames = [
       'January',
       'February',
@@ -31,7 +31,7 @@ const UserPage = () => {
       'September',
       'October',
       'November',
-      'December'
+      'December',
     ];
 
     const arr = date.split('-');
@@ -122,7 +122,7 @@ const UserPage = () => {
               </div>
               <div className='user-bio'>
                 <div className='user-realname'>
-                  {user.realName} {user.birthdate && { bday }}
+                  {user.realName} {user.birthdate && bday}
                 </div>
                 <div className='user-statistics'>Statistics</div>
               </div>
