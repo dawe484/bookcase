@@ -3,7 +3,7 @@ import React, {
   useState,
   useContext,
   useEffect,
-  createRef
+  createRef,
 } from 'react';
 import { Link } from 'react-router-dom';
 import ReadMoreReact from 'read-more-react';
@@ -25,6 +25,8 @@ import { bookPublishers } from '../pages/enums/bookPublishers';
 import { bookStatuses } from '../pages/enums/bookStatuses';
 
 import './AuthorDetail.css';
+
+import FileUpload from '../FileUpload';
 
 const lang = 'cs';
 
@@ -62,7 +64,7 @@ const AuthorDetail = ({ authorData }) => {
     website,
     facebook,
     instagram,
-    twitter
+    twitter,
   } = authorData;
 
   let authorsBooks = authorData.book;
@@ -85,12 +87,12 @@ const AuthorDetail = ({ authorData }) => {
     bookCoverAuthor: '',
     ilustration: '',
     bookStatus: '',
-    publishDate: '',
+    yearOfPublish: '',
     publisher: '',
     originalTitle: '',
     translator: '',
     youtube: '',
-    annotation: ''
+    annotation: '',
   });
 
   const {
@@ -106,12 +108,12 @@ const AuthorDetail = ({ authorData }) => {
     bookCoverAuthor,
     ilustration,
     bookStatus,
-    publishDate,
+    yearOfPublish,
     publisher,
     originalTitle,
     translator,
     youtube,
-    annotation
+    annotation,
   } = book;
 
   const [file, setFile] = useState();
@@ -134,7 +136,7 @@ const AuthorDetail = ({ authorData }) => {
     fileReader.readAsDataURL(file);
   }, [file]);
 
-  const onChange = e => {
+  const onChange = (e) => {
     console.log(e.target.files);
 
     let pickedFile;
@@ -154,20 +156,20 @@ const AuthorDetail = ({ authorData }) => {
   const modalContainer = createRef();
 
   const [addBookModal, toggleAddBookModal] = useModali({
-    animated: true
+    animated: true,
   });
 
   const [addAwardModal, toggleAddAwardModal] = useModali({
-    animated: true
+    animated: true,
   });
 
   const [alertModal, toggleAlertModal] = useModali({
     animated: true,
     message: <Alerts />,
-    onShow: () => setTimeout(toggleAlertModal, 2500)
+    onShow: () => setTimeout(toggleAlertModal, 2500),
   });
 
-  const onFocusEnum = e => {
+  const onFocusEnum = (e) => {
     let select = document.getElementById(e.target.name);
 
     if (!select.options.length) {
@@ -195,7 +197,7 @@ const AuthorDetail = ({ authorData }) => {
 
   // function for dynamic sorting
   const compareValues = (key, order = 'asc') => {
-    return function(a, b) {
+    return function (a, b) {
       if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
         // property doesn't exist on either object
         return 0;
@@ -249,7 +251,7 @@ const AuthorDetail = ({ authorData }) => {
   //   );
   // };
 
-  const selectEnum = field => {
+  const selectEnum = (field) => {
     if (document.getElementById(field).value === '') {
       return '';
     } else {
@@ -264,7 +266,7 @@ const AuthorDetail = ({ authorData }) => {
     return arr;
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     let arr = [];
@@ -298,12 +300,12 @@ const AuthorDetail = ({ authorData }) => {
       bookCoverAuthor: '',
       ilustration: '',
       bookStatus: '',
-      publishDate: '',
+      yearOfPublish: '',
       publisher: '',
       originalTitle: '',
       translator: '',
       youtube: '',
-      annotation: ''
+      annotation: '',
     });
   };
 
@@ -312,7 +314,7 @@ const AuthorDetail = ({ authorData }) => {
   // console.log(authorsBooks.sort(compareValues('title')));
   // authorsBooks.sort(compareValues('date', 'desc'));
 
-  authorsBooks.sort(compareValues('publishDate', 'desc'));
+  authorsBooks.sort(compareValues('yearOfPublish', 'desc'));
 
   // const [bookOrderState, setBookOrderState] = useState({
   //   selectedOption: dateDesc
@@ -430,12 +432,13 @@ const AuthorDetail = ({ authorData }) => {
           <h1>Knihy ({authorsBooks.length})</h1>
         </div>
         <div className='search-pos'>
-          {isAuthenticated && user.role === 'superhero' ? (
-            addLink(toggleAddBookModal, 'Přidat knihu')
-          ) : (
-            <BookFilter />
-          )
-          // :  null
+          {
+            isAuthenticated && user.role === 'superhero' ? (
+              addLink(toggleAddBookModal, 'Přidat knihu')
+            ) : (
+              <BookFilter />
+            )
+            // :  null
           }
         </div>
       </div>
@@ -443,7 +446,7 @@ const AuthorDetail = ({ authorData }) => {
         <div className='items-list' id='items-list'>
           {/* <h2>{selectedOption.selectedOptionOrder}</h2> */}
           {authorsBooks.length !== 0 ? (
-            authorsBooks.map(book => <BookItem key={book._id} book={book} />)
+            authorsBooks.map((book) => <BookItem key={book._id} book={book} />)
           ) : (
             <div>Autor nemá v databázi zatím žádnou knihu.</div>
           )}
@@ -455,9 +458,9 @@ const AuthorDetail = ({ authorData }) => {
 
   let bookSeriesArr = [];
 
-  const haveBookSeries = bookArr => {
+  const haveBookSeries = (bookArr) => {
     bookArr.map(
-      book =>
+      (book) =>
         book.series !== '' &&
         book.series.length !== 0 &&
         bookSeriesArr.indexOf(book.series) === -1
@@ -480,7 +483,7 @@ const AuthorDetail = ({ authorData }) => {
           </div>
         </div>
         <div className='ubc-header' id='ubc-header'>
-          {bookSeriesArr.map(bookSeries => (
+          {bookSeriesArr.map((bookSeries) => (
             // <Link to=''>
             <p key={bookSeriesArr.indexOf(bookSeries)}>{bookSeries}</p>
             // </Link>
@@ -504,7 +507,7 @@ const AuthorDetail = ({ authorData }) => {
       </div>
       <div className='ubc-header' id='ubc-header'>
         {authorsAwards.length !== 0 ? (
-          authorsAwards.map(award => (
+          authorsAwards.map((award) => (
             <p key={award._id}>
               {award.yearOfAward} – {award.awardTitle} ({award.awardCategory}) –{' '}
               {award.bookOfAward}
@@ -532,7 +535,7 @@ const AuthorDetail = ({ authorData }) => {
         </div>
       </div>
       <div className='ubc-header' id='ubc-header'>
-        {authorsAwards.map(award => (
+        {authorsAwards.map((award) => (
           <p key={award._id}>
             {award.yearOfAward} – {award.awardTitle} ({award.awardCategory}) –{' '}
             {award.bookOfAward}
@@ -544,10 +547,10 @@ const AuthorDetail = ({ authorData }) => {
   // ) : null;
 
   const [state, setState] = useState({
-    content: booksSection
+    content: booksSection,
   });
 
-  const changeContent = newContent => setState({ content: newContent });
+  const changeContent = (newContent) => setState({ content: newContent });
 
   const handleBooksClick = () => changeContent(booksSection);
   const handleSeriesClick = () => changeContent(seriesSection);
@@ -655,7 +658,7 @@ const AuthorDetail = ({ authorData }) => {
                 {pseudonym.length !== 0 && (
                   <div className='author-pseudonym'>
                     {pseudonym.length !== 0 &&
-                      pseudonym.map(authorsPseudonym =>
+                      pseudonym.map((authorsPseudonym) =>
                         pseudonym.length === 1 ? (
                           <span key={pseudonym.indexOf(authorsPseudonym)}>
                             <span className='bold'>pseudonym: </span>
@@ -705,6 +708,7 @@ const AuthorDetail = ({ authorData }) => {
               )}
             </div>
           </div>
+          <FileUpload />
           {/* <div className='ubc-header' id='ubc-header-test'>
             <div className='items-list'> */}
           {/* <h2>{selectedOption.selectedOptionOrder}</h2> */}
@@ -938,8 +942,8 @@ const AuthorDetail = ({ authorData }) => {
               </label>
               <input
                 type='text'
-                name='publishDate'
-                value={publishDate}
+                name='yearOfPublish'
+                value={yearOfPublish}
                 onChange={onChange}
                 pattern='[0-9]{4}'
                 title='Rok vydání musí být ve formátu RRRR'

@@ -3,68 +3,72 @@ const mongoose = require('mongoose');
 const BookSchema = mongoose.Schema(
   {
     urlTitle: {
-      type: String
+      type: String,
+      required: true,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     isbn: {
       type: String,
-      required: true
+      required: true,
     },
     series: {
-      type: String
+      type: String,
     },
     seriesNumber: {
-      type: Number
+      type: Number,
     },
     formats: {
       type: [String],
-      required: true
+      required: true,
     },
     genres: {
       type: [String],
-      required: true
+      required: true,
     },
     language: {
       type: String,
-      required: true
+      required: true,
     },
     pages: {
       type: Number,
-      required: true
+      required: true,
     },
     bookCover: {
-      type: String
+      type: String,
+      // required: true
     },
     bookCoverAuthor: {
-      type: String
+      type: String,
     },
     ilustration: {
-      type: String
+      type: String,
     },
     bookStatus: {
       type: String,
-      required: true
+      required: true,
     },
-    publishDate: {
-      type: String
+    yearOfPublish: {
+      type: String,
     },
     publisher: {
-      type: String
+      type: String,
     },
     originalTitle: {
-      type: String
+      type: String,
+      required: true,
     },
     translator: {
-      type: String
+      type: String,
     },
     youtube: {
-      type: String
+      type: String,
     },
+    // description
     annotation: {
-      type: String
+      type: String,
     },
     // bookComments: {
     //   type: schema Comment - udelat
@@ -74,15 +78,17 @@ const BookSchema = mongoose.Schema(
     // },
     date: {
       type: Date,
-      default: Date.now
+      required: true,
+      default: Date.now,
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'author'
-    }
+      required: true,
+      ref: 'author',
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

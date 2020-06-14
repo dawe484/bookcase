@@ -12,11 +12,7 @@ const Book = require('../models/Book');
 // @access    Public
 router.post(
   '/',
-  [
-    check('name', "Please fill in the author's full name")
-      .not()
-      .isEmpty()
-  ],
+  [check('name', "Please fill in the author's full name").not().isEmpty()],
   auth,
   async (req, res) => {
     const errors = validationResult(req);
@@ -38,7 +34,7 @@ router.post(
       website,
       facebook,
       instagram,
-      twitter
+      twitter,
     } = req.body;
 
     try {
@@ -80,13 +76,13 @@ router.post(
           website,
           facebook,
           instagram,
-          twitter
+          twitter,
         });
       }
 
-      await author.save();
-      // res.send('Author saved');
-      res.json(author);
+      // await author.save();
+      res.send('Author saved');
+      // res.json(author);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -167,7 +163,7 @@ router.put('/:urlAuthorName', auth, async (req, res) => {
     website,
     facebook,
     instagram,
-    twitter
+    twitter,
   } = req.body;
 
   // Build author object
@@ -189,7 +185,7 @@ router.put('/:urlAuthorName', auth, async (req, res) => {
 
   try {
     let author = await Author.findOne({
-      urlAuthorName: req.params.urlAuthorName
+      urlAuthorName: req.params.urlAuthorName,
     });
 
     if (!author) return res.status(404).json({ msg: 'Author not found' });
@@ -222,7 +218,7 @@ router.put('/:urlAuthorName', auth, async (req, res) => {
 router.get('/:urlAuthorName', async (req, res) => {
   try {
     let author = await Author.findOne({
-      urlAuthorName: req.params.urlAuthorName
+      urlAuthorName: req.params.urlAuthorName,
     })
       .populate('book')
       .sort({ date: -1 });
@@ -242,9 +238,7 @@ router.get('/:urlAuthorName', async (req, res) => {
 // @access    Public
 router.get('/', async (req, res) => {
   try {
-    const authors = await Author.find({})
-      .populate('book')
-      .sort({ date: -1 });
+    const authors = await Author.find({}).populate('book').sort({ date: -1 });
 
     res.json(authors);
   } catch (err) {
@@ -273,7 +267,7 @@ router.delete('/:urlAuthorName', auth, async (req, res) => {
       // Make sure user's role is 'superhero'
       if (user.role === 'superhero') {
         const authorsBooks = await Book.deleteMany({
-          author: req.params.id
+          author: req.params.id,
         });
         const author = await Author.findByIdAndRemove(req.params.id);
         res.json({ msg: 'Author removed' });

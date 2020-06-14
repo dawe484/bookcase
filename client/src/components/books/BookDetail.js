@@ -25,7 +25,7 @@ const BookDetail = ({ bookData }) => {
     bookCoverAuthor,
     ilustration,
     bookStatus,
-    publishDate,
+    yearOfPublish,
     publisher,
     originalTitle,
     translator,
@@ -174,7 +174,7 @@ const BookDetail = ({ bookData }) => {
                 className='fas fa-star'
                 style={{ color: 'var(--danger-color)' }}
               />
-              {book.title}&nbsp;({book.publishDate})
+              {book.title}&nbsp;({book.yearOfPublish})
             </p>
           ) : null
         ) : book.rating >= 40 && book.rating < 80 ? (
@@ -184,7 +184,7 @@ const BookDetail = ({ bookData }) => {
                 className='fas fa-star'
                 style={{ color: 'var(--neutral-color)' }}
               />
-              {book.title}&nbsp;({book.publishDate})
+              {book.title}&nbsp;({book.yearOfPublish})
             </p>
           ) : null
         ) : book.rating >= 0 && book.rating < 40 ? (
@@ -194,13 +194,13 @@ const BookDetail = ({ bookData }) => {
                 className='fas fa-star'
                 style={{ color: 'var(--dark-color)' }}
               />
-              {book.title}&nbsp;({book.publishDate})
+              {book.title}&nbsp;({book.yearOfPublish})
             </p>
           ) : null
         ) : book.title !== title ? (
           <p key={book._id}>
             <i className='far fa-star' style={{ color: 'var(--dark-color)' }} />
-            {book.title}&nbsp;({book.publishDate})
+            {book.title}&nbsp;({book.yearOfPublish})
           </p>
         ) : null
       )}
@@ -382,18 +382,18 @@ const BookDetail = ({ bookData }) => {
                         <td>Počet stran</td>
                         <td>{pages}</td>
                       </tr>
-                      {publisher && publishDate ? (
+                      {publisher && yearOfPublish ? (
                         <tr>
                           <td> Nakladatelství</td>
                           <td>
-                            {publisher}, {publishDate}
+                            {publisher}, {yearOfPublish}
                           </td>
                         </tr>
                       ) : null}
-                      {/* {publishDate
+                      {/* {yearOfPublish
                         ? <tr>
                           <td> Rok vydání</td>
-                          <td>{publishDate}</td>
+                          <td>{yearOfPublish}</td>
                         </tr>
                         : null
                       } */}

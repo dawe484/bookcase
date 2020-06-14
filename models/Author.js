@@ -3,81 +3,81 @@ const mongoose = require('mongoose');
 const AuthorSchema = mongoose.Schema(
   {
     urlAuthorName: {
-      type: String
+      type: String,
     },
     name: {
       type: String,
-      required: true
+      required: true,
     },
     pseudonym: [
       {
-        type: String
-      }
+        type: String,
+      },
     ],
     birthdate: {
-      type: String
+      type: String,
     },
     deathdate: {
-      type: String
+      type: String,
     },
     nationality: {
-      type: String
+      type: String,
     },
     portraitAuthorName: {
-      type: String
+      type: String,
     },
     portrait: {
-      type: String
+      type: String,
     },
     resumeSource: {
-      type: String
+      type: String,
     },
     resume: {
-      type: String
+      type: String,
     },
     website: {
-      type: String
+      type: String,
     },
     facebook: {
-      type: String
+      type: String,
     },
     instagram: {
-      type: String
+      type: String,
     },
     twitter: {
-      type: String
+      type: String,
     },
     date: {
       type: Date,
-      default: Date.now
+      default: Date.now,
     },
     book: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'book'
-      }
+        ref: 'book',
+      },
     ],
     award: {
       type: [
         {
           award: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'award'
+            ref: 'award',
           },
           yearOfAward: {
-            type: Number
+            type: Number,
             // required: true
           },
           book: {
-            type: String
+            type: String,
             // required: true
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

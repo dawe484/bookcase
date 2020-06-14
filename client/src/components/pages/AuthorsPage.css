@@ -54,6 +54,12 @@
 .input-field.add input {
   width: 100%;
 }
+
+.input-field.add select:focus {
+  border: 2px solid var(--danger-color);
+  opacity: 0.9;
+}
+
 /* .input-field.add input,
 .input-field.add select,
 .input-field.add textarea {

@@ -181,24 +181,30 @@ const AuthorsPage = () => {
       : (author.pseudonym = []);
     author.nationality = selectNationality();
 
-    // const formData = new FormData();
-    // formData.append('file', file);
+    const formData = new FormData();
+    formData.append('file', file);
 
-    // try {
-    //   const res = await axios.post('/upload', formData);
+    try {
+      const res = await axios.post('/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-    //   const { fileName, filePath } = res.data;
+      const { fileName, filePath } = res.data;
+      // console.log(fileName, filePath);
 
-    //   setUploadedFile({ fileName, filePath });
-    // } catch (err) {
-    //   if (err.response.status === 500) {
-    //     console.log('There was a problem with the server');
-    //   } else {
-    //     console.log(err.response.data.msg);
-    //   }
-    // }
+      setUploadedFile({ fileName, filePath });
+      author.portrait = filePath;
+    } catch (err) {
+      if (err.response.status === 500) {
+        console.log('There was a problem with the server');
+      } else {
+        console.log(err.response.data.msg);
+      }
+    }
 
-    authorContext.addAuthor(author);
+    // authorContext.addAuthor(author);
     console.log(author);
     resetAuthor();
   };
@@ -280,15 +286,21 @@ const AuthorsPage = () => {
               />
               <label>Jméno a Příjmení</label>
               {/* <input type='file' className='file-input' id='portrait' name='portrait' value={portrait} onChange={onChange} accept='image/png, image/jpeg' /> */}
-              <input
+              {/* <input
                 type='text'
                 name='portrait'
                 id='portraitFile'
                 value={portrait}
                 onChange={onChange}
+              /> */}
+              <input
+                type='file'
+                id='portraitFile'
+                name='portrait'
+                onChange={onFileChange}
               />
-              {/* <label htmlFor='portraitFile'>{filename}</label> */}
               <label htmlFor='portraitFile'>Fotografie</label>
+              {/* <label htmlFor='portraitFile'>{filename}</label> */}
               {/* <label htmlFor='portrait' className='file-select'>
                 <span className='span-add'>
                 Vybrat soubor (PNG, JPG)
