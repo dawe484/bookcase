@@ -26,6 +26,15 @@ const AuthorSchema = mongoose.Schema(
     portraitAuthorName: {
       type: String,
     },
+    portraitAuthorLink: {
+      type: String,
+    },
+    portraitAuthorLicense: {
+      type: String,
+    },
+    portraitAuthorLicenseLink: {
+      type: String,
+    },
     portrait: {
       type: String,
     },
@@ -45,6 +54,9 @@ const AuthorSchema = mongoose.Schema(
       type: String,
     },
     twitter: {
+      type: String,
+    },
+    wikipedia: {
       type: String,
     },
     date: {

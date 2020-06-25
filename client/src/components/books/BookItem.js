@@ -36,7 +36,7 @@ const BookItem = ({ book }) => {
               <div className='book-card-sm_content'>
                 <div className='bc-sm-content_inner'>
                   {annotation ? (
-                    <p>{annotation.substring(0, 120).concat('...')}</p>
+                    <p>{annotation.substring(0, 114).concat('...')}</p>
                   ) : null}
                 </div>
               </div>

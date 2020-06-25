@@ -183,6 +183,7 @@ input[type='file'],
 select,
 textarea {
   display: block;
+  font-family: 'Roboto', sans-serif;
   width: 256px;
   padding: 0.5rem;
   font-size: 1rem;
@@ -559,7 +560,7 @@ h3 {
 .modal-container select,
 .modal-container input {
   border: 2px solid var(--light-color);
-  padding: 12px 15px;
+  padding: 12px 14px;
   margin: 6px 0;
   /* width: 100%; */
   font-size: 0.85rem;
@@ -602,40 +603,54 @@ h3 {
   animation: show 0.6s;
 }
 
+.author-input-field,
 .input-field {
   position: relative;
 }
 
+.input-field input:nth-of-type(3),
+.input-field input:nth-of-type(2) {
+  margin-top: 12px;
+}
+
+.author-input-field select,
 .input-field select {
   font-size: 0.85rem;
   /* color: var(--neutral-color); */
 }
 
+.author-input-field select option,
+.author-input-field label,
 .input-field select option,
 .input-field label {
   position: absolute;
-  top: 1.1rem;
-  left: 1.1rem;
+  top: -4px;
   pointer-events: none;
   color: var(--neutral-color);
   /* display: block; */
   /* transition: 0.5s; */
 }
 
+.author-input-field label,
 .input-field label {
-  transform: translate(-6px, -22px);
+  /* transform: translate(-6px, -22px); */
   font-size: 0.75rem;
   color: var(--light-color);
   background: var(--danger-color);
   padding: 2px 4px;
 }
 
+.input-field label:nth-of-type(2),
+.input-field label:nth-of-type(1) {
+  left: 14px;
+}
+
 .input-field label:nth-of-type(2) {
-  top: 4.15rem;
+  top: 52px;
 }
 
 .input-field label:nth-of-type(3) {
-  top: 7.25rem;
+  top: 118px;
 }
 
 /* .react-datepicker-wrapper:not(:empty) + label, */

@@ -19,12 +19,13 @@ app.get('/', (req, res) =>
 
 app.use(fileUpload());
 
-// // Upload Endpoints
+// Upload Endpoints
 app.post('/upload', (req, res) => {
   if (req.files === null)
     return res.status(400).json({ msg: 'No file uploaded' });
 
   const file = req.files.file;
+
   const address = req.headers.referer.substring(
     req.headers.referer.search('authors')
   );

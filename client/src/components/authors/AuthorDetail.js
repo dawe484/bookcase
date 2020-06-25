@@ -26,8 +26,6 @@ import { bookStatuses } from '../pages/enums/bookStatuses';
 
 import './AuthorDetail.css';
 
-import FileUpload from '../FileUpload';
-
 const lang = 'cs';
 
 const AuthorDetail = ({ authorData }) => {
@@ -59,20 +57,46 @@ const AuthorDetail = ({ authorData }) => {
     nationality,
     portrait,
     portraitAuthorName,
+    portraitAuthorLink,
+    portraitAuthorLicense,
+    portraitAuthorLicenseLink,
     resume,
     resumeSource,
     website,
     facebook,
     instagram,
     twitter,
+    wikipedia,
   } = authorData;
 
   let authorsBooks = authorData.book;
   const authorsAwards = authorData.award;
 
-  let birth, death;
-  if (birthdate) birth = birthdate.replace(/-/g, '. ');
-  if (deathdate) death = deathdate.replace(/-/g, '. ');
+  let yearOfBirth,
+    monthOfBirth,
+    dayOfBirth,
+    birth,
+    yearOfDeath,
+    monthOfDeath,
+    dayOfDeath,
+    death;
+
+  if (birthdate) yearOfBirth = birthdate.substr(0, 4);
+  if (birthdate) monthOfBirth = birthdate.substr(birthdate.indexOf('-') + 1, 2);
+  if (birthdate) dayOfBirth = birthdate.substr(-2);
+
+  if (birthdate)
+    if (dayOfBirth != '00') {
+      birth = `${dayOfBirth}.`;
+      if (monthOfBirth != '00')
+        birth = `${birth} ${monthOfBirth}. ${yearOfBirth}`;
+    } else birth = `${yearOfBirth}`;
+
+  if (deathdate) yearOfDeath = deathdate.substr(0, 4);
+  if (deathdate) monthOfDeath = deathdate.substr(deathdate.indexOf('-') + 1, 2);
+  if (deathdate) dayOfDeath = deathdate.substr(-2);
+
+  if (deathdate) death = `${dayOfDeath}. ${monthOfDeath}. ${yearOfDeath}`;
 
   const [book, setBook] = useState({
     title: '',
@@ -416,7 +440,7 @@ const AuthorDetail = ({ authorData }) => {
           <option value='zToA'>Z - A (název knihy)</option>
         </select> */}
       {/* </div> */}
-      <button className='btn btn-sm add-book' onClick={modal}>
+      <button className='btn-sm add-book' onClick={modal}>
         {/* Add Book */}
         {buttonText}
       </button>
@@ -565,7 +589,7 @@ const AuthorDetail = ({ authorData }) => {
             <i className='icon fas fa-pencil-alt' />
             <h1>{name}</h1>
           </div>
-          {facebook || instagram || twitter || website ? (
+          {facebook || instagram || twitter || website || wikipedia ? (
             <div className='socials'>
               <ul>
                 {facebook && (
@@ -634,6 +658,26 @@ const AuthorDetail = ({ authorData }) => {
                     </a>
                   </li>
                 )}
+                {wikipedia && (
+                  <li>
+                    <a
+                      href={wikipedia}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      <div className='social-icon wiki'>
+                        <i
+                          className='fab fa-wikipedia-w'
+                          aria-hidden='true'
+                        ></i>
+                        <i
+                          className='fab fa-wikipedia-w'
+                          aria-hidden='true'
+                        ></i>
+                      </div>
+                    </a>
+                  </li>
+                )}
               </ul>
             </div>
           ) : null}
@@ -644,7 +688,17 @@ const AuthorDetail = ({ authorData }) => {
               <div className='avatar'>
                 <img src={portrait} alt='' />
                 {portraitAuthorName ? (
-                  <div className='img-copyright'>© {portraitAuthorName}</div>
+                  portraitAuthorName ? (
+                    <a
+                      href={portraitAuthorLink}
+                      target='_blank'
+                      rel='noopener noreffer'
+                    >
+                      <div className='img-copyright'>
+                        © {portraitAuthorName}
+                      </div>
+                    </a>
+                  ) : null
                 ) : null}
               </div>
             ) : (
@@ -682,7 +736,7 @@ const AuthorDetail = ({ authorData }) => {
                     <span className='bold'>národnost: </span>
                     {nationality}
                     {birthdate ? <span>,&nbsp;{birth}</span> : null}
-                    {deathdate && <span>– {death} </span>}
+                    {deathdate && <span> – {death} </span>}
                   </div>
                 )}
               </div>
@@ -692,9 +746,9 @@ const AuthorDetail = ({ authorData }) => {
                   <div className='author-resume'>
                     <ReadMoreReact
                       text={resume}
-                      min='300'
-                      ideal='800'
-                      max='900'
+                      min={300}
+                      ideal={800}
+                      max={900}
                       readMoreText='Číst více'
                       readLessText='Číst méně'
                     />
@@ -708,7 +762,6 @@ const AuthorDetail = ({ authorData }) => {
               )}
             </div>
           </div>
-          <FileUpload />
           {/* <div className='ubc-header' id='ubc-header-test'>
             <div className='items-list'> */}
           {/* <h2>{selectedOption.selectedOptionOrder}</h2> */}

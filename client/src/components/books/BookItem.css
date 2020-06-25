@@ -9,14 +9,13 @@
   /* height: 222px; */
   /* background: white; */
   margin: 0 12px 24px;
-  box-shadow: 0 14px 20px -8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 14px 20px -8px rgba(0, 0, 0, 0.25);
   /* border: 2px solid var(--light-color); */
 }
 
 .book-item-sm:hover {
-  /* border: 2px solid var(--warning-color); */
   cursor: pointer;
-  box-shadow: 0 14px 30px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 22px 2px rgba(0, 0, 0, 0.25);
 }
 
 .book-item-sm:nth-child(4n + 1) {
@@ -70,7 +69,7 @@
 }
 
 .book-card-sm_image img {
-  width: 168px;
+  /* width: 168px; */
   height: 176px;
   object-fit: contain;
   padding: 6px 8px;
@@ -117,8 +116,10 @@
   opacity: 0.75;
   font-size: 0.9rem;
   margin-top: 2px;
+  margin-bottom: 4px;
 }
 
+.book-item-sm:hover > .book-spec h2,
 .book-spec span:hover,
 .book-spec h2:hover {
   color: var(--danger-color);

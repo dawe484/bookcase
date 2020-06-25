@@ -22,12 +22,16 @@ router.post(
     }
 
     const {
+      urlAuthorName,
       name,
       pseudonym,
       birthdate,
       deathdate,
       nationality,
       portraitAuthorName,
+      portraitAuthorLink,
+      portraitAuthorLicense,
+      portraitAuthorLicenseLink,
       portrait,
       resumeSource,
       resume,
@@ -35,6 +39,7 @@ router.post(
       facebook,
       instagram,
       twitter,
+      wikipedia,
     } = req.body;
 
     try {
@@ -43,24 +48,24 @@ router.post(
       if (author) {
         return res.status(400).json({ msg: 'Author already exists' });
       } else {
-        const urlAuthorName = name
-          .replace(/ /g, '-')
-          .replace(/ě/gi, 'e')
-          .replace(/š/gi, 's')
-          .replace(/č/gi, 'c')
-          .replace(/ř/gi, 'r')
-          .replace(/ž/gi, 'z')
-          .replace(/ý/gi, 'y')
-          .replace(/á/gi, 'a')
-          .replace(/í/gi, 'i')
-          .replace(/é/gi, 'e')
-          .replace(/ú/gi, 'u')
-          .replace(/ů/gi, 'u')
-          .replace(/ň/gi, 'n')
-          .replace(/ď/gi, 'd')
-          .replace(/ť/gi, 't')
-          .toLowerCase()
-          .concat('-', Math.floor(Math.random() * 9000) + 1000); // returns a random integer from 1000 to 9999
+        // const urlAuthorName = name
+        //   .replace(/ /g, '-')
+        //   .replace(/ě/gi, 'e')
+        //   .replace(/š/gi, 's')
+        //   .replace(/č/gi, 'c')
+        //   .replace(/ř/gi, 'r')
+        //   .replace(/ž/gi, 'z')
+        //   .replace(/ý/gi, 'y')
+        //   .replace(/á/gi, 'a')
+        //   .replace(/í/gi, 'i')
+        //   .replace(/é/gi, 'e')
+        //   .replace(/ú/gi, 'u')
+        //   .replace(/ů/gi, 'u')
+        //   .replace(/ň/gi, 'n')
+        //   .replace(/ď/gi, 'd')
+        //   .replace(/ť/gi, 't')
+        //   .toLowerCase()
+        //   .concat('-', Math.floor(Math.random() * 9000) + 1000); // returns a random integer from 1000 to 9999
 
         author = new Author({
           urlAuthorName,
@@ -70,6 +75,9 @@ router.post(
           deathdate,
           nationality,
           portraitAuthorName,
+          portraitAuthorLink,
+          portraitAuthorLicense,
+          portraitAuthorLicenseLink,
           portrait,
           resumeSource,
           resume,
@@ -77,12 +85,13 @@ router.post(
           facebook,
           instagram,
           twitter,
+          wikipedia,
         });
       }
 
-      // await author.save();
-      res.send('Author saved');
-      // res.json(author);
+      await author.save();
+      // res.send('Author saved');
+      res.json(author);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -157,6 +166,9 @@ router.put('/:urlAuthorName', auth, async (req, res) => {
     deathdate,
     nationality,
     portraitAuthorName,
+    portraitAuthorLink,
+    portraitAuthorLicense,
+    portraitAuthorLicenseLink,
     portrait,
     resumeSource,
     resume,
@@ -164,6 +176,7 @@ router.put('/:urlAuthorName', auth, async (req, res) => {
     facebook,
     instagram,
     twitter,
+    wikipedia,
   } = req.body;
 
   // Build author object
@@ -175,6 +188,11 @@ router.put('/:urlAuthorName', auth, async (req, res) => {
   if (deathdate) authorFields.deathdate = deathdate;
   if (nationality) authorFields.nationality = nationality;
   if (portraitAuthorName) authorFields.portraitAuthorName = portraitAuthorName;
+  if (portraitAuthorLink) authorFields.portraitAuthorLink = portraitAuthorLink;
+  if (portraitAuthorLicense)
+    authorFields.portraitAuthorLicense = portraitAuthorLicense;
+  if (portraitAuthorLicenseLink)
+    authorFields.portraitAuthorLicenseLink = portraitAuthorLicenseLink;
   if (portrait) authorFields.portrait = portrait;
   if (resumeSource) authorFields.resumeSource = resumeSource;
   if (resume) authorFields.resume = resume;
@@ -182,6 +200,7 @@ router.put('/:urlAuthorName', auth, async (req, res) => {
   if (facebook) authorFields.facebook = facebook;
   if (instagram) authorFields.instagram = instagram;
   if (twitter) authorFields.twitter = twitter;
+  if (wikipedia) authorFields.wikipedia = wikipedia;
 
   try {
     let author = await Author.findOne({

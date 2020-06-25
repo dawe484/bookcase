@@ -12,7 +12,7 @@ const AuthorItem = ({ author }) => {
       <Link
         to={{
           pathname: `/authors/${urlAuthorName}`,
-          urlName: urlAuthorName
+          urlName: urlAuthorName,
         }}
         className=''
       >
@@ -24,13 +24,13 @@ const AuthorItem = ({ author }) => {
               <i className='far fa-file-image'></i>
             )}
           </figure>
-          <figure className='author-card_image2'>
+          {/* <figure className='author-card_image2'>
             {portrait ? (
               <img src={portrait} alt='' style={{ opacity: 1 }} />
             ) : (
               <i className='far fa-file-image'></i>
             )}
-          </figure>
+          </figure> */}
         </article>
         <div className='author-name'>
           <div className='line'></div>
@@ -42,7 +42,7 @@ const AuthorItem = ({ author }) => {
 };
 
 AuthorItem.propTypes = {
-  author: PropTypes.object.isRequired
+  author: PropTypes.object.isRequired,
 };
 
 export default AuthorItem;

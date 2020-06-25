@@ -8,12 +8,13 @@ import React, {
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Modali, { useModali } from 'modali';
+// import fs from 'fs';
 
 import Alerts from '../layout/Alerts';
 // import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
 // import { cs, enGB } from 'date-fns/esm/locale';
 
-import FileUpload from '../FileUpload';
+// import FileUpload from '../FileUpload';
 
 import Authors from '../authors/Authors';
 import AuthorsFilter from '../authors/AuthorsFilter';
@@ -23,6 +24,7 @@ import AuthorContext from '../../context/author/authorContext';
 import AlertContext from '../../context/alert/alertContext';
 
 import { authorNationality } from './enums/authorNationality';
+import { portraitLicense } from './enums/portraitLicense';
 
 // import "react-datepicker/dist/react-datepicker.css";
 import './AuthorsPage.css';
@@ -50,6 +52,7 @@ const AuthorsPage = () => {
   }, [error]);
 
   const [author, setAuthor] = useState({
+    urlAuthorName: '',
     name: '',
     pseudonym: '',
     birthdate: '',
@@ -57,12 +60,16 @@ const AuthorsPage = () => {
     nationality: '',
     portrait: '',
     portraitAuthorName: '',
+    portraitAuthorLink: '',
+    portraitAuthorLicense: '',
+    portraitAuthorLicenseLink: '',
     resume: '',
     resumeSource: '',
     website: '',
     facebook: '',
     instagram: '',
     twitter: '',
+    wikipedia: '',
   });
 
   const {
@@ -73,15 +80,19 @@ const AuthorsPage = () => {
     nationality,
     portrait,
     portraitAuthorName,
+    portraitAuthorLink,
+    portraitAuthorLicense,
+    portraitAuthorLicenseLink,
     resume,
     resumeSource,
     website,
     facebook,
     instagram,
     twitter,
+    wikipedia,
   } = author;
 
-  const [file, setFile] = useState('');
+  let [file, setFile] = useState('');
   const [filename, setFilename] = useState('Choose File');
   const [uploadedFile, setUploadedFile] = useState({});
 
@@ -123,21 +134,28 @@ const AuthorsPage = () => {
     }
   };
 
-  const addAuthorLink = (
-    <Fragment>
-      <AuthorsFilter />
-      <Link to='/authors' className='btn btn-ml' onClick={toggleAddAuthorModal}>
-        {/* Add Author */}
-        Přidat autora
-      </Link>
-    </Fragment>
-  );
+  const licenseEnum = () => {
+    let select = document.getElementById('license');
 
-  const selectNationality = () => {
-    if (document.getElementById('nationality').value === '') {
+    if (!select.options.length) {
+      for (let element in portraitLicense) {
+        if (element === lang) {
+          for (let i in portraitLicense[element]) {
+            let licenseOption = portraitLicense[element][i];
+            let opt = document.createElement('option');
+            opt.value = opt.text = opt.id = licenseOption;
+            select.appendChild(opt);
+          }
+        }
+      }
+    }
+  };
+
+  const selectAuthorsInputOption = (type) => {
+    if (document.getElementById(type).value === '') {
       return '';
     } else {
-      let selector = document.getElementById('nationality');
+      let selector = document.getElementById(type);
       let value = selector[selector.selectedIndex].value;
       return document.getElementById(value).text;
     }
@@ -147,6 +165,16 @@ const AuthorsPage = () => {
     const arr = document.getElementById('pseudonym').value.split(', ');
     return arr;
   };
+
+  const addAuthorLink = (
+    <Fragment>
+      <AuthorsFilter />
+      <Link to='/authors' className='btn btn-ml' onClick={toggleAddAuthorModal}>
+        {/* Add Author */}
+        Přidat autora
+      </Link>
+    </Fragment>
+  );
 
   // const validURL = (str) => {
   //   let pattern = new RegExp(
@@ -159,6 +187,12 @@ const AuthorsPage = () => {
   //     'i'
   //   ); // fragment locator
   //   return !!pattern.test(str);
+  // };
+
+  // const removeAuthorPortrait = (filePath) => {
+  //   fs.unlink(`${__dirname}/client/public/${filePath}`, (err) => {
+  //     if (err) console.error(err.message);
+  //   });
   // };
 
   const onSubmit = async (e) => {
@@ -175,28 +209,59 @@ const AuthorsPage = () => {
     //   console.log('No valid website');
 
     // author.portrait = filename;
-    console.log(pseudonym.length);
+    // console.log(pseudonym.length);
+
     pseudonym.length !== 0
       ? (author.pseudonym = pseudonymArray())
       : (author.pseudonym = []);
-    author.nationality = selectNationality();
+    author.nationality = selectAuthorsInputOption('nationality');
+    author.portraitAuthorLicense = selectAuthorsInputOption('license');
+
+    const urlAuthorName = name
+      .replace(/ /g, '-')
+      .replace(/ě/gi, 'e')
+      .replace(/š/gi, 's')
+      .replace(/č/gi, 'c')
+      .replace(/ř/gi, 'r')
+      .replace(/ž/gi, 'z')
+      .replace(/ý/gi, 'y')
+      .replace(/á/gi, 'a')
+      .replace(/í/gi, 'i')
+      .replace(/é/gi, 'e')
+      .replace(/ú/gi, 'u')
+      .replace(/ů/gi, 'u')
+      .replace(/ň/gi, 'n')
+      .replace(/ď/gi, 'd')
+      .replace(/ť/gi, 't')
+      .replace(/ø/g, 'o')
+      .toLowerCase()
+      .concat('-', Math.floor(Math.random() * 9000) + 1000); // returns a random integer from 1000 to 9999
+
+    author.urlAuthorName = urlAuthorName;
 
     const formData = new FormData();
-    formData.append('file', file);
+
+    // file.name = test;
+    if (file)
+      formData.append(
+        'file',
+        file,
+        `${urlAuthorName}-220.${file.name.substr(-3).toLowerCase()}`
+      );
 
     try {
-      const res = await axios.post('/upload', formData, {
+      let res = await axios.post('/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
 
       const { fileName, filePath } = res.data;
-      // console.log(fileName, filePath);
 
-      setUploadedFile({ fileName, filePath });
+      // setUploadedFile({ fileName, filePath });
       author.portrait = filePath;
     } catch (err) {
+      // if (author.portrait != null) removeAuthorPortrait(author.portrait);
       if (err.response.status === 500) {
         console.log('There was a problem with the server');
       } else {
@@ -204,7 +269,7 @@ const AuthorsPage = () => {
       }
     }
 
-    // authorContext.addAuthor(author);
+    authorContext.addAuthor(author);
     console.log(author);
     resetAuthor();
   };
@@ -212,6 +277,7 @@ const AuthorsPage = () => {
   const resetAuthor = () => {
     toggleAddAuthorModal();
     setAuthor({
+      urlAuthorName: '',
       name: '',
       pseudonym: '',
       birthdate: '',
@@ -219,12 +285,16 @@ const AuthorsPage = () => {
       nationality: '',
       portrait: '',
       portraitAuthorName: '',
+      portraitAuthorLink: '',
+      portraitAuthorLicense: '',
+      portraitAuthorLicenseLink: '',
       resume: '',
       resumeSource: '',
       website: '',
       facebook: '',
       instagram: '',
       twitter: '',
+      wikipedia: '',
     });
   };
 
@@ -247,7 +317,7 @@ const AuthorsPage = () => {
             )}
           </div>
         </div>
-        <FileUpload />
+        {/* <FileUpload /> */}
         <div className='items-list'>
           <Authors />
         </div>
@@ -276,7 +346,7 @@ const AuthorsPage = () => {
             encType='multipart/form-data'
             onSubmit={onSubmit}
           >
-            <div className='input-field add'>
+            <div className='author-input-field add'>
               <input
                 type='text'
                 name='name'
@@ -285,27 +355,6 @@ const AuthorsPage = () => {
                 required
               />
               <label>Jméno a Příjmení</label>
-              {/* <input type='file' className='file-input' id='portrait' name='portrait' value={portrait} onChange={onChange} accept='image/png, image/jpeg' /> */}
-              {/* <input
-                type='text'
-                name='portrait'
-                id='portraitFile'
-                value={portrait}
-                onChange={onChange}
-              /> */}
-              <input
-                type='file'
-                id='portraitFile'
-                name='portrait'
-                onChange={onFileChange}
-              />
-              <label htmlFor='portraitFile'>Fotografie</label>
-              {/* <label htmlFor='portraitFile'>{filename}</label> */}
-              {/* <label htmlFor='portrait' className='file-select'>
-                <span className='span-add'>
-                Vybrat soubor (PNG, JPG)
-                </span>
-              </label> */}
               <input
                 type='text'
                 name='pseudonym'
@@ -317,29 +366,38 @@ const AuthorsPage = () => {
                 Pseudonym
                 <span> (volitelný)</span>
               </label>
-              <div className='picturefile'></div>
-              {/* <DatePicker locale='cs' selected={startDate} onChange={date => setStartDate(date)} required /> */}
               <input
-                type='text'
+                type='date'
                 name='birthdate'
                 value={birthdate}
                 onChange={onChange}
-                pattern='[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}'
-                title='Datum narození musí být ve formátu DD-MM-RRRR'
+                // pattern='[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}'
+                // title='Datum narození musí být ve formátu DD-MM-RRRR'
               />
-              <label>Datum narození</label>
+              <label>
+                Datum narození
+                <span> (volitelný)</span>
+              </label>
               <input
-                type='text'
+                type='date'
                 name='deathdate'
                 value={deathdate}
                 onChange={onChange}
-                pattern='[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}'
-                title='Datum úmrtí musí být ve formátu DD-MM-RRRR'
+                // pattern='[0-9]{1,2}-[0-9]{1,2}-[0-9]{4}'
+                // title='Datum úmrtí musí být ve formátu DD-MM-RRRR'
               />
               <label>
                 Datum úmrtí
                 <span> (volitelný)</span>
               </label>
+              {/* <input type='file' className='file-input' id='portrait' name='portrait' value={portrait} onChange={onChange} accept='image/png, image/jpeg' /> */}
+              {/* <input
+                type='text'
+                name='portrait'
+                id='portraitFile'
+                value={portrait}
+                onChange={onChange}
+              /> */}
               <select
                 name='nationality'
                 id='nationality'
@@ -350,13 +408,62 @@ const AuthorsPage = () => {
                 <span> (volitelný)</span>
               </label>
               <input
+                type='file'
+                id='portraitFile'
+                name='portrait'
+                // value={portrait}
+                onChange={onFileChange}
+                accept='image/png, image/jpeg'
+              />
+              <label htmlFor='portraitFile'>
+                Fotografie
+                <span> (volitelný)</span>
+              </label>
+              {/* <label htmlFor='portraitFile'>{filename}</label> */}
+              {/* <label htmlFor='portrait' className='file-select'>
+                <span className='span-add'>
+                Vybrat soubor (PNG, JPG)
+                </span>
+              </label> */}
+              {/* <div className='picturefile'></div> */}
+              {/* <DatePicker locale='cs' selected={startDate} onChange={date => setStartDate(date)} required /> */}
+              <input
                 type='text'
                 name='portraitAuthorName'
                 value={portraitAuthorName}
                 onChange={onChange}
               />
               <label>
-                Autor/ka fotky
+                Autor/ka fotografie
+                <span> (volitelný)</span>
+              </label>
+              <input
+                type='text'
+                name='portraitAuthorLink'
+                value={portraitAuthorLink}
+                onChange={onChange}
+              />
+              <label>
+                Odkaz na originál fotografie
+                <span> (volitelný)</span>
+              </label>
+              <select
+                name='license'
+                id='license'
+                onFocus={licenseEnum}
+              ></select>
+              <label>
+                Licence užití fotografie
+                <span> (volitelný)</span>
+              </label>
+              <input
+                type='text'
+                name='portraitAuthorLicenseLink'
+                value={portraitAuthorLicenseLink}
+                onChange={onChange}
+              />
+              <label>
+                Odkaz na licenční užití fotografie
                 <span> (volitelný)</span>
               </label>
               <textarea
@@ -417,6 +524,16 @@ const AuthorsPage = () => {
               />
               <label>
                 Twitter
+                <span> (volitelný)</span>
+              </label>
+              <input
+                type='text'
+                name='wikipedia'
+                value={wikipedia}
+                onChange={onChange}
+              />
+              <label>
+                Wikipedie
                 <span> (volitelný)</span>
               </label>
             </div>

@@ -59,6 +59,10 @@
   height: 2.5rem;
 }
 
+.socials ul li a .social-icon.wiki {
+  width: 3.2rem;
+}
+
 .socials ul li a .social-icon .fas,
 .socials ul li a .social-icon .fab {
   width: 100%;
@@ -77,6 +81,10 @@
 
 .socials ul li a .social-icon .fab.fa-twitter-square:last-child {
   color: #1da1f2;
+}
+
+.socials ul li a .social-icon .fab.fa-wikipedia-w:last-child {
+  color: #939598;
 }
 
 .socials ul li a .social-icon .fas.fa-external-link-square-alt:last-child {

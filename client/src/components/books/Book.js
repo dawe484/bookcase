@@ -3,7 +3,7 @@ import BookDetail from './BookDetail';
 
 import BookContext from '../../context/book/bookContext';
 
-const Book = data => {
+const Book = (data) => {
   const bookContext = useContext(BookContext);
 
   const { book, getBook, loading } = bookContext;
@@ -21,7 +21,13 @@ const Book = data => {
       {book !== null && !loading ? (
         <BookDetail key={book._id} bookData={book} />
       ) : (
-        <h1>Načítám knihu...</h1>
+        <div className='container'>
+          <div className='list-row'>
+            <div className='list-title'>
+              <h1>Načítám knihu...</h1>
+            </div>
+          </div>
+        </div>
       )}
     </Fragment>
   );
