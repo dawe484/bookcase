@@ -40,8 +40,21 @@
   color: var(--dark-color);
 }
 
+.no-rating,
 .overall-rating-no {
   font-size: 0.8rem;
+}
+
+.no-rating {
+  position: relative;
+  padding: 8px 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: var(--dark-color);
+  color: var(--light-color);
+  letter-spacing: 1px;
+  width: fit-content;
 }
 
 .btn-sm.overall-rating-no {
@@ -50,6 +63,7 @@
   background: var(--light-color);
 }
 
+.no-rating,
 .btn-sm.overall-rating-no.light {
   border: 1px solid var(--light-color);
 }
@@ -133,6 +147,10 @@
 .authors-books .ab-p .fas.fa-star {
   /* color: var(--danger-color); */
   margin-right: 4px;
+}
+
+.authors-books .ab-p a:hover span {
+  color: var(--danger-color);
 }
 
 .btn.btn-sm.btn-all {

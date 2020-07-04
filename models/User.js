@@ -47,11 +47,15 @@ const UserSchema = mongoose.Schema(
     statistics: {
       type: [String]
     },
-    justReading: {
+    reading: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'books'
     },
-    alreadyRead: {
+    read: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'books'
+    },
+    goingToRead: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'books'
     },
@@ -59,18 +63,18 @@ const UserSchema = mongoose.Schema(
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'books'
     },
+    eBookcase: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'books'
+    },
+    wantToBorrow: {
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: 'books'
+    },
     favouriteAuthors: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: 'authors'
     },
-    eBookshelf: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'books'
-    },
-    wantToRead: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: 'books'
-    }
   },
   {
     timestamps: true

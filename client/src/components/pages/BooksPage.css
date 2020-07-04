@@ -3,25 +3,87 @@
   font-size: 1.25rem;
 }
 
-.input-field.addBook textarea,
+/* .input-field.addBook textarea,
 .input-field.addBook select,
 .input-field.addBook input {
   width: 100%;
+} */
+
+.input-field.addBookSeries {
+  display: grid;
+  grid-template-columns: auto 92px;
+  grid-template-rows: auto;
+  column-gap: 0.375rem;
 }
 
-.input-field.addBookSeries input:first-of-type {
-  width: 202px;
+.input-field.addBookSeries input:nth-of-type(2) {
+  margin-top: 6px;
 }
 
-.input-field.addBookSeries input:last-of-type {
-  width: 101px;
+.author-input-field.add .input-field.addBookSeries label:nth-of-type(2) {
+  top: -4px;
+  left: 208px;
 }
 
-.input-field.addBookGenre select.genre {
+.input-field.addBookGenre {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  column-gap: 0.375rem;
+}
+
+.author-input-field.add .input-field.addBookGenre label:nth-of-type(2) {
+  top: -4px;
+  left: 162px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(6),
+.author-input-field.add.addBook label:nth-of-type(5) {
+  top: 165px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(8),
+.author-input-field.add.addBook label:nth-of-type(7) {
+  top: 227px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(10),
+.author-input-field.add.addBook label:nth-of-type(9) {
+  top: 284px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(12),
+.author-input-field.add.addBook label:nth-of-type(11) {
+  top: 341px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(14),
+.author-input-field.add.addBook label:nth-of-type(13) {
+  top: 397px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(15) {
+  top: 454px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(16) {
+  top: 510px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(14),
+.author-input-field.add.addBook label:nth-of-type(12) {
+  left: 322px;
+}
+
+.author-input-field.add.addBook label:nth-of-type(15),
+.author-input-field.add.addBook label:nth-of-type(13) {
+  left: 14px;
+}
+
+/* .input-field.addBookGenre select.genre {
   width: 152px;
 }
 
-.input-field.addBook label:nth-of-type(2),
 .input-field.addBook label:nth-of-type(6),
 .input-field.addBook label:nth-of-type(8),
 .input-field.addBook label:nth-of-type(10),
@@ -77,7 +139,7 @@
 
 .input-field.addBook label:nth-of-type(15) {
   top: 35.9rem;
-}
+} */
 
 .trailer-textarea {
   grid-column-start: 1;

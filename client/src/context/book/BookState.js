@@ -18,15 +18,15 @@ import {
   CLEAR_READING,
   FILTER_BOOKS,
   CLEAR_BOOKS_FILTER,
-  BOOK_ERROR
+  BOOK_ERROR,
 } from '../types';
 
-const BookState = props => {
+const BookState = (props) => {
   const initialState = {
     books: null,
     book: null,
     filtered: null,
-    error: null
+    error: null,
   };
 
   const [state, dispatch] = useReducer(bookReducer, initialState);
@@ -42,12 +42,12 @@ const BookState = props => {
 
       dispatch({
         type: GET_BOOKS,
-        payload: res.data
+        payload: res.data,
       });
     } catch (err) {
       dispatch({
         type: BOOK_ERROR,
-        payload: err.response.data.msg
+        payload: err.response.data.msg,
       });
     }
   };
@@ -56,18 +56,18 @@ const BookState = props => {
   const clearBookErrors = () => dispatch({ type: CLEAR_BOOK_ERRORS });
 
   // Get Book
-  const getBook = async urlTitle => {
+  const getBook = async (urlTitle) => {
     try {
       const res = await axios.get(`/api/books/${urlTitle}`);
 
       dispatch({
         type: GET_BOOK,
-        payload: res.data
+        payload: res.data,
       });
     } catch (err) {
       dispatch({
         type: BOOK_ERROR,
-        payload: err.response.data.msg
+        payload: err.response.data.msg,
       });
     }
   };
@@ -79,8 +79,8 @@ const BookState = props => {
   const addBook = async (bookData, urlAuthorAddress) => {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     };
 
     try {
@@ -97,18 +97,18 @@ const BookState = props => {
     } catch (err) {
       dispatch({
         type: BOOK_ERROR,
-        payload: err.response.data.msg
+        payload: err.response.data.msg,
       });
     }
   };
 
   // Delete Book
-  const deleteBook = id => {
+  const deleteBook = (id) => {
     dispatch({ type: DELETE_BOOK, payload: id });
   };
 
   // Update Book
-  const updateBook = async book => {
+  const updateBook = async (book) => {
     dispatch({ type: UPDATE_BOOK, payload: book });
   };
 
@@ -117,7 +117,7 @@ const BookState = props => {
   // Clear Reading Book
 
   // Filter Books
-  const filterBooks = text => {
+  const filterBooks = (text) => {
     dispatch({ type: FILTER_BOOKS, payload: text });
   };
 
@@ -158,7 +158,7 @@ const BookState = props => {
         deleteBook,
         updateBook,
         filterBooks,
-        clearBooksFilter
+        clearBooksFilter,
         // getBookRating
       }}
     >

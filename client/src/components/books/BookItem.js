@@ -98,7 +98,7 @@ const BookItem = ({ book }) => {
         >
           <h2>{title}</h2>
         </Link>
-        <Link
+        {/* <Link
           to={{
             pathname: `/authors/${author.urlAuthorName}`,
             urlName: author.urlAuthorName
@@ -106,7 +106,7 @@ const BookItem = ({ book }) => {
           className=''
         >
           <span>{author.name}</span>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

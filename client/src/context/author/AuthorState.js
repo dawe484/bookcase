@@ -16,15 +16,15 @@ import {
   CLEAR_AUTHOR_FAVOURITE,
   FILTER_AUTHORS,
   CLEAR_AUTHORS_FILTER,
-  AUTHOR_ERROR
+  AUTHOR_ERROR,
 } from '../types';
 
-const AuthorState = props => {
+const AuthorState = (props) => {
   const initialState = {
     authors: null,
     author: null,
     filtered: null,
-    error: null
+    error: null,
   };
 
   const [state, dispatch] = useReducer(authorReducer, initialState);
@@ -36,12 +36,12 @@ const AuthorState = props => {
 
       dispatch({
         type: GET_AUTHORS,
-        payload: res.data
+        payload: res.data,
       });
     } catch (err) {
       dispatch({
         type: AUTHOR_ERROR,
-        payload: err.response.data.msg
+        payload: err.response.data.msg,
       });
     }
   };
@@ -50,18 +50,18 @@ const AuthorState = props => {
   const clearAuthorErrors = () => dispatch({ type: CLEAR_AUTHOR_ERRORS });
 
   // Get Author
-  const getAuthor = async urlAuthorName => {
+  const getAuthor = async (urlAuthorName) => {
     try {
       const res = await axios.get(`/api/authors/${urlAuthorName}`);
 
       dispatch({
         type: GET_AUTHOR,
-        payload: res.data
+        payload: res.data,
       });
     } catch (err) {
       dispatch({
         type: AUTHOR_ERROR,
-        payload: err.response.data.msg
+        payload: err.response.data.msg,
       });
     }
   };
@@ -70,11 +70,11 @@ const AuthorState = props => {
   const clearAuthor = () => dispatch({ type: CLEAR_AUTHOR });
 
   // Add Author
-  const addAuthor = async authorData => {
+  const addAuthor = async (authorData) => {
     const config = {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     };
 
     try {
@@ -82,20 +82,20 @@ const AuthorState = props => {
 
       dispatch({
         type: ADD_AUTHOR,
-        payload: res.data
+        payload: res.data,
       });
 
       getAuthors();
     } catch (err) {
       dispatch({
         type: AUTHOR_ERROR,
-        payload: err.response.data.msg
+        payload: err.response.data.msg,
       });
     }
   };
 
   // Delete Author
-  const deleteAuthor = id => {
+  const deleteAuthor = (id) => {
     dispatch({ type: DELETE_AUTHOR, payload: id });
   };
 
@@ -106,7 +106,7 @@ const AuthorState = props => {
   // Clear Favourite Author
 
   // Filter Authors
-  const filterAuthors = text => {
+  const filterAuthors = (text) => {
     dispatch({ type: FILTER_AUTHORS, payload: text });
   };
 
@@ -129,7 +129,7 @@ const AuthorState = props => {
         addAuthor,
         deleteAuthor,
         filterAuthors,
-        clearAuthorsFilter
+        clearAuthorsFilter,
       }}
     >
       {props.children}

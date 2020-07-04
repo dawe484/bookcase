@@ -21,6 +21,10 @@
   /* width: 500px; */
 }
 
+.modal-container.add-container form {
+  padding: 0 84px;
+}
+
 .modal-container.add-container a.btn {
   font-size: 0.75rem;
 }
@@ -33,18 +37,11 @@
   margin-left: 20px;
 }
 
-.author-input-field.addBookGenre,
-.author-input-field.addBook,
+/* .author-input-field.addBookGenre, */
+/* .input-field.addBook, */
 .author-input-field.add {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  column-gap: 1rem;
-}
-
-.author-input-field.addBookSeries {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
   grid-template-rows: auto;
   column-gap: 1rem;
 }
@@ -80,7 +77,7 @@
 .author-input-field.add label:nth-of-type(6),
 .author-input-field.add label:nth-of-type(4),
 .author-input-field.add label:nth-of-type(2) {
-  left: 321px;
+  left: 322px;
 }
 
 .author-input-field.add label:nth-of-type(4),

@@ -50,8 +50,8 @@ const BookSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    yearOfPublish: {
-      type: String,
+    yearOfPublication: {
+      type: Number,
     },
     publisher: {
       type: String,
@@ -59,6 +59,9 @@ const BookSchema = mongoose.Schema(
     originalTitle: {
       type: String,
       required: true,
+    },
+    yearOfPublicationOriginal: {
+      type: Number,
     },
     translator: {
       type: String,
@@ -70,21 +73,29 @@ const BookSchema = mongoose.Schema(
     annotation: {
       type: String,
     },
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    numberOfRatings: {
+      type: Number,
+      default: 0,
+    },
     // bookComments: {
     //   type: schema Comment - udelat
     // }
     // bookEditions: {
     //   type: schema BookEdition - udelat
     // },
-    date: {
-      type: Date,
-      required: true,
-      default: Date.now,
-    },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: 'author',
+    },
+    date: {
+      type: Date,
+      required: true,
+      default: Date.now,
     },
   },
   {

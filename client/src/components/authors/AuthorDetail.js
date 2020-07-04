@@ -6,6 +6,7 @@ import React, {
   createRef,
 } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import ReadMoreReact from 'read-more-react';
 import Modali, { useModali } from 'modali';
 
@@ -34,18 +35,18 @@ const AuthorDetail = ({ authorData }) => {
   const alertContext = useContext(AlertContext);
 
   const { isAuthenticated, user } = authContext;
-  // const { error, clearBookErrors } = bookContext;
-  // const { setAlert } = alertContext;
+  const { error, clearBookErrors } = bookContext;
+  const { setAlert } = alertContext;
 
-  // useEffect(() => {
-  //   if (error === 'Book already exists') {
-  //     setAlert(error, 'danger');
-  //     toggleAlertModal();
-  //     clearBookErrors();
-  //   }
+  useEffect(() => {
+    if (error === 'Book already exists') {
+      setAlert(error, 'danger');
+      toggleAlertModal();
+      clearBookErrors();
+    }
 
-  //   // eslint-disable-next-line
-  // }, [error]);
+    // eslint-disable-next-line
+  }, [error]);
 
   const {
     _id,
@@ -69,8 +70,9 @@ const AuthorDetail = ({ authorData }) => {
     wikipedia,
   } = authorData;
 
-  let authorsBooks = authorData.book;
+  const authorsBooks = authorData.book;
   const authorsAwards = authorData.award;
+  const authorsStories = authorData.story;
 
   let yearOfBirth,
     monthOfBirth,
@@ -99,6 +101,7 @@ const AuthorDetail = ({ authorData }) => {
   if (deathdate) death = `${dayOfDeath}. ${monthOfDeath}. ${yearOfDeath}`;
 
   const [book, setBook] = useState({
+    urlTitle: '',
     title: '',
     isbn: '',
     series: '',
@@ -111,9 +114,10 @@ const AuthorDetail = ({ authorData }) => {
     bookCoverAuthor: '',
     ilustration: '',
     bookStatus: '',
-    yearOfPublish: '',
+    yearOfPublication: '',
     publisher: '',
     originalTitle: '',
+    yearOfPublicationOriginal: '',
     translator: '',
     youtube: '',
     annotation: '',
@@ -132,50 +136,60 @@ const AuthorDetail = ({ authorData }) => {
     bookCoverAuthor,
     ilustration,
     bookStatus,
-    yearOfPublish,
+    yearOfPublication,
     publisher,
     originalTitle,
+    yearOfPublicationOriginal,
     translator,
     youtube,
     annotation,
   } = book;
 
-  const [file, setFile] = useState();
-  const [previewUrl, setPreviewUrl] = useState();
-  const [isValid, setIsValid] = useState(false);
+  const [file, setFile] = useState('');
+  // const [previewUrl, setPreviewUrl] = useState();
+  // const [isValid, setIsValid] = useState(false);
 
-  useEffect(() => {
-    if (!file) {
-      return;
-    }
-
-    const fileReader = new FileReader();
-
-    fileReader.onload = () => {
-      console.log(fileReader);
-
-      setPreviewUrl(fileReader.result);
-    };
-
-    fileReader.readAsDataURL(file);
-  }, [file]);
+  const onFileChange = (e) => {
+    setFile(e.target.files[0]);
+    // setFilename(e.target.files[0].name);
+  };
 
   const onChange = (e) => {
-    console.log(e.target.files);
-
-    let pickedFile;
-
-    if (e.target.files && e.target.files.length === 1) {
-      pickedFile = e.target.files[0];
-      setFile(pickedFile);
-      setIsValid(true);
-    } else {
-      setIsValid(false);
-      // authorData.onInput(authorData._id, pickedFile, isValid);
-    }
-
     setBook({ ...book, [e.target.name]: e.target.value });
   };
+
+  // useEffect(() => {
+  //   if (!file) {
+  //     return;
+  //   }
+
+  //   const fileReader = new FileReader();
+
+  //   fileReader.onload = () => {
+  //     console.log(fileReader);
+
+  //     setPreviewUrl(fileReader.result);
+  //   };
+
+  //   fileReader.readAsDataURL(file);
+  // }, [file]);
+
+  // const onChange = (e) => {
+  //   console.log(e.target.files);
+
+  //   // let pickedFile;
+
+  //   // if (e.target.files && e.target.files.length === 1) {
+  //   //   pickedFile = e.target.files[0];
+  //   //   setFile(pickedFile);
+  //   //   setIsValid(true);
+  //   // } else {
+  //   //   setIsValid(false);
+  //   //   // authorData.onInput(authorData._id, pickedFile, isValid);
+  //   // }
+
+  //   setBook({ ...book, [e.target.name]: e.target.value });
+  // };
 
   const modalContainer = createRef();
 
@@ -290,6 +304,39 @@ const AuthorDetail = ({ authorData }) => {
     return arr;
   };
 
+  const addLink = (modal, buttonText) => (
+    <Fragment>
+      {buttonText === 'Přidat knihu' && <BookFilter />}
+      {/* <div className='item_search book'>
+        <select
+          // value={selectedOption.selectedOptionOrder}
+          onChange={onChangeOrder}
+          id='selectOrder'
+        >
+          {options.map(o => (
+            <option value={o.value} key={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select> */}
+      {/* <select name='order' id='selectOrder' onChange={onChangeBookOrder}>
+          <option value='newToOld'>rok vydání (nejnovější)</option>
+          <option value='oldToNew'>rok vydání (nejstarší)</option>
+          <option value='aToZ'>A - Z (název knihy)</option>
+          <option value='zToA'>Z - A (název knihy)</option>
+        </select> */}
+      {/* </div> */}
+      <Link
+        to={authorData.urlAuthorName}
+        className='btn-sm add-book'
+        onClick={modal}
+      >
+        {/* Add Book */}
+        {buttonText}
+      </Link>
+    </Fragment>
+  );
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -298,12 +345,63 @@ const AuthorDetail = ({ authorData }) => {
       arr.push(selectEnum('genre1'), selectEnum('genre2'));
     else arr.push(selectEnum('genre1'));
 
+    const urlTitle = title
+      .replace(/ /g, '-')
+      .replace(/:/g, '-')
+      .replace(/ě/gi, 'e')
+      .replace(/š/gi, 's')
+      .replace(/č/gi, 'c')
+      .replace(/ř/gi, 'r')
+      .replace(/ž/gi, 'z')
+      .replace(/ý/gi, 'y')
+      .replace(/á/gi, 'a')
+      .replace(/í/gi, 'i')
+      .replace(/é/gi, 'e')
+      .replace(/ú/gi, 'u')
+      .replace(/ů/gi, 'u')
+      .replace(/ň/gi, 'n')
+      .replace(/ď/gi, 'd')
+      .replace(/ť/gi, 't')
+      .replace(/ø/g, 'o')
+      .toLowerCase()
+      .concat('-', Math.floor(Math.random() * 9000) + 1000); // returns a random integer from 1000 to 9999
+
+    book.urlTitle = urlTitle;
+
     book.formats = formatsArray();
     book.genres = arr;
     book.language = selectEnum('language');
     book.publisher = selectEnum('publisher');
     book.bookStatus = selectEnum('bookStatus');
     book.author = _id;
+
+    const formData = new FormData();
+
+    if (file)
+      formData.append(
+        'file',
+        file,
+        `${urlTitle}-220.${file.name.substr(-3).toLowerCase()}`
+      );
+
+    try {
+      const res = await axios.post('/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const { fileName, filePath } = res.data;
+
+      book.bookCover = filePath;
+    } catch (err) {
+      if (err.response.status === 500) {
+        console.log('There was a problem with the server');
+      } else {
+        console.log(err.response.data.msg);
+      }
+    }
+
     bookContext.addBook(book, urlAuthorName);
     console.log(book);
     resetBook();
@@ -312,6 +410,7 @@ const AuthorDetail = ({ authorData }) => {
   const resetBook = () => {
     toggleAddBookModal();
     setBook({
+      urlTitle: '',
       title: '',
       isbn: '',
       series: '',
@@ -324,9 +423,10 @@ const AuthorDetail = ({ authorData }) => {
       bookCoverAuthor: '',
       ilustration: '',
       bookStatus: '',
-      yearOfPublish: '',
+      yearOfPublication: '',
       publisher: '',
       originalTitle: '',
+      yearOfPublicationOriginal: '',
       translator: '',
       youtube: '',
       annotation: '',
@@ -338,7 +438,7 @@ const AuthorDetail = ({ authorData }) => {
   // console.log(authorsBooks.sort(compareValues('title')));
   // authorsBooks.sort(compareValues('date', 'desc'));
 
-  authorsBooks.sort(compareValues('yearOfPublish', 'desc'));
+  authorsBooks.sort(compareValues('yearOfPublication', 'desc'));
 
   // const [bookOrderState, setBookOrderState] = useState({
   //   selectedOption: dateDesc
@@ -418,35 +518,6 @@ const AuthorDetail = ({ authorData }) => {
   // return i;
   // };
 
-  const addLink = (modal, buttonText) => (
-    <Fragment>
-      {buttonText === 'Přidat knihu' && <BookFilter />}
-      {/* <div className='item_search book'>
-        <select
-          // value={selectedOption.selectedOptionOrder}
-          onChange={onChangeOrder}
-          id='selectOrder'
-        >
-          {options.map(o => (
-            <option value={o.value} key={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select> */}
-      {/* <select name='order' id='selectOrder' onChange={onChangeBookOrder}>
-          <option value='newToOld'>rok vydání (nejnovější)</option>
-          <option value='oldToNew'>rok vydání (nejstarší)</option>
-          <option value='aToZ'>A - Z (název knihy)</option>
-          <option value='zToA'>Z - A (název knihy)</option>
-        </select> */}
-      {/* </div> */}
-      <button className='btn-sm add-book' onClick={modal}>
-        {/* Add Book */}
-        {buttonText}
-      </button>
-    </Fragment>
-  );
-
   const booksSection = (
     // authorsBooks.length !== 0 ? (
     <Fragment>
@@ -520,21 +591,20 @@ const AuthorDetail = ({ authorData }) => {
     <Fragment>
       <div className='ubc-list-row'>
         <div className='list-title'>
-          <i className='icon fas fa-trophy'></i>
-          <h1>Povídky ({authorsAwards.length})</h1>
+          <i className='icon fas fa-sticky-note'></i>
+          <h1>Povídky ({authorsStories.length})</h1>
         </div>
         <div className='search-pos'>
           {isAuthenticated &&
             user.role === 'superhero' &&
-            addLink(toggleAddAwardModal, 'Přidat ocenění')}
+            addLink(toggleAddAwardModal, 'Přidat povídku')}
         </div>
       </div>
       <div className='ubc-header' id='ubc-header'>
-        {authorsAwards.length !== 0 ? (
-          authorsAwards.map((award) => (
-            <p key={award._id}>
-              {award.yearOfAward} – {award.awardTitle} ({award.awardCategory}) –{' '}
-              {award.bookOfAward}
+        {authorsStories.length !== 0 ? (
+          authorsStories.map((story) => (
+            <p key={story._id}>
+              {story.storyTitle} ({story.storyYearOfPublish})
             </p>
           ))
         ) : (
@@ -559,12 +629,16 @@ const AuthorDetail = ({ authorData }) => {
         </div>
       </div>
       <div className='ubc-header' id='ubc-header'>
-        {authorsAwards.map((award) => (
-          <p key={award._id}>
-            {award.yearOfAward} – {award.awardTitle} ({award.awardCategory}) –{' '}
-            {award.bookOfAward}
-          </p>
-        ))}
+        {authorsAwards.length !== 0 ? (
+          authorsAwards.map((award) => (
+            <p key={award._id}>
+              {award.yearOfAward} – {award.awardTitle} ({award.awardCategory}) –{' '}
+              {award.bookOfAward}
+            </p>
+          ))
+        ) : (
+          <div>Autor nezískal zatím žádné ocenění.</div>
+        )}
       </div>
     </Fragment>
   );
@@ -807,8 +881,8 @@ const AuthorDetail = ({ authorData }) => {
                 <li>
                   <div className='link' onClick={handleStoriesClick}>
                     <div className='icon'>
-                      <i className='fas fa-trophy' aria-hidden='true' />
-                      <i className='fas fa-trophy' aria-hidden='true' />
+                      <i className='fas fa-sticky-note' aria-hidden='true' />
+                      <i className='fas fa-sticky-note' aria-hidden='true' />
                     </div>
                     <div className='name'>
                       <span data-text='Povídky'>Povídky</span>
@@ -850,7 +924,7 @@ const AuthorDetail = ({ authorData }) => {
             encType='multipart/form-data'
             onSubmit={onSubmit}
           >
-            <div className='input-field addBook'>
+            <div className='author-input-field add addBook'>
               <input
                 type='text'
                 name='title'
@@ -860,36 +934,37 @@ const AuthorDetail = ({ authorData }) => {
               />
               <label>Název knihy</label>
               <input
-                type='file'
-                accept='.jpg,.png,.jpeg'
-                name='bookCover'
-                id='bookCover'
-                // value={bookCover}
-                onChange={onChange}
-              />
-              <label>Obálka knihy</label>
-              {/* <input
-                type='file'
-                accept='.jpg,.png,.jpeg'
-                name='bookCover'
-                value={bookCover}
-                onChange={onChange}
-              />
-              <label>Obálka knihy</label> */}
-              <input
                 type='text'
                 name='isbn'
                 value={isbn}
                 onChange={onChange}
                 // pattern='([0-9]{2}-[0-9]{3}-[0-9]{4}-[0-9]{1})|([0-9]{3}-[0-9]{2}-[0-9]{4}-[0-9]{3}-[0-9]{1})|([0-9]{2}-[0-9]{2}-[0-9]{5}-([0-9]|X){1})'
-                title='ISBN musí být ve formátu buď ISBN-10 (XX-XXX-XXXX-X), (XX-XX-XXXXX-X) nebo ISBN-13 (XXX-XX-XXXX-XXX-X)'
+                // title='ISBN musí být ve formátu buď ISBN-10 (XX-XXX-XXXX-X), (XX-XX-XXXXX-X) nebo ISBN-13 (XXX-XX-XXXX-XXX-X)'
                 required
               />
               <label>ISBN</label>
-              <div className='picturefile'>
+              {/* <div className='picturefile'>
                 {previewUrl && <img src={previewUrl} alt='Preview' />}
                 {!previewUrl && <p>Vyberte prosím obrázek.</p>}
-              </div>
+              </div> */}
+              <input
+                type='text'
+                name='formats'
+                id='formats'
+                value={formats}
+                onChange={onChange}
+                title='Ve tvaru format1, format2, ...'
+                required
+              />
+              <label>Formát</label>
+              <input
+                type='text'
+                name='pages'
+                value={pages}
+                onChange={onChange}
+                required
+              />
+              <label>Počet stran</label>
               <div className='input-field addBookSeries'>
                 <input
                   type='text'
@@ -912,19 +987,6 @@ const AuthorDetail = ({ authorData }) => {
                   <span> (volitelný)</span>
                 </label>
               </div>
-              <input
-                type='text'
-                name='formats'
-                id='formats'
-                value={formats}
-                onChange={onChange}
-                title='Ve tvaru format1, format2, ...'
-                required
-              />
-              <label>
-                Formát
-                {/* <span> (volitelný)</span> */}
-              </label>
               <div className='input-field addBookGenre'>
                 <select
                   className='genre'
@@ -933,10 +995,7 @@ const AuthorDetail = ({ authorData }) => {
                   onFocus={onFocusEnum}
                   required
                 ></select>
-                <label>
-                  Žánr
-                  {/* <span> (volitelný)</span> */}
-                </label>
+                <label>Žánr</label>
                 <select
                   className='genre'
                   name='genre2'
@@ -948,13 +1007,27 @@ const AuthorDetail = ({ authorData }) => {
                   <span> (volitelný)</span>
                 </label>
               </div>
-              <select
-                name='language'
-                id='language'
-                onFocus={onFocusEnum}
-                required
-              ></select>
-              <label>Jazyk</label>
+              <input
+                type='file'
+                name='bookCover'
+                // value={bookCover}
+                id='bookCoverFile'
+                accept='.jpg,.png,.jpeg'
+                // accept='image/png, image/jpeg'
+                onChange={onFileChange}
+              />
+              <label htmlFor='bookCoverFile'>
+                Obálka knihy
+                <span> (volitelný)</span>
+              </label>
+              {/* <input
+                type='file'
+                accept='.jpg,.png,.jpeg'
+                name='bookCover'
+                value={bookCover}
+                onChange={onChange}
+              />
+              <label>Obálka knihy</label> */}
               <input
                 type='text'
                 name='bookCoverAuthor'
@@ -965,38 +1038,24 @@ const AuthorDetail = ({ authorData }) => {
                 Autor/ka obálky
                 <span> (volitelný)</span>
               </label>
-              <input
-                type='text'
-                name='pages'
-                value={pages}
-                onChange={onChange}
+              <select
+                name='language'
+                id='language'
+                onFocus={onFocusEnum}
                 required
-              />
-              <label>Počet stran</label>
-              <input
-                type='text'
-                name='ilustration'
-                value={ilustration}
-                onChange={onChange}
-              />
-              <label>
-                Ilustrace / Foto
-                <span> (volitelný)</span>
-              </label>
+              ></select>
+              <label>Jazyk</label>
               <select
                 name='bookStatus'
                 id='bookStatus'
                 onFocus={onFocusEnum}
                 required
               ></select>
-              <label>
-                Stav knihy
-                {/* <span> (volitelný)</span> */}
-              </label>
+              <label>Stav knihy</label>
               <input
                 type='text'
-                name='yearOfPublish'
-                value={yearOfPublish}
+                name='yearOfPublication'
+                value={yearOfPublication}
                 onChange={onChange}
                 pattern='[0-9]{4}'
                 title='Rok vydání musí být ve formátu RRRR'
@@ -1026,12 +1085,34 @@ const AuthorDetail = ({ authorData }) => {
               </label>
               <input
                 type='text'
+                name='yearOfPublicationOriginal'
+                value={yearOfPublicationOriginal}
+                onChange={onChange}
+                pattern='[0-9]{4}'
+                title='Rok vydání musí být ve formátu RRRR'
+              />
+              <label>
+                Rok vydání originálu
+                <span> (volitelný)</span>
+              </label>
+              <input
+                type='text'
                 name='translator'
                 value={translator}
                 onChange={onChange}
               />
               <label>
                 Překlad
+                <span> (volitelný)</span>
+              </label>
+              <input
+                type='text'
+                name='ilustration'
+                value={ilustration}
+                onChange={onChange}
+              />
+              <label>
+                Ilustrace / Foto
                 <span> (volitelný)</span>
               </label>
               <input

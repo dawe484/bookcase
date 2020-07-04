@@ -75,7 +75,7 @@ const NewsPage = () => {
       if (marker === 'genres') book.genres.map(genre => fnc(arr, genre));
     });
 
-    if (newBooksArr.length !== 0) console.log(arr);
+    // if (newBooksArr.length !== 0) console.log(arr);
   };
 
   const filterContent = (arr, marker) => {
@@ -84,7 +84,7 @@ const NewsPage = () => {
       if (marker === 'publisher') fnc(arr, book.publisher);
     });
 
-    if (newBooksArr.length !== 0) console.log(arr);
+    // if (newBooksArr.length !== 0) console.log(arr);
   };
 
   filterContentInsideArray(allFormats, 'formats');

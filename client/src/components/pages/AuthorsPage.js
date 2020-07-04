@@ -93,12 +93,12 @@ const AuthorsPage = () => {
   } = author;
 
   let [file, setFile] = useState('');
-  const [filename, setFilename] = useState('Choose File');
-  const [uploadedFile, setUploadedFile] = useState({});
+  // const [filename, setFilename] = useState('Choose File');
+  // const [uploadedFile, setUploadedFile] = useState({});
 
   const onFileChange = (e) => {
     setFile(e.target.files[0]);
-    setFilename(e.target.files[0].name);
+    // setFilename(e.target.files[0].name);
   };
 
   const onChange = (e) => {
@@ -166,12 +166,12 @@ const AuthorsPage = () => {
     return arr;
   };
 
-  const addAuthorLink = (
+  const addAuthorLink = (modal, buttonText) => (
     <Fragment>
       <AuthorsFilter />
-      <Link to='/authors' className='btn btn-ml' onClick={toggleAddAuthorModal}>
+      <Link to='/authors' className='btn btn-ml' onClick={modal}>
         {/* Add Author */}
-        Přidat autora
+        {buttonText}
       </Link>
     </Fragment>
   );
@@ -219,6 +219,7 @@ const AuthorsPage = () => {
 
     const urlAuthorName = name
       .replace(/ /g, '-')
+      .replace(/:/g, '-')
       .replace(/ě/gi, 'e')
       .replace(/š/gi, 's')
       .replace(/č/gi, 'c')
@@ -250,7 +251,7 @@ const AuthorsPage = () => {
       );
 
     try {
-      let res = await axios.post('/upload', formData, {
+      const res = await axios.post('/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -311,7 +312,7 @@ const AuthorsPage = () => {
           </div>
           <div className='search-pos'>
             {isAuthenticated && user.role === 'superhero' ? (
-              addAuthorLink
+              addAuthorLink(toggleAddAuthorModal, 'Přidat autora')
             ) : (
               <AuthorsFilter />
             )}
@@ -409,11 +410,12 @@ const AuthorsPage = () => {
               </label>
               <input
                 type='file'
-                id='portraitFile'
                 name='portrait'
                 // value={portrait}
+                id='portraitFile'
+                accept='.jpg,.png,.jpeg'
+                // accept='image/png, image/jpeg'
                 onChange={onFileChange}
-                accept='image/png, image/jpeg'
               />
               <label htmlFor='portraitFile'>
                 Fotografie

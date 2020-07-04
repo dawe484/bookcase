@@ -87,6 +87,12 @@ const AuthorSchema = mongoose.Schema(
         },
       ],
     },
+    story: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'story',
+      },
+    ],
   },
   {
     timestamps: true,

@@ -25,19 +25,22 @@ const BookDetail = ({ bookData }) => {
     bookCoverAuthor,
     ilustration,
     bookStatus,
-    yearOfPublish,
+    yearOfPublication,
     publisher,
     originalTitle,
+    yearOfPublicationOriginal,
     translator,
     youtube,
     annotation,
+    rating,
+    numberOfRatings,
     bookComments,
     bookEditions,
-    author,
     date,
-    rating,
-    numberOfRatings
+    author,
   } = bookData;
+
+  // console.log(bookData);
 
   const authContext = useContext(AuthContext);
 
@@ -53,9 +56,9 @@ const BookDetail = ({ bookData }) => {
       </div>
       <ReadMoreReact
         text={annotation}
-        min='200'
-        ideal='300'
-        max='400'
+        min={200}
+        ideal={300}
+        max={400}
         readMoreText='Číst více'
         readLessText='Číst méně'
       />
@@ -129,10 +132,10 @@ const BookDetail = ({ bookData }) => {
   ) : null;
 
   const [state, setState] = useState({
-    content: annotationSection
+    content: annotationSection,
   });
 
-  const changeContent = newContent => setState({ content: newContent });
+  const changeContent = (newContent) => setState({ content: newContent });
 
   const handleAnnotationClick = () => changeContent(annotationSection);
   // const handleSeriesClick = () => changeContent(seriesSection);
@@ -148,25 +151,80 @@ const BookDetail = ({ bookData }) => {
     return newArr;
   };
 
-  const monthDiff = (d1, d2) => {
-    let months = (d2.substr(0, 4) - d1.getFullYear()) * 12;
-    months += d1.getMonth() + 1;
-    months -= d2.substr(5, 2);
+  const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-    return months <= 0 ? 0 : months;
+  const dateDiffInDays = (d1, d2) => {
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate());
+    const utc2 = Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate());
+    const days = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+
+    return days;
   };
 
   const [ratingState, setRatingState] = useState({
-    value: 0
+    value: 0,
   });
 
-  const handleClick = () => {
+  const resetRatingClick = async () => {
     setRatingState({ value: 0 });
+    // console.log(ratingState.value);
+    // console.log(bookData._id);
+    user.read.map((book) => {
+      if (bookData._id === book.bookId) {
+        // console.log(user.read.indexOf(book));
+        // user.read.splice(user.read.indexOf(book), 1);
+        user.read[user.read.indexOf(book)].bookRating = 0;
+        console.log(user.read);
+      }
+    });
+  };
+
+  let obj = {
+    bookId: bookData._id,
+    bookRating: 0,
+  };
+
+  const addToRead = async (rating) => {
+    // else
+    //   for (let i = 0; i < user.read.length; i++) {
+    //     if (user.read[i].bookId === bookData._id)
+    //       user.read.splice(i, 1);
+    //     else user.read.unshift(obj);
+    //   }
+    obj.bookRating = rating;
+    if (user.read.length === 0) {
+      if (!document.getElementById('readCheck').checked)
+        document.getElementById('readCheck').checked = true;
+      console.log(document.getElementById('readCheck').checked);
+      readOnClick();
+    } else {
+      user.read.map((book) => {
+        book.bookRating = rating;
+        // console.log(book);
+      });
+    }
+    console.log(user.read);
+  };
+
+  const readOnClick = async () => {
+    if (user.read.length === 0) user.read.unshift(obj);
+    else
+      for (let i = 0; i < user.read.length; i++) {
+        if (user.read[i].bookId === bookData._id) {
+          user.read.splice(i, 1);
+          resetRatingClick();
+        } else user.read.unshift(obj);
+      }
+
+    // console.log(document.getElementById('readCheck').value);
+    // authContext.updateUser(user);
+    console.log(user.read);
   };
 
   const otherAuthorsBook = author ? (
     <Fragment>
-      {author.book.map(book =>
+      {author.book.map((book) =>
         book.rating >= 80 ? (
           book.title !== title ? (
             <p key={book._id}>
@@ -174,7 +232,11 @@ const BookDetail = ({ bookData }) => {
                 className='fas fa-star'
                 style={{ color: 'var(--danger-color)' }}
               />
-              {book.title}&nbsp;({book.yearOfPublish})
+              <a href={`/books/${book.urlTitle}`}>
+                <span>
+                  {book.title}&nbsp;({book.yearOfPublication})
+                </span>
+              </a>
             </p>
           ) : null
         ) : book.rating >= 40 && book.rating < 80 ? (
@@ -184,46 +246,57 @@ const BookDetail = ({ bookData }) => {
                 className='fas fa-star'
                 style={{ color: 'var(--neutral-color)' }}
               />
-              {book.title}&nbsp;({book.yearOfPublish})
+              <a href={`/books/${book.urlTitle}`}>
+                <span>
+                  {book.title}&nbsp;({book.yearOfPublication})
+                </span>
+              </a>
             </p>
           ) : null
-        ) : book.rating >= 0 && book.rating < 40 ? (
+        ) : book.rating > 0 && book.rating < 40 ? (
+          book.title !== title ? (
+            <p key={book._id}>
+              <i
+                className='fas fa-star'
+                // style={{ color: 'var(--dark-color)' }}
+              />
+              <a href={`/books/${book.urlTitle}`}>
+                <span>
+                  {book.title}&nbsp;({book.yearOfPublication})
+                </span>
+              </a>
+            </p>
+          ) : null
+        ) : book.rating === 0 && book.numberOfRatings > 0 ? (
           book.title !== title ? (
             <p key={book._id}>
               <i
                 className='fas fa-star'
                 style={{ color: 'var(--dark-color)' }}
               />
-              {book.title}&nbsp;({book.yearOfPublish})
+              <a href={`/books/${book.urlTitle}`}>
+                <span>
+                  {book.title}&nbsp;({book.yearOfPublication})
+                </span>
+              </a>
             </p>
           ) : null
         ) : book.title !== title ? (
           <p key={book._id}>
-            <i className='far fa-star' style={{ color: 'var(--dark-color)' }} />
-            {book.title}&nbsp;({book.yearOfPublish})
+            <i
+              className='far fa-star'
+              // style={{ color: 'var(--dark-color)' }}
+            />
+            <a href={`/books/${book.urlTitle}`}>
+              <span>
+                {book.title}&nbsp;({book.yearOfPublication})
+              </span>
+            </a>
           </p>
         ) : null
       )}
     </Fragment>
   ) : null;
-
-  const readedOnClick = async () => {
-    const obj = {
-      bookId: bookData._id,
-      bookRate: 0
-    };
-
-    if (user.alreadyRead.length === 0) user.alreadyRead.unshift(obj);
-    else
-      for (let i = 0; i < user.alreadyRead.length; i++) {
-        if (user.alreadyRead[i].bookId === bookData._id)
-          user.alreadyRead.splice(i, 1);
-        else user.alreadyRead.unshift(obj);
-      }
-
-    // authContext.updateUser(user);
-    console.log(user);
-  };
 
   return (
     <div className='container'>
@@ -238,10 +311,10 @@ const BookDetail = ({ bookData }) => {
               <Link
                 to={{
                   pathname: `/book-rating/${urlTitle}`,
-                  urlTitle: urlTitle
+                  urlTitle: urlTitle,
                 }}
                 className='btn-sm overall-rating-pro red'
-                title='Bližší info k procentuálnímu hodnocení'
+                title='Bližší info k hodnocení'
               >
                 {rating} %
               </Link>
@@ -254,10 +327,10 @@ const BookDetail = ({ bookData }) => {
               <Link
                 to={{
                   pathname: `/book-rating/${urlTitle}`,
-                  urlTitle: urlTitle
+                  urlTitle: urlTitle,
                 }}
                 className='btn-sm overall-rating-pro neutral'
-                title='Bližší info k procentuálnímu hodnocení'
+                title='Bližší info k hodnocení'
               >
                 {rating} %
               </Link>
@@ -265,15 +338,15 @@ const BookDetail = ({ bookData }) => {
                 {numberOfRatings} hodnocení
               </div>
             </div>
-          ) : rating >= 0 && rating < 40 ? (
+          ) : rating > 0 && rating < 40 ? (
             <div className='overall-rating'>
               <Link
                 to={{
                   pathname: `/book-rating/${urlTitle}`,
-                  urlTitle: urlTitle
+                  urlTitle: urlTitle,
                 }}
                 className='btn-sm overall-rating-pro dark'
-                title='Bližší info k procentuálnímu hodnocení'
+                title='Bližší info k hodnocení'
               >
                 {rating} %
               </Link>
@@ -281,8 +354,33 @@ const BookDetail = ({ bookData }) => {
                 {numberOfRatings} hodnocení
               </div>
             </div>
+          ) : rating === 0 && numberOfRatings > 0 ? (
+            <div className='overall-rating'>
+              <Link
+                to={{
+                  pathname: `/book-rating/${urlTitle}`,
+                  urlTitle: urlTitle,
+                }}
+                className='btn-sm overall-rating-pro dark'
+                title='Bližší info k hodnocení'
+              >
+                {rating} %
+              </Link>
+              <Link
+                to={{
+                  pathname: `/book-rating/${urlTitle}`,
+                  urlTitle: urlTitle,
+                }}
+                // className='btn-sm overall-rating-pro dark'
+                title='Bližší info k hodnocení'
+              >
+                <div className='btn-sm overall-rating-no light'>
+                  {numberOfRatings} hodnocení
+                </div>
+              </Link>
+            </div>
           ) : (
-            <div className='btn-sm overall-rating-no'>nehodnoceno</div>
+            <div className='no-rating overall-rating-no'>nehodnoceno</div>
           )}
         </div>
         <div className='book-header'>
@@ -291,7 +389,7 @@ const BookDetail = ({ bookData }) => {
             <Link
               to={{
                 pathname: `/authors/${author.urlAuthorName}`,
-                state: { author }
+                state: { author },
               }}
               className=''
             >
@@ -302,7 +400,7 @@ const BookDetail = ({ bookData }) => {
             <div className='book-rating'>
               {ratingState.value !== 0 && (
                 <span className='reset-rating'>
-                  <button className='btn-sm' onClick={handleClick}>
+                  <button className='btn-sm' onClick={resetRatingClick}>
                     Zrušit
                   </button>
                 </span>
@@ -313,9 +411,10 @@ const BookDetail = ({ bookData }) => {
                 emptySymbol='fa fa-star-o'
                 fullSymbol='fa fa-star'
                 fractions={2}
-                onChange={rate => {
+                onChange={(rate) => {
                   console.log(rate);
                   setRatingState({ value: rate });
+                  addToRead(rate);
                 }}
               />
             </div>
@@ -329,17 +428,16 @@ const BookDetail = ({ bookData }) => {
               ) : (
                 <div>No image found</div>
               )}
-              {bookCover ? (
+              {bookCover &&
+              dateDiffInDays(new Date(bookData.date), new Date()) <= 30 ? (
                 <div className='book-status-labels'>
-                  {monthDiff(new Date(), date) === 0 && (
-                    <i
-                      className='book-status-label bsl--new'
-                      data-label='Novinka'
-                    >
-                      <span className='show'>N</span>
-                      <span className='show'>ovinka</span>
-                    </i>
-                  )}
+                  <i
+                    className='book-status-label bsl--new'
+                    data-label='Novinka'
+                  >
+                    <span className='show'>N</span>
+                    <span className='show'>ovinka</span>
+                  </i>
                   {/* <i className='book-status-label bsl--popular' data-label='Popular'>
                     <span className='show'>P</span>
                     <span className='show'>opulární</span>
@@ -382,21 +480,14 @@ const BookDetail = ({ bookData }) => {
                         <td>Počet stran</td>
                         <td>{pages}</td>
                       </tr>
-                      {publisher && yearOfPublish ? (
+                      {publisher && yearOfPublication ? (
                         <tr>
                           <td> Nakladatelství</td>
                           <td>
-                            {publisher}, {yearOfPublish}
+                            {publisher}, {yearOfPublication}
                           </td>
                         </tr>
                       ) : null}
-                      {/* {yearOfPublish
-                        ? <tr>
-                          <td> Rok vydání</td>
-                          <td>{yearOfPublish}</td>
-                        </tr>
-                        : null
-                      } */}
                       {/* {bookStatus
                         ? <tr>
                           <td>Stav</td>
@@ -460,71 +551,71 @@ const BookDetail = ({ bookData }) => {
                     <div className='addTo-dropdown-content'>
                       <input
                         type='checkbox'
-                        id='readNowCheck'
-                        name='readNow'
-                        value='readNow'
+                        id='readingCheck'
+                        name='reading'
+                        // value='reading'
                       />
-                      <label htmlFor='readNowCheck'>
+                      <label htmlFor='readingCheck'>
                         <i></i>
                         <span>Právě čtu</span>
                       </label>
-                      <br />
+                      {/* <br /> */}
                       <input
                         type='checkbox'
-                        id='toReadCheck'
-                        name='toRead'
-                        value='toRead'
+                        id='readCheck'
+                        name='read'
+                        // value='read'
+                        onClick={readOnClick}
                       />
-                      <label htmlFor='toReadCheck'>
-                        <i></i>
-                        <span>Chystám se číst</span>
-                      </label>
-                      <br />
-                      <input
-                        type='checkbox'
-                        id='readedCheck'
-                        name='readed'
-                        value='readed'
-                        onClick={readedOnClick}
-                      />
-                      <label htmlFor='readedCheck'>
+                      <label htmlFor='readCheck'>
                         <i></i>
                         <span>Přečteno</span>
                       </label>
-                      <br />
+                      {/* <br /> */}
                       <input
                         type='checkbox'
-                        id='favouriteCheck'
-                        name='favourite'
-                        value='favourite'
+                        id='goingToReadCheck'
+                        name='goingToRead'
+                        // value='goingToRead'
                       />
-                      <label htmlFor='favouriteCheck'>
+                      <label htmlFor='goingToReadCheck'>
+                        <i></i>
+                        <span>Chystám se číst</span>
+                      </label>
+                      {/* <br /> */}
+                      <input
+                        type='checkbox'
+                        id='favouriteBookCheck'
+                        name='favouriteBook'
+                        // value='favouriteBook'
+                      />
+                      <label htmlFor='favouriteBookCheck'>
                         <i></i>
                         <span>Oblíbené</span>
                       </label>
-                      <br />
+                      {/* <br /> */}
                       <input
                         type='checkbox'
-                        id='ebookcaseCheck'
-                        name='ebookcase'
-                        value='ebookcase'
+                        id='eBookcaseCheck'
+                        name='eBookcase'
+                        // value='eBookcase'
                       />
-                      <label htmlFor='ebookcaseCheck'>
+                      <label htmlFor='eBookcaseCheck'>
                         <i></i>
                         <span>E-knihotéka</span>
                       </label>
-                      <br />
-                      <input
+                      {/* <br /> */}
+                      {/* <input
                         type='checkbox'
-                        id='wishlistCheck'
-                        name='wishlist'
-                        value='wishlist'
+                        id='wantToBorrowCheck'
+                        name='wantToBorrow'
+                        // value='wantToBorrow'
                       />
-                      <label htmlFor='wishlistCheck'>
+                      <label htmlFor='wantToBorrowCheck'>
                         <i></i>
                         <span>Chci si půjčit</span>
                       </label>
-                      <br />
+                      <br /> */}
                     </div>
                   </div>
                 </div>
@@ -541,7 +632,7 @@ const BookDetail = ({ bookData }) => {
                 <Link
                   to={{
                     pathname: `/authors/${author.urlAuthorName}`,
-                    urlName: author.urlAuthorName
+                    urlName: author.urlAuthorName,
                   }}
                   className='btn btn-sm btn-all'
                 >
