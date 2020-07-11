@@ -39,8 +39,8 @@ const Books = () => {
           <BookItem key={book._id} book={book} />
         ))
       ) : (
-        <h1>Načítám knihy...</h1>
-        // <Spinner />
+        // <h1>Načítám knihy...</h1>
+        <Spinner />
       )}
     </Fragment>
   );

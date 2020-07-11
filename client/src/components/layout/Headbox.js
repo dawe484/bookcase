@@ -3,7 +3,7 @@ import React, {
   useState,
   useContext,
   useEffect,
-  Fragment
+  Fragment,
 } from 'react';
 import { Link } from 'react-router-dom';
 import Modali, { useModali } from 'modali';
@@ -11,6 +11,8 @@ import Alerts from '../../components/layout/Alerts';
 
 import AuthContext from '../../context/auth/authContext';
 import AlertContext from '../../context/alert/alertContext';
+import BookContext from '../../context/book/bookContext';
+import AuthorContext from '../../context/author/authorContext';
 
 import setAuthToken from '../../utils/setAuthToken';
 
@@ -19,6 +21,8 @@ import './Headbox.css';
 const Headbox = () => {
   const alertContext = useContext(AlertContext);
   const authContext = useContext(AuthContext);
+  const bookContext = useContext(BookContext);
+  const authorContext = useContext(AuthorContext);
 
   const { setAlert } = alertContext;
   const {
@@ -28,8 +32,11 @@ const Headbox = () => {
     clearErrors,
     isAuthenticated,
     signOut,
-    user
+    user,
   } = authContext;
+
+  const { books, loading } = bookContext;
+  const { authors } = authorContext;
 
   useEffect(() => {
     if (localStorage.token) {
@@ -56,23 +63,23 @@ const Headbox = () => {
   const [userSignUp, setUserSignUp] = useState({
     signUpName: '',
     signUpEmail: '',
-    signUpPassword: ''
+    signUpPassword: '',
   });
 
   const [userSignIn, setUserSignIn] = useState({
     signInEmail: '',
-    signInPassword: ''
+    signInPassword: '',
   });
 
   const { signUpName, signUpEmail, signUpPassword } = userSignUp;
   const { signInEmail, signInPassword } = userSignIn;
 
-  const onSignUpChange = e =>
+  const onSignUpChange = (e) =>
     setUserSignUp({ ...userSignUp, [e.target.name]: e.target.value });
-  const onSignInChange = e =>
+  const onSignInChange = (e) =>
     setUserSignIn({ ...userSignIn, [e.target.name]: e.target.value });
 
-  const onSignUpSubmit = e => {
+  const onSignUpSubmit = (e) => {
     e.preventDefault();
     if (signUpName === '' || signUpEmail === '' || signUpPassword === '') {
       setAlert('Please enter all fields', 'danger');
@@ -81,13 +88,13 @@ const Headbox = () => {
       signUp({
         signUpName,
         signUpEmail,
-        signUpPassword
+        signUpPassword,
       });
       toggleCompleteModal();
     }
   };
 
-  const onSignInSubmit = e => {
+  const onSignInSubmit = (e) => {
     e.preventDefault();
     if (signInEmail === '' || signInPassword === '') {
       setAlert('Invalid Credentials', 'danger');
@@ -95,7 +102,7 @@ const Headbox = () => {
       // console.log('Login submit');
       signIn({
         signInEmail,
-        signInPassword
+        signInPassword,
       });
       toggleCompleteModal();
     }
@@ -104,11 +111,11 @@ const Headbox = () => {
   const [alertModal, toggleAlertModal] = useModali({
     animated: true,
     message: <Alerts />,
-    onShow: () => setTimeout(toggleAlertModal, 2500)
+    onShow: () => setTimeout(toggleAlertModal, 2500),
   });
 
   const [completeExample, toggleCompleteModal] = useModali({
-    animated: true
+    animated: true,
   });
 
   const signUpButton = createRef();
@@ -173,7 +180,7 @@ const Headbox = () => {
               <div className='account-dropdown-links'>
                 <Link
                   to={{
-                    pathname: `/account/${user.name}`
+                    pathname: `/account/${user.name}`,
                   }}
                   className='account-link'
                 >
@@ -236,13 +243,15 @@ const Headbox = () => {
             </div>
           </Link>
         </h1>
-        <div className='item_search'>
-          <input type='text' name='search' placeholder='Hledat...' />
-          {/* <input type='text' name='search' placeholder='Search...' /> */}
-          <button className='icon'>
-            <i className='fas fa-search' />
-          </button>
-        </div>
+        {(books !== null || authors !== null) && !loading ? (
+          <div className='item_search'>
+            <input type='text' name='search' placeholder='Hledat...' />
+            {/* <input type='text' name='search' placeholder='Search...' /> */}
+            <button className='icon'>
+              <i className='fas fa-search' />
+            </button>
+          </div>
+        ) : null}
         <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
         <Modali.Modal {...completeExample}>
           <div className='modal-container' ref={modalContainer}>
@@ -252,13 +261,22 @@ const Headbox = () => {
                 {/* <h1>Create Account</h1> */}
                 <div className='modal-social-container'>
                   <Link to='' className='social'>
-                    <i className='fab fa-facebook-f'></i>
+                    <div className='social-icon'>
+                      <i className='fab fa-facebook-f' aria-hidden='true' />
+                      <i className='fab fa-facebook-f' aria-hidden='true' />
+                    </div>
                   </Link>
                   <Link to='' className='social'>
-                    <i className='fab fa-google-plus-g'></i>
+                    <div className='social-icon'>
+                      <i className='fab fa-google-plus-g' aria-hidden='true' />
+                      <i className='fab fa-google-plus-g' aria-hidden='true' />
+                    </div>
                   </Link>
                   <Link to='' className='social'>
-                    <i className='fab fa-linkedin-in'></i>
+                    <div className='social-icon'>
+                      <i className='fab fa-linkedin-in' aria-hidden='true' />
+                      <i className='fab fa-linkedin-in' aria-hidden='true' />
+                    </div>
                   </Link>
                 </div>
                 <span>nebo použijte svůj e-mail k registraci</span>
@@ -310,13 +328,22 @@ const Headbox = () => {
                 {/* <h1>Sign in</h1> */}
                 <div className='modal-social-container'>
                   <Link to='' className='social'>
-                    <i className='fab fa-facebook-f'></i>
+                    <div className='social-icon'>
+                      <i className='fab fa-facebook-f' aria-hidden='true' />
+                      <i className='fab fa-facebook-f' aria-hidden='true' />
+                    </div>
                   </Link>
                   <Link to='' className='social'>
-                    <i className='fab fa-google-plus-g'></i>
+                    <div className='social-icon'>
+                      <i className='fab fa-google-plus-g' aria-hidden='true' />
+                      <i className='fab fa-google-plus-g' aria-hidden='true' />
+                    </div>
                   </Link>
                   <Link to='' className='social'>
-                    <i className='fab fa-linkedin-in'></i>
+                    <div className='social-icon'>
+                      <i className='fab fa-linkedin-in' aria-hidden='true' />
+                      <i className='fab fa-linkedin-in' aria-hidden='true' />
+                    </div>
                   </Link>
                 </div>
                 <span>nebo použijte svůj účet</span>

@@ -504,7 +504,7 @@ h3 {
 
 .modal-container span {
   font-size: 12px;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.8rem;
 }
 
 .modal-container a {
@@ -562,7 +562,6 @@ h3 {
   border: 2px solid var(--light-color);
   padding: 12px 14px;
   margin: 6px 0;
-  /* width: 100%; */
   font-size: 0.85rem;
 }
 
@@ -627,19 +626,17 @@ h3 {
   top: -4px;
   pointer-events: none;
   color: var(--neutral-color);
-  /* display: block; */
-  /* transition: 0.5s; */
 }
 
 .author-input-field label,
 .input-field label {
-  /* transform: translate(-6px, -22px); */
   font-size: 0.75rem;
   color: var(--light-color);
   background: var(--danger-color);
   padding: 2px 4px;
 }
 
+.input-field label:nth-of-type(3),
 .input-field label:nth-of-type(2),
 .input-field label:nth-of-type(1) {
   left: 14px;
@@ -650,7 +647,7 @@ h3 {
 }
 
 .input-field label:nth-of-type(3) {
-  top: 118px;
+  top: 108px;
 }
 
 /* .react-datepicker-wrapper:not(:empty) + label, */
@@ -769,8 +766,42 @@ input:-webkit-autofill:focus {
   justify-content: center;
   align-items: center;
   margin: 0 5px;
-  height: 40px;
+}
+
+.modal-social-container a .social-icon {
   width: 40px;
+  height: 40px;
+}
+
+.modal-social-container a .social-icon {
+  text-align: center;
+  overflow: hidden;
+}
+
+.modal-social-container a .social-icon .fab {
+  line-height: 40px;
+}
+
+.modal-social-container a .social-icon .fab {
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+}
+
+.modal-social-container a i.fab.fa-facebook-f:last-child {
+  color: #1778f2;
+}
+
+.modal-social-container a i.fab.fa-google-plus-g:last-child {
+  color: #dd4b39;
+}
+
+.modal-social-container a i.fab.fa-linkedin-in:last-child {
+  color: #2867b2;
+}
+
+.modal-social-container a:hover .social-icon .fab {
+  transform: translateY(-100%);
 }
 
 /* Footer */

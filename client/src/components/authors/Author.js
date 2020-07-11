@@ -3,6 +3,8 @@ import AuthorDetail from './AuthorDetail';
 
 import AuthorContext from '../../context/author/authorContext';
 
+import Spinner from '../layout/Spinner';
+
 const Author = (data) => {
   const authorContext = useContext(AuthorContext);
 
@@ -22,11 +24,12 @@ const Author = (data) => {
         <AuthorDetail key={author._id} authorData={author} />
       ) : (
         <div className='container'>
-          <div className='list-row'>
+          {/* <div className='list-row'>
             <div className='list-title'>
               <h1>Načítám autora...</h1>
             </div>
-          </div>
+          </div> */}
+          <Spinner />
         </div>
       )}
     </Fragment>

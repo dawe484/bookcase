@@ -2,6 +2,8 @@ import React, { useState, useContext, useEffect } from 'react';
 // import { Gallery, GalleryImage } from 'react-gesture-gallery';
 import { Link } from 'react-router-dom';
 
+import Spinner from '../layout/Spinner';
+
 import BookContext from '../../context/book/bookContext';
 
 import { images } from './images/carouselImages';
@@ -39,9 +41,9 @@ const HomePage = () => {
   let scifiBooks = 0;
 
   if (books !== null && !loading) {
-    books.map(book => {
+    books.map((book) => {
       // console.log(book);
-      book.genres.forEach(genre => {
+      book.genres.forEach((genre) => {
         // console.log(genre);
         if (genre === 'Fantasy') {
           // console.log(book);
@@ -69,7 +71,7 @@ const HomePage = () => {
   let newBooksArr = [];
 
   if (books !== null && !loading) {
-    books.map(book => {
+    books.map((book) => {
       if (dateDiffInDays(new Date(book.date), new Date()) <= 30) {
         if (newBooksArr.length < 5) newBooksArr.push(book);
       }
@@ -104,7 +106,7 @@ const HomePage = () => {
                     <Link
                       to={{
                         pathname: `/books/${book.urlTitle}`,
-                        urlTitle: book.urlTitle
+                        urlTitle: book.urlTitle,
                       }}
                       className=''
                     >
@@ -116,7 +118,7 @@ const HomePage = () => {
                       <Link
                         to={{
                           pathname: `/authors/${book.author.urlAuthorName}`,
-                          urlName: book.author.urlAuthorName
+                          urlName: book.author.urlAuthorName,
                         }}
                         className='author'
                       >
@@ -184,7 +186,7 @@ const HomePage = () => {
         <div className='homepage-list-news'>
           {books !== null && !loading ? (
             newBooksArr !== [] && sectionTitle === 'Novinky' ? (
-              newBooksArr.map(book => renderBook(book, sectionTitle))
+              newBooksArr.map((book) => renderBook(book, sectionTitle))
             ) : null
           ) : (
             <h1>Načítám...</h1>
@@ -196,158 +198,169 @@ const HomePage = () => {
 
   return (
     <div className='container'>
-      <div className='teaser-container'>
-        <section className='book-card-carousel'>
-          {/* <Gallery
-            index={index}
-            onRequestChange={i => {
-              if (i === images.length) {
-                console.log('r', i);
-                setIndex(INITIAL_INDEX);
-              } else {
-                if (i < 0) {
-                  setIndex(images.length - 1);
-                  console.log('l', i);
+      {books !== null && !loading ? (
+        <div>
+          <div className='teaser-container'>
+            <section className='book-card-carousel'>
+              {/* <Gallery
+              index={index}
+              onRequestChange={i => {
+                if (i === images.length) {
+                  console.log('r', i);
+                  setIndex(INITIAL_INDEX);
                 } else {
-                  console.log('set', i);
-                  setIndex(i);
+                  if (i < 0) {
+                    setIndex(images.length - 1);
+                    console.log('l', i);
+                  } else {
+                    console.log('set', i);
+                    setIndex(i);
+                  }
                 }
-              }
-            }}
-          >
-            {images.map(image => (
-              <GalleryImage objectFit='cover' key={image} src={image} />
-            ))}
-          </Gallery> */}
-        </section>
-        {books !== null && !loading ? (
-          <section className='book-genres'>
-            <div className='genre-1'>
-              <div className='category'>
-                <Link to='/'>
-                  <img
-                    src='https://i.imgur.com/nvRrI7r.png'
-                    alt='Fantasy'
-                    className='category-image'
-                  />
-                  <img
-                    src={fantasyBookCover}
-                    alt=''
-                    className='category-book-cover'
-                  />
-                  <div className='icon'>
-                    <i
-                      className='far fa-caret-square-right'
-                      aria-hidden='true'
-                    />
-                    <i
-                      className='far fa-caret-square-right'
-                      aria-hidden='true'
-                    />
+              }}
+            >
+              {images.map(image => (
+                <GalleryImage objectFit='cover' key={image} src={image} />
+              ))}
+            </Gallery> */}
+            </section>
+            {books !== null && !loading ? (
+              <section className='book-genres'>
+                <div className='genre-1'>
+                  <div className='category'>
+                    <Link to='/'>
+                      <img
+                        src='https://i.imgur.com/nvRrI7r.png'
+                        alt='Fantasy'
+                        className='category-image'
+                      />
+                      <img
+                        src={fantasyBookCover}
+                        alt=''
+                        className='category-book-cover'
+                      />
+                      <div className='icon'>
+                        <i
+                          className='far fa-caret-square-right'
+                          aria-hidden='true'
+                        />
+                        <i
+                          className='far fa-caret-square-right'
+                          aria-hidden='true'
+                        />
+                      </div>
+                      <div className='category-text name'>
+                        <h1>Fantasy</h1>
+                      </div>
+                      <p>{fantasyBooks} knih</p>
+                    </Link>
                   </div>
-                  <div className='category-text name'>
-                    <h1>Fantasy</h1>
+                </div>
+                <div className='genre-2'>
+                  <div className='category'>
+                    <Link to='/'>
+                      <img
+                        src='https://i.imgur.com/iGICYWF.png'
+                        alt='Thriller'
+                        className='category-image'
+                      />
+                      <img
+                        src='https://www.databazeknih.cz/images_books/36_/3658/bmid_muzi-kteri-nenavidi-zeny-sHh-3658.jpg'
+                        alt='Muži, kteří nenávidí ženy'
+                        className='category-book-cover'
+                      />
+                      <div className='icon'>
+                        <i
+                          className='far fa-caret-square-right'
+                          aria-hidden='true'
+                        />
+                        <i
+                          className='far fa-caret-square-right'
+                          aria-hidden='true'
+                        />
+                      </div>
+                      <div className='category-text name'>
+                        <h1>Thriller</h1>
+                      </div>
+                      <p>{thrillerBooks} knih</p>
+                    </Link>
                   </div>
-                  <p>{fantasyBooks} knih</p>
-                </Link>
-              </div>
-            </div>
-            <div className='genre-2'>
-              <div className='category'>
-                <Link to='/'>
-                  <img
-                    src='https://i.imgur.com/iGICYWF.png'
-                    alt='Thriller'
-                    className='category-image'
-                  />
-                  <img
-                    src='https://www.databazeknih.cz/images_books/36_/3658/bmid_muzi-kteri-nenavidi-zeny-sHh-3658.jpg'
-                    alt='Muži, kteří nenávidí ženy'
-                    className='category-book-cover'
-                  />
-                  <div className='icon'>
-                    <i
-                      className='far fa-caret-square-right'
-                      aria-hidden='true'
-                    />
-                    <i
-                      className='far fa-caret-square-right'
-                      aria-hidden='true'
-                    />
+                </div>
+                <div className='genre-3'>
+                  <div className='category'>
+                    <Link to='/'>
+                      <img
+                        src='https://i.imgur.com/mzjomrz.png'
+                        alt='Sci-fi'
+                        className='category-image'
+                      />
+                      <img
+                        src='https://www.databazeknih.cz/images_books/11_/119273/bmid_ready-player-one-AXq-119273.jpg'
+                        alt='Ready player one - Hra začíná'
+                        className='category-book-cover'
+                      />
+                      <div className='icon'>
+                        <i
+                          className='far fa-caret-square-right'
+                          aria-hidden='true'
+                        />
+                        <i
+                          className='far fa-caret-square-right'
+                          aria-hidden='true'
+                        />
+                      </div>
+                      <div className='category-text name'>
+                        <h1>Sci-fi</h1>
+                      </div>
+                      <p>{scifiBooks} knih</p>
+                    </Link>
                   </div>
-                  <div className='category-text name'>
-                    <h1>Thriller</h1>
+                </div>
+                <div className='genre-4'>
+                  <div className='category'>
+                    <Link to='/books'>
+                      <img
+                        src='https://i.imgur.com/5Hubnku.png'
+                        alt='Show All'
+                        className='category-image'
+                      />
+                      <div className='icon'>
+                        <i
+                          className='far fa-caret-square-right'
+                          aria-hidden='true'
+                        />
+                        <i
+                          className='far fa-caret-square-right'
+                          aria-hidden='true'
+                        />
+                      </div>
+                      <div className='category-text name'>
+                        <h1>Zobrazit vše</h1>
+                      </div>
+                      <p>{books.length} knih</p>
+                    </Link>
                   </div>
-                  <p>{thrillerBooks} knih</p>
-                </Link>
-              </div>
-            </div>
-            <div className='genre-3'>
-              <div className='category'>
-                <Link to='/'>
-                  <img
-                    src='https://i.imgur.com/mzjomrz.png'
-                    alt='Sci-fi'
-                    className='category-image'
-                  />
-                  <img
-                    src='https://www.databazeknih.cz/images_books/11_/119273/bmid_ready-player-one-AXq-119273.jpg'
-                    alt='Ready player one - Hra začíná'
-                    className='category-book-cover'
-                  />
-                  <div className='icon'>
-                    <i
-                      className='far fa-caret-square-right'
-                      aria-hidden='true'
-                    />
-                    <i
-                      className='far fa-caret-square-right'
-                      aria-hidden='true'
-                    />
-                  </div>
-                  <div className='category-text name'>
-                    <h1>Sci-fi</h1>
-                  </div>
-                  <p>{scifiBooks} knih</p>
-                </Link>
-              </div>
-            </div>
-            <div className='genre-4'>
-              <div className='category'>
-                <Link to='/books'>
-                  <img
-                    src='https://i.imgur.com/5Hubnku.png'
-                    alt='Show All'
-                    className='category-image'
-                  />
-                  <div className='icon'>
-                    <i
-                      className='far fa-caret-square-right'
-                      aria-hidden='true'
-                    />
-                    <i
-                      className='far fa-caret-square-right'
-                      aria-hidden='true'
-                    />
-                  </div>
-                  <div className='category-text name'>
-                    <h1>Zobrazit vše</h1>
-                  </div>
-                  <p>{books.length} knih</p>
-                </Link>
-              </div>
-            </div>
-          </section>
-        ) : (
-          <h1>Načítám knihy...</h1>
-        )}
-      </div>
-      {/* <News /> */}
-      {pageSection('Novinky', 'icon fas fa-newspaper', '/news')}
-      {/* <Popular /> */}
-      {pageSection('Populární', 'icon fas fa-star', '/popular')}
-      {/* <BooksJustRead /> */}
-      {pageSection('10 právě čtených knih', 'icon fas fa-book-reader', '')}
+                </div>
+              </section>
+            ) : null}
+          </div>
+          <div>
+            {/* <News /> */}
+            {pageSection('Novinky', 'icon fas fa-newspaper', '/news')}
+            {/* <Popular /> */}
+            {pageSection('Populární', 'icon fas fa-star', '/popular')}
+            {/* <BooksJustRead /> */}
+            {pageSection(
+              '10 právě čtených knih',
+              'icon fas fa-book-reader',
+              ''
+            )}
+          </div>
+        </div>
+      ) : (
+        <Spinner />
+        // <h1>Načítám knihy...</h1>
+      )}
     </div>
   );
 };

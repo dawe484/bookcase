@@ -18,11 +18,10 @@
 
 .modal-container.add-container {
   min-height: 700px;
-  /* width: 500px; */
 }
 
 .modal-container.add-container form {
-  padding: 0 84px;
+  padding: 0 84px 24px 84px;
 }
 
 .modal-container.add-container a.btn {

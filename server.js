@@ -1,5 +1,6 @@
 const express = require('express');
 const fileUpload = require('express-fileupload');
+const path = require('path');
 const connectDB = require('./config/db');
 
 // Initialize App
@@ -25,6 +26,14 @@ app.post('/upload', (req, res) => {
     return res.status(400).json({ msg: 'No file uploaded' });
 
   const file = req.files.file;
+  const size = file.data.length;
+  const extension = path.extname(file.name);
+
+  const allowedExtensions = /png|jpeg|jpg/;
+
+  if (!allowedExtensions.test(extension)) throw 'Unsupported extension!';
+
+  if (size > 5000000) throw 'File must be less than 5MB';
 
   const address = req.headers.referer.substring(
     req.headers.referer.search('authors')

@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 
+import Spinner from '../layout/Spinner';
 import BookItem from '../books/BookItem';
 
 import BookContext from '../../context/book/bookContext';
@@ -30,7 +31,7 @@ const NewsPage = () => {
   let newBooksArr = [];
 
   if (books !== null && !loading) {
-    books.map(book => {
+    books.map((book) => {
       if (dateDiffInDays(new Date(book.date), new Date()) <= 30)
         newBooksArr.push(book);
     });
@@ -45,7 +46,7 @@ const NewsPage = () => {
   const fnc = (arr, bookParam) => {
     let bookItemObj = {
       text: '',
-      count: 1
+      count: 1,
     };
 
     bookItemObj.text = bookParam;
@@ -53,7 +54,7 @@ const NewsPage = () => {
     let index = 0;
 
     if (
-      arr.some(objItem => {
+      arr.some((objItem) => {
         index++;
         // console.log(index, objItem.text);
         return objItem.text === bookItemObj.text;
@@ -68,18 +69,18 @@ const NewsPage = () => {
   };
 
   const filterContentInsideArray = (arr, marker) => {
-    newBooksArr.map(book => {
+    newBooksArr.map((book) => {
       if (marker === 'formats') {
-        book.formats.map(format => fnc(arr, format));
+        book.formats.map((format) => fnc(arr, format));
       }
-      if (marker === 'genres') book.genres.map(genre => fnc(arr, genre));
+      if (marker === 'genres') book.genres.map((genre) => fnc(arr, genre));
     });
 
     // if (newBooksArr.length !== 0) console.log(arr);
   };
 
   const filterContent = (arr, marker) => {
-    newBooksArr.map(book => {
+    newBooksArr.map((book) => {
       if (marker === 'language') fnc(arr, book.language);
       if (marker === 'publisher') fnc(arr, book.publisher);
     });
@@ -161,159 +162,164 @@ const NewsPage = () => {
             <h1>Novinky</h1>
           </div>
         </div>
-        <div className='books-divider'>
-          <aside className='filters'>
-            <div className='filters-title'>
-              <h2>
-                Filtrujte
-                <i className='fas fa-filter'></i>
-              </h2>
-            </div>
-            <div className='filters-wrap'>
-              <div className='filter'>
-                <div
-                  className='filter-header closed'
-                  onClick={toggleFilterCategory1}
-                >
-                  <h4 className='filter-trigger'>
-                    <div className='name'>
-                      <span data-text='Žánry'>Žánry</span>
-                    </div>
-                    <div className='icon'>
-                      <i
-                        className='far fa-plus-square'
-                        aria-hidden='true'
-                        id='toggleCategory1a'
-                      />
-                      <i
-                        className='far fa-plus-square'
-                        aria-hidden='true'
-                        id='toggleCategory1b'
-                      />
-                    </div>
-                  </h4>
+        {books !== null && newBooksArr !== null && !loading ? (
+          <div className='books-divider'>
+            <aside className='filters'>
+              <div className='filters-title'>
+                <h2>
+                  Filtrujte
+                  <i className='fas fa-filter'></i>
+                </h2>
+              </div>
+              <div className='filters-wrap'>
+                <div className='filter'>
+                  <div
+                    className='filter-header closed'
+                    onClick={toggleFilterCategory1}
+                  >
+                    <h4 className='filter-trigger'>
+                      <div className='name'>
+                        <span data-text='Žánry'>Žánry</span>
+                      </div>
+                      <div className='icon'>
+                        <i
+                          className='far fa-plus-square'
+                          aria-hidden='true'
+                          id='toggleCategory1a'
+                        />
+                        <i
+                          className='far fa-plus-square'
+                          aria-hidden='true'
+                          id='toggleCategory1b'
+                        />
+                      </div>
+                    </h4>
+                  </div>
+                  <div className='filter-content'>
+                    {books !== null &&
+                      !loading &&
+                      allGenres.map((item) =>
+                        renderFilterContent(item.text, item.count)
+                      )}
+                  </div>
                 </div>
-                <div className='filter-content'>
-                  {books !== null &&
-                    !loading &&
-                    allGenres.map(item =>
-                      renderFilterContent(item.text, item.count)
-                    )}
+                <div className='filter'>
+                  <div
+                    className='filter-header closed'
+                    onClick={toggleFilterCategory2}
+                  >
+                    <h4 className='filter-trigger'>
+                      <div className='name'>
+                        <span data-text='Nakladatelství'>Nakladatelství</span>
+                      </div>
+                      <div className='icon'>
+                        <i
+                          className='far fa-plus-square'
+                          aria-hidden='true'
+                          id='toggleCategory2a'
+                        />
+                        <i
+                          className='far fa-plus-square'
+                          aria-hidden='true'
+                          id='toggleCategory2b'
+                        />
+                      </div>
+                    </h4>
+                  </div>
+                  <div className='filter-content'>
+                    {books !== null &&
+                      !loading &&
+                      allPublisher.map((item) =>
+                        renderFilterContent(item.text, item.count)
+                      )}
+                  </div>
+                </div>
+                <div className='filter'>
+                  <div
+                    className='filter-header closed'
+                    onClick={toggleFilterCategory3}
+                  >
+                    <h4 className='filter-trigger'>
+                      <div className='name'>
+                        <span data-text='Jazyky'>Jazyky</span>
+                      </div>
+                      <div className='icon'>
+                        <i
+                          className='far fa-plus-square'
+                          aria-hidden='true'
+                          id='toggleCategory3a'
+                        />
+                        <i
+                          className='far fa-plus-square'
+                          aria-hidden='true'
+                          id='toggleCategory3b'
+                        />
+                      </div>
+                    </h4>
+                  </div>
+                  <div className='filter-content'>
+                    {books !== null &&
+                      !loading &&
+                      allLanguage.map((item) =>
+                        renderFilterContent(item.text, item.count)
+                      )}
+                  </div>
+                </div>
+                <div className='filter'>
+                  <div
+                    className='filter-header closed'
+                    onClick={toggleFilterCategory4}
+                  >
+                    <h4 className='filter-trigger'>
+                      <div className='name'>
+                        <span data-text='Formáty'>Formáty</span>
+                      </div>
+                      <div className='icon'>
+                        <i
+                          className='far fa-plus-square'
+                          aria-hidden='true'
+                          id='toggleCategory4a'
+                        />
+                        <i
+                          className='far fa-plus-square'
+                          aria-hidden='true'
+                          id='toggleCategory4b'
+                        />
+                      </div>
+                    </h4>
+                  </div>
+                  <div className='filter-content'>
+                    {books !== null &&
+                      !loading &&
+                      allFormats.map((item) =>
+                        renderFilterContent(item.text, item.count)
+                      )}
+                  </div>
                 </div>
               </div>
-              <div className='filter'>
-                <div
-                  className='filter-header closed'
-                  onClick={toggleFilterCategory2}
-                >
-                  <h4 className='filter-trigger'>
-                    <div className='name'>
-                      <span data-text='Nakladatelství'>Nakladatelství</span>
-                    </div>
-                    <div className='icon'>
-                      <i
-                        className='far fa-plus-square'
-                        aria-hidden='true'
-                        id='toggleCategory2a'
-                      />
-                      <i
-                        className='far fa-plus-square'
-                        aria-hidden='true'
-                        id='toggleCategory2b'
-                      />
-                    </div>
-                  </h4>
-                </div>
-                <div className='filter-content'>
-                  {books !== null &&
-                    !loading &&
-                    allPublisher.map(item =>
-                      renderFilterContent(item.text, item.count)
-                    )}
-                </div>
-              </div>
-              <div className='filter'>
-                <div
-                  className='filter-header closed'
-                  onClick={toggleFilterCategory3}
-                >
-                  <h4 className='filter-trigger'>
-                    <div className='name'>
-                      <span data-text='Jazyky'>Jazyky</span>
-                    </div>
-                    <div className='icon'>
-                      <i
-                        className='far fa-plus-square'
-                        aria-hidden='true'
-                        id='toggleCategory3a'
-                      />
-                      <i
-                        className='far fa-plus-square'
-                        aria-hidden='true'
-                        id='toggleCategory3b'
-                      />
-                    </div>
-                  </h4>
-                </div>
-                <div className='filter-content'>
-                  {books !== null &&
-                    !loading &&
-                    allLanguage.map(item =>
-                      renderFilterContent(item.text, item.count)
-                    )}
-                </div>
-              </div>
-              <div className='filter'>
-                <div
-                  className='filter-header closed'
-                  onClick={toggleFilterCategory4}
-                >
-                  <h4 className='filter-trigger'>
-                    <div className='name'>
-                      <span data-text='Formáty'>Formáty</span>
-                    </div>
-                    <div className='icon'>
-                      <i
-                        className='far fa-plus-square'
-                        aria-hidden='true'
-                        id='toggleCategory4a'
-                      />
-                      <i
-                        className='far fa-plus-square'
-                        aria-hidden='true'
-                        id='toggleCategory4b'
-                      />
-                    </div>
-                  </h4>
-                </div>
-                <div className='filter-content'>
-                  {books !== null &&
-                    !loading &&
-                    allFormats.map(item =>
-                      renderFilterContent(item.text, item.count)
-                    )}
-                </div>
-              </div>
-            </div>
-          </aside>
-          <div className='books-origin'>
-            <div className='items-list'>
-              {/* {dateDiffInDays(new Date(book.date), new Date()) <= 30 && (
+            </aside>
+            <div className='books-origin'>
+              <div className='items-list'>
+                {/* {dateDiffInDays(new Date(book.date), new Date()) <= 30 && (
                 <i className='book-status-label bsl--new' data-label='Novinka'>
                   <span className='show'>N</span>
                   <span className='show'>ovinka</span>
                 </i>
               )} */}
-              {books !== null && newBooksArr !== null && !loading ? (
-                newBooksArr.map(book => <BookItem key={book._id} book={book} />)
-              ) : (
-                <div className=''>
-                  <h1>Načítám novinky...</h1>
-                </div>
-              )}
+                {books !== null && newBooksArr !== null && !loading
+                  ? newBooksArr.map((book) => (
+                      <BookItem key={book._id} book={book} />
+                    ))
+                  : null}
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <Spinner />
+          // <div className=''>
+          //   <h1>Načítám novinky...</h1>
+          // </div>
+        )}
       </div>
     </div>
   );

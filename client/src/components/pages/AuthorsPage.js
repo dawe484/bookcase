@@ -16,12 +16,17 @@ import Alerts from '../layout/Alerts';
 
 // import FileUpload from '../FileUpload';
 
-import Authors from '../authors/Authors';
-import AuthorsFilter from '../authors/AuthorsFilter';
+// import Authors from '../authors/Authors';
+import AuthorContext from '../../context/author/authorContext';
+
+import AuthorItem from '../authors/AuthorItem';
 
 import AuthContext from '../../context/auth/authContext';
-import AuthorContext from '../../context/author/authorContext';
 import AlertContext from '../../context/alert/alertContext';
+
+import AuthorsFilter from '../authors/AuthorsFilter';
+
+import Spinner from '../layout/Spinner';
 
 import { authorNationality } from './enums/authorNationality';
 import { portraitLicense } from './enums/portraitLicense';
@@ -33,15 +38,29 @@ import './AuthorsPage.css';
 const lang = 'cs';
 
 const AuthorsPage = () => {
-  const authContext = useContext(AuthContext);
   const authorContext = useContext(AuthorContext);
+  const authContext = useContext(AuthContext);
   const alertContext = useContext(AlertContext);
 
+  const {
+    authors,
+    filtered,
+    getAuthors,
+    loading,
+    clearAuthor,
+    clearAuthorsFilter,
+    error,
+    clearAuthorErrors,
+  } = authorContext;
+
   const { isAuthenticated, user } = authContext;
-  const { error, clearAuthorErrors } = authorContext;
   const { setAlert } = alertContext;
 
   useEffect(() => {
+    clearAuthor();
+    getAuthors();
+    clearAuthorsFilter();
+
     if (error === 'Author already exists') {
       setAlert(error, 'danger');
       toggleAlertModal();
@@ -50,6 +69,10 @@ const AuthorsPage = () => {
 
     // eslint-disable-next-line
   }, [error]);
+
+  // if (authors !== null && authors.length === 0 && !loading) {
+  //   return <h4>Prosím přidejte autora</h4>;
+  // }
 
   const [author, setAuthor] = useState({
     urlAuthorName: '',
@@ -310,31 +333,29 @@ const AuthorsPage = () => {
             {/* <h1 data-text='Authors'>Authors</h1> */}
             <h1>Autoři</h1>
           </div>
-          <div className='search-pos'>
-            {isAuthenticated && user.role === 'superhero' ? (
-              addAuthorLink(toggleAddAuthorModal, 'Přidat autora')
-            ) : (
-              <AuthorsFilter />
-            )}
-          </div>
+          {authors !== null && !loading ? (
+            <div className='search-pos'>
+              {isAuthenticated && user.role === 'superhero' ? (
+                addAuthorLink(toggleAddAuthorModal, 'Přidat autora')
+              ) : (
+                <AuthorsFilter />
+              )}
+            </div>
+          ) : null}
         </div>
-        {/* <FileUpload /> */}
-        <div className='items-list'>
+        {authors !== null && !loading ? (
+          <div className='items-list'>
+            {(filtered || authors).map((author) => (
+              <AuthorItem key={author._id} author={author} />
+            ))}
+          </div>
+        ) : (
+          <Spinner />
+        )}
+        {/* <div className='items-list'>
           <Authors />
-        </div>
+        </div> */}
       </div>
-      {/* <Fragment>
-        <form>
-          <div className='custom-file'>
-            <input type="file" className='custom-file-input' id='customFile' />
-            <label className='custom-file-label' htmlFor="customFile">
-              Choose File
-            </label>
-          </div>
-
-          <input type='submit' value='Upload' className='btn'></input>
-        </form>
-      </Fragment> */}
       <Modali.Modal {...addAuthorModal}>
         <div className='modal-container add-container' ref={modalContainer}>
           <div className='list-row add'>
