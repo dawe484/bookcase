@@ -180,7 +180,7 @@ const Headbox = () => {
               <div className='account-dropdown-links'>
                 <Link
                   to={{
-                    pathname: `/account/${user.name}`,
+                    pathname: `/users/${user.name}`,
                   }}
                   className='account-link'
                 >
@@ -245,9 +245,14 @@ const Headbox = () => {
         </h1>
         {(books !== null || authors !== null) && !loading ? (
           <div className='item_search'>
-            <input type='text' name='search' placeholder='Hledat...' />
+            <input
+              type='text'
+              name='search'
+              placeholder='Hledat...'
+              label='Search'
+            />
             {/* <input type='text' name='search' placeholder='Search...' /> */}
-            <button className='icon'>
+            <button className='icon' aria-label='Search icon'>
               <i className='fas fa-search' />
             </button>
           </div>

@@ -40,7 +40,7 @@ const BookDetail = ({ bookData }) => {
     author,
   } = bookData;
 
-  // console.log(bookData);
+  console.log(bookData);
 
   const authContext = useContext(AuthContext);
 
@@ -541,7 +541,12 @@ const BookDetail = ({ bookData }) => {
               </div>
               <div className='book-btn'>
                 <div className='aside-btn-item'>
-                  <Link to='/' className='btn'>
+                  <Link
+                    to={{
+                      pathname: `/books/${urlTitle}/viewer`,
+                    }}
+                    className='btn'
+                  >
                     Číst knihu
                   </Link>
                 </div>

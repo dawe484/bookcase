@@ -41,6 +41,7 @@ const HomePage = () => {
   let scifiBooks = 0;
 
   if (books !== null && !loading) {
+    console.log(books);
     books.map((book) => {
       // console.log(book);
       book.genres.forEach((genre) => {

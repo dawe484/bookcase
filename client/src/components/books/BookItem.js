@@ -23,7 +23,7 @@ const BookItem = ({ book }) => {
       <Link
         to={{
           pathname: `/books/${urlTitle}`,
-          urlTitle: urlTitle
+          urlTitle: urlTitle,
         }}
         className=''
       >
@@ -92,7 +92,7 @@ const BookItem = ({ book }) => {
         <Link
           to={{
             pathname: `/books/${urlTitle}`,
-            urlTitle: urlTitle
+            urlTitle: urlTitle,
           }}
           className=''
         >
@@ -113,7 +113,7 @@ const BookItem = ({ book }) => {
 };
 
 BookItem.propTypes = {
-  book: PropTypes.object.isRequired
+  book: PropTypes.object.isRequired,
 };
 
 export default BookItem;

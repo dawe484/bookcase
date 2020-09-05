@@ -29,6 +29,7 @@ body {
   line-height: 1.6;
   background-color: var(--light-color);
   color: var(--dark-color);
+  font-display: swap;
 }
 
 a {
@@ -189,6 +190,7 @@ textarea {
   font-size: 1rem;
   outline: none;
   border: 2px solid var(--primary-color);
+  font-display: swap;
 }
 
 input[type='file'] {
@@ -291,6 +293,7 @@ h3 {
   font-family: 'Courgette', sans-serif;
   display: flex;
   opacity: 0.9;
+  font-display: swap;
 }
 
 .headbox ul,
@@ -805,7 +808,7 @@ input:-webkit-autofill:focus {
 }
 
 /* Footer */
-.footer {
+footer.footer {
   background: var(--neutral-color);
   margin-top: 60px;
 }

@@ -141,6 +141,10 @@
   z-index: 0;
 }
 
+.btn:focus {
+  outline: none;
+}
+
 .read-less-button,
 .read-more-button {
   margin-top: 8px;

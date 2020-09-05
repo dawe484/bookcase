@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Spinner from '../layout/Spinner';
 import BookItem from '../books/BookItem';
@@ -93,15 +93,29 @@ const NewsPage = () => {
   filterContent(allLanguage, 'language');
   filterContent(allPublisher, 'publisher');
 
-  const renderFilterContent = (title, count) => {
+  const [itemChecked, setItemChecked] = useState({
+    itemChecked: {},
+  });
+
+  const checkItem = (item, index, e) => {
+    console.log(item, e.target.checked, index);
+  };
+
+  const renderFilterContent = (item, index) => {
     return (
-      <div className='filter-checkbox' key={title}>
-        <input type='checkbox' id={title} name={title} value={title} />
-        <label htmlFor={title}>
+      <div className='filter-checkbox' key={item.text}>
+        <input
+          type='checkbox'
+          id={item.text}
+          name={item.text}
+          value={item.text}
+          onChange={(e) => checkItem(item, index, e)}
+        />
+        <label htmlFor={item.text}>
           <i></i>
           <span>
-            {title}
-            &nbsp;<small>({count})</small>
+            {item.text}
+            &nbsp;<small>({item.count})</small>
           </span>
         </label>
       </div>
@@ -199,7 +213,7 @@ const NewsPage = () => {
                     {books !== null &&
                       !loading &&
                       allGenres.map((item) =>
-                        renderFilterContent(item.text, item.count)
+                        renderFilterContent(item, allGenres.indexOf(item))
                       )}
                   </div>
                 </div>
@@ -230,7 +244,7 @@ const NewsPage = () => {
                     {books !== null &&
                       !loading &&
                       allPublisher.map((item) =>
-                        renderFilterContent(item.text, item.count)
+                        renderFilterContent(item, allPublisher.indexOf(item))
                       )}
                   </div>
                 </div>
@@ -261,7 +275,7 @@ const NewsPage = () => {
                     {books !== null &&
                       !loading &&
                       allLanguage.map((item) =>
-                        renderFilterContent(item.text, item.count)
+                        renderFilterContent(item, allLanguage.indexOf(item))
                       )}
                   </div>
                 </div>
@@ -292,7 +306,7 @@ const NewsPage = () => {
                     {books !== null &&
                       !loading &&
                       allFormats.map((item) =>
-                        renderFilterContent(item.text, item.count)
+                        renderFilterContent(item, allFormats.indexOf(item))
                       )}
                   </div>
                 </div>

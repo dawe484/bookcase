@@ -1,8 +1,14 @@
 export const bookLanguages = {
-  "cs": [
-    "",
-    "český",
-    "anglický",
-    "slovenský"
-  ]
+  cs: [
+    '',
+    'anglický',
+    'český',
+    'francouzský',
+    'italský',
+    'německý',
+    'polský',
+    'portugalský',
+    'slovenský',
+    'španělský',
+  ],
 };

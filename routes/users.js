@@ -14,16 +14,14 @@ const User = require('../models/User');
 router.post(
   '/',
   [
-    check('signUpName', 'Please add username.')
-      .not()
-      .isEmpty(),
+    check('signUpName', 'Please add username.').not().isEmpty(),
     check('signUpEmail', 'Please include a valid email address.').isEmail(),
     check(
       'signUpPassword',
       'Please enter a password with 6 or more characters.'
     ).isLength({
-      min: 6
-    })
+      min: 6,
+    }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -44,14 +42,14 @@ router.post(
       } else if (userEmail) {
         return res
           .status(400)
-          .json({ msg: 'Account with this email address already exists' });
+          .json({ msg: 'User with this email address already exists' });
       } else {
         const name = signUpName;
         const email = signUpEmail;
         user = new User({
           name,
           email,
-          signUpPassword
+          signUpPassword,
         });
       }
 
@@ -63,15 +61,15 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
-        }
+          id: user.id,
+        },
       };
 
       jwt.sign(
         payload,
         config.get('jwtSecret'),
         {
-          expiresIn: 360000
+          expiresIn: 360000,
         },
         (err, token) => {
           if (err) throw err;
@@ -89,7 +87,7 @@ router.post(
 // @route     PUT api/users/:username
 // @desc      Update the User
 // @access    Private
-router.put('/:username', auth, async (req, res) => {
+router.put('/:name', auth, async (req, res) => {
   const {
     name,
     email,
@@ -108,7 +106,7 @@ router.put('/:username', auth, async (req, res) => {
     favouriteBooks,
     favouriteAuthors,
     eBookshelf,
-    wantToRead
+    wantToRead,
   } = req.body;
 
   // Build user object
@@ -135,7 +133,7 @@ router.put('/:username', auth, async (req, res) => {
 
   try {
     let user = await User.findOne({
-      name: req.params.username
+      name: req.params.username,
     });
 
     if (!user) return res.status(404).json({ msg: 'User not found' });

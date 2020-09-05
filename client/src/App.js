@@ -11,10 +11,11 @@ import News from './components/pages/NewsPage';
 import Popular from './components/pages/PopularPage';
 import Books from './components/pages/BooksPage';
 import Book from './components/pages/BookPage';
+import Viewer from './components/pages/ViewerPage';
 // import BookRating from './components/pages/BookRatingPage';
 import Authors from './components/pages/AuthorsPage';
 import Author from './components/pages/AuthorPage';
-import Account from './components/pages/UserPage';
+import User from './components/pages/UserPage';
 import About from './components/pages/AboutPage';
 import Help from './components/pages/HelpPage';
 import NotFound from './components/pages/NotFoundPage';
@@ -54,11 +55,12 @@ const App = () => {
                       <Route exact path='/popular' component={Popular} />
                       <Route exact path='/books' component={Books} />
                       <Route exact path='/books/:urlTitle' component={Book} />
+                      <Route exact path='/books/:urlTitle/viewer' component={Viewer} />
                       {/* <Route exact path='/book-rating/:urlTitle' component={BookRating} /> */}
                       <Route exact path='/authors' component={Authors} />
                       <Route exact path='/authors/:urlAuthorName' component={Author} />
-                      <PrivateRoute exact path='/account/:name' component={Account} />
-                      <PrivateRoute exact path='/account/edit/:name' component={Account} />
+                      <PrivateRoute exact path='/users/:name' component={User} />
+                      <PrivateRoute exact path='/users/edit/:name' component={User} />
                       <Route exact path='/about' component={About} />
                       <Route exact path='/help' component={Help} />
                       <Route component={NotFound} />
