@@ -238,7 +238,7 @@ const Headbox = () => {
               <i className='fas fa-book' aria-hidden='true' />
             </div>
             <div className='name'>
-              <span data-text='e-knihovna'>e-knihovna</span>
+              <span data-text='bookcase'>bookcase</span>
               {/* <span data-text='e-bookshelf'>e-bookshelf</span> */}
             </div>
           </Link>

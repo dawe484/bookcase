@@ -1,0 +1,144 @@
+.our-main-container {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.our-header {
+  background-color: transparent;
+  position: relative;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding-top: 20px;
+  width: 100%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  height: 4rem;
+}
+
+.our-container {
+  margin: 0 3.5rem;
+}
+
+.our-logo {
+  /* fill: #e85a4f;
+  line-height: normal; */
+}
+
+.screen-reader-text {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+.redBtn {
+  background-color: var(--danger-color);
+  line-height: normal;
+  padding: 9px 23px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--light-color);
+  float: right;
+  border-radius: 4px;
+}
+
+.redBtn:hover {
+  background-color: var(--danger-hover-color);
+}
+
+.authLink.redBtn {
+  background-color: rgba(255, 255, 255, 0);
+  color: var(--danger-color);
+  border: 2px solid var(--danger-color);
+}
+
+.authLink.redBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.our-cards {
+  margin: 0 auto;
+}
+
+.our-card {
+  position: relative;
+  top: -4rem;
+  z-index: 0;
+}
+
+.our-card.our-card-background {
+  background: url('../../images/intro_background_cz.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 80vh;
+  clip-path: ellipse(90% 55% at 50% 44%);
+}
+
+.our-card-text-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.our-card-text {
+  width: 100%;
+  padding: 75px 0;
+  max-width: 950px;
+  margin: 0 auto;
+  text-align: center;
+  z-index: 1;
+}
+
+.our-card-text .our-card-text-h1 {
+  font-size: 3rem;
+}
+
+.our-card-text .our-card-text-h2 {
+  font-size: 1.5rem;
+  margin: 1.25rem auto;
+}
+
+.our-card-button {
+  display: flex;
+  justify-content: center;
+}
+
+.redBtn.memberBtn {
+  font-size: 1.5rem;
+  border-radius: 6px;
+  padding: 13px 38px;
+}
+
+.our-card-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 70px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.our-card-img {
+  width: 50%;
+}
+
+.our-card-img.darker-80 {
+  opacity: 0.8;
+}
+
+.our-card-container .our-card-text {
+  width: 55%;
+  height: 100%;
+  flex: 0 1 auto;
+  padding: 0 3rem 0 0;
+  text-align: left;
+}
+
+.our-card-container .our-card-text.flipped {
+  padding: 0 0 0 3rem;
+}

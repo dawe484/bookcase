@@ -12,9 +12,9 @@
   right: 4px;
 }
 
-.btn.btn-ml {
+/* .btn.btn-ml {
   margin-left: 2rem;
-}
+} */
 
 .modal-container.add-container {
   min-height: 700px;
@@ -24,9 +24,9 @@
   padding: 0 84px 24px 84px;
 }
 
-.modal-container.add-container a.btn {
+/* .modal-container.add-container a.btn {
   font-size: 0.75rem;
-}
+} */
 
 .list-row.add {
   margin: 0.5rem 2rem 0;

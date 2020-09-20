@@ -57,7 +57,7 @@
   width: fit-content;
 }
 
-.btn-sm.overall-rating-no {
+/* .btn-sm.overall-rating-no {
   border: 1px solid var(--dark-color);
   z-index: 2;
   background: var(--light-color);
@@ -78,7 +78,7 @@
 
 .btn-sm.overall-rating-no.light:hover {
   border: 1px solid var(--dark-color);
-}
+} */
 
 .book-header {
   display: flex;
@@ -130,9 +130,9 @@
   align-items: baseline;
 }
 
-.book-btn .aside-btn-item .btn {
+/* .book-btn .aside-btn-item .btn {
   cursor: pointer;
-}
+} */
 
 .authors-books .ab-p {
   font-size: 0.9rem;
@@ -153,9 +153,9 @@
   color: var(--danger-color);
 }
 
-.btn.btn-sm.btn-all {
+/* .btn.btn-sm.btn-all {
   margin-top: 0.75rem;
-}
+} */
 
 #addTo:hover .addTo-dropdown {
   opacity: 1;
