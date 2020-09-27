@@ -6,11 +6,15 @@ MERN app for reading e-books.
 
 **WEB**
 
-- change language (Czech, English)
+- change language (Czech, English) - text + images (TODO: background image and second card image)
 
 **APP**
 
 - ...
+
+### Layout:
+
+- Intro page - mobile, desktop version
 
 <!-- Supported files:
 

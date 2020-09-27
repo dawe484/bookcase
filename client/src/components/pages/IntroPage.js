@@ -34,7 +34,7 @@ const IntroPage = () => {
             </div>
           </div>
         </div>
-        <div className='our-card'>
+        <div className='our-card center'>
           <div className='our-card-container'>
             <div className='our-card-text'>
               <h1 className='our-card-text-h1'>
@@ -45,14 +45,14 @@ const IntroPage = () => {
               </h2>
             </div>
             <div className='our-card-img'>
-              <img src='img/pages/intro_section_cz_01.jpg' alt='' />
+              <img src='img/pages/intro_section_cz_01.jpg' alt='' id='img_01'/>
             </div>
           </div>
         </div>
-        <div className='our-card'>
-          <div className='our-card-container'>
+        <div className='our-card center'>
+          <div className='our-card-container reverse'>
             <div className='our-card-img darker-80'>
-              <img src='img/pages/intro_section_cz_02.jpg' alt='' />
+              <img src='img/pages/intro_section_cz_02.jpg' alt='' id='img_02'/>
             </div>
             <div className='our-card-text flipped'>
               <h1 className='our-card-text-h1'>

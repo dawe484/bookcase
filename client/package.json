@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "1.0.1_200920",
+  "version": "1.1.2",
   "private": true,
   "dependencies": {
     "@crossfield/react-read-more": "^0.2.0",
