@@ -240,28 +240,28 @@ const AuthorsPage = () => {
     author.nationality = selectAuthorsInputOption('nationality');
     author.portraitAuthorLicense = selectAuthorsInputOption('license');
 
-    const urlAuthorName = name
-      .replace(/ /g, '-')
-      .replace(/:/g, '-')
-      .replace(/ě/gi, 'e')
-      .replace(/š/gi, 's')
-      .replace(/č/gi, 'c')
-      .replace(/ř/gi, 'r')
-      .replace(/ž/gi, 'z')
-      .replace(/ý/gi, 'y')
-      .replace(/á/gi, 'a')
-      .replace(/í/gi, 'i')
-      .replace(/é/gi, 'e')
-      .replace(/ú/gi, 'u')
-      .replace(/ů/gi, 'u')
-      .replace(/ň/gi, 'n')
-      .replace(/ď/gi, 'd')
-      .replace(/ť/gi, 't')
-      .replace(/ø/g, 'o')
-      .toLowerCase()
-      .concat('-', Math.floor(Math.random() * 9000) + 1000); // returns a random integer from 1000 to 9999
+    // const urlAuthorName = name
+    //   .replace(/ /g, '-')
+    //   .replace(/:/g, '-')
+    //   .replace(/ě/gi, 'e')
+    //   .replace(/š/gi, 's')
+    //   .replace(/č/gi, 'c')
+    //   .replace(/ř/gi, 'r')
+    //   .replace(/ž/gi, 'z')
+    //   .replace(/ý/gi, 'y')
+    //   .replace(/á/gi, 'a')
+    //   .replace(/í/gi, 'i')
+    //   .replace(/é/gi, 'e')
+    //   .replace(/ú/gi, 'u')
+    //   .replace(/ů/gi, 'u')
+    //   .replace(/ň/gi, 'n')
+    //   .replace(/ď/gi, 'd')
+    //   .replace(/ť/gi, 't')
+    //   .replace(/ø/g, 'o')
+    //   .toLowerCase()
+    //   .concat('-', Math.floor(Math.random() * 9000) + 1000); // returns a random integer from 1000 to 9999
 
-    author.urlAuthorName = urlAuthorName;
+    // author.urlAuthorName = urlAuthorName;
 
     const formData = new FormData();
 

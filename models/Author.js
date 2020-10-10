@@ -4,6 +4,7 @@ const AuthorSchema = mongoose.Schema(
   {
     urlAuthorName: {
       type: String,
+      required: true,
     },
     name: {
       type: String,

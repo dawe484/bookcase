@@ -12,7 +12,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
-  UPDATE_USER,
+  // UPDATE_USER,
 } from '../types';
 
 const AuthState = (props) => {

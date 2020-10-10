@@ -7,6 +7,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Footer from './components/layout/Footer';
 
 import IntroPage from './components/pages/IntroPage';
+import SignUpPage from './components/pages/SignUpPage';
+import SignInPage from './components/pages/SignInPage';
+
 import NotFound from './components/pages/NotFoundPage';
 
 // import Home from './components/pages/HomePage';
@@ -22,14 +25,14 @@ import NotFound from './components/pages/NotFoundPage';
 // import About from './components/pages/AboutPage';
 // import Help from './components/pages/HelpPage';
 
+import AuthState from './context/auth/AuthState';
 // import AuthorState from './context/author/AuthorState';
 // import BookState from './context/book/BookState';
-// import AuthState from './context/auth/AuthState';
 // import AlertState from './context/alert/AlertState';
 
 // import PrivateRoute from './components/routing/PrivateRoute';
 
-import 'simplebar/dist/simplebar.min.css';
+// import 'simplebar/dist/simplebar.min.css';
 import './App.css';
 
 import { default as I18nProvider } from './i18n/provider';
@@ -51,20 +54,22 @@ const App = () => {
 
   return (
     <I18nProvider locale={language}>
-      {/* // <AuthState>
-    //   <AlertState>
+      <AuthState>
+        {/* //   <AlertState>
     //     <AuthorState>
     //       <BookState> */}
-      <Router>
-        <Fragment>
-          {/* <SimpleBar style={{ height: window.innerHeight }}> */}
-          {/* <Navbar /> */}
-          {/* <Headbox /> */}
-          <div className='main-content'>
-            <Switch>
-              <Route exact path='/' component={IntroPage} />
-              {/* <Route exact path='/' component={Home} /> */}
-              {/* <Route exact path='/news' component={News} />
+        <Router>
+          <Fragment>
+            {/* <SimpleBar style={{ height: window.innerHeight }}> */}
+            {/* <Navbar /> */}
+            {/* <Headbox /> */}
+            <div className='main-content'>
+              <Switch>
+                <Route exact path='/' component={IntroPage} />
+                <Route exact path='/signup' component={SignUpPage} />
+                <Route exact path='/signin' component={SignInPage} />
+                {/* <Route exact path='/' component={Home} /> */}
+                {/* <Route exact path='/news' component={News} />
                         <Route exact path='/popular' component={Popular} />
                         <Route exact path='/books' component={Books} />
                         <Route exact path='/books/:urlTitle' component={Book} />
@@ -73,9 +78,9 @@ const App = () => {
                         path='/books/:urlTitle/viewer'
                         component={Viewer}
                       /> */}
-              {/* <Route exact path='/book-rating/:urlTitle' component={BookRating} /> */}
-              {/* <Route exact path='/authors' component={Authors} /> */}
-              {/* <Route
+                {/* <Route exact path='/book-rating/:urlTitle' component={BookRating} /> */}
+                {/* <Route exact path='/authors' component={Authors} /> */}
+                {/* <Route
                           exact
                           path='/authors/:urlAuthorName'
                           component={Author}
@@ -92,23 +97,23 @@ const App = () => {
                           />
                           <Route exact path='/about' component={About} />
                         <Route exact path='/help' component={Help} /> */}
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-          <Footer
-            language={language}
-            handleSetLanguage={(language) => {
-              setLanguage(language);
-              storeLanguageInLocalStorage(language);
-            }}
-          />
-          {/* </SimpleBar> */}
-        </Fragment>
-      </Router>
-      {/* //  </BookState>
+                <Route component={NotFound} />
+              </Switch>
+            </div>
+            <Footer
+              language={language}
+              handleSetLanguage={(language) => {
+                setLanguage(language);
+                storeLanguageInLocalStorage(language);
+              }}
+            />
+            {/* </SimpleBar> */}
+          </Fragment>
+        </Router>
+        {/* //  </BookState>
     //     </AuthorState>
-    //   </AlertState>
-    // </AuthState> */}
+    //   </AlertState> */}
+      </AuthState>
     </I18nProvider>
   );
 };

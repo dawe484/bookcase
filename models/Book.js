@@ -12,7 +12,7 @@ const BookSchema = mongoose.Schema(
     },
     isbn: {
       type: String,
-      required: true,
+      // required: true,
     },
     series: {
       type: String,
@@ -22,19 +22,19 @@ const BookSchema = mongoose.Schema(
     },
     formats: {
       type: [String],
-      required: true,
+      // required: true,
     },
     genres: {
       type: [String],
-      required: true,
+      // required: true,
     },
     language: {
       type: String,
-      required: true,
+      // required: true,
     },
     pages: {
       type: Number,
-      required: true,
+      // required: true,
     },
     bookCover: {
       type: String,
@@ -48,7 +48,7 @@ const BookSchema = mongoose.Schema(
     },
     bookStatus: {
       type: String,
-      required: true,
+      // required: true,
     },
     yearOfPublication: {
       type: Number,
@@ -58,7 +58,7 @@ const BookSchema = mongoose.Schema(
     },
     originalTitle: {
       type: String,
-      required: true,
+      // required: true,
     },
     yearOfPublicationOriginal: {
       type: Number,
@@ -89,12 +89,11 @@ const BookSchema = mongoose.Schema(
     // },
     author: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      // required: true,
       ref: 'author',
     },
     date: {
       type: Date,
-      required: true,
       default: Date.now,
     },
   },

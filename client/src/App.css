@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Courgette');
-@import url('https://fonts.googleapis.com/css?family=Roboto');
-
 /* Global Styles */
 :root {
   --primary-color: #141414;
@@ -27,10 +24,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   letter-spacing: 1px;
   /* line-height: 1.6; */
@@ -69,38 +67,6 @@ button {
   padding: 0 2rem;
 } */
 
-/* Cards */
-/* .card {
-  padding: 1rem;
-  border: #ccc 1px dotted;
-  margin: 0.7rem 0;
-} */
-
-/* Grid */
-/* .grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
-} */
-
-/* .grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 1rem;
-}
-
-.grid-4 {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 2rem;
-}
-
-.grid-2-3 {
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  grid-gap: 2rem;
-}
-
 .badge {
   font-size: 0.8rem;
   padding: 0.2rem 0.7rem;
@@ -116,7 +82,7 @@ button {
   opacity: 0.9;
   background: var(--light-color);
   color: var(--dark-color);
-} */
+}
 
 /* .btn-primary,
 .bg-primary,
@@ -191,15 +157,16 @@ input[type='file'], */
 /* select, */
 /* textarea {
   display: block;
-  font-family: 'Roboto', sans-serif;
+  background: gray;
   width: 256px;
   padding: 0.5rem;
   font-size: 1rem;
   outline: none;
-  border: 2px solid var(--primary-color);
-  font-display: swap;
-}
+  border-radius: 4px;
+  border: 0;
+} */
 
+/* 
 input[type='file'] {
   background: white;
 }
@@ -623,11 +590,11 @@ h3 {
 .input-field select {
   font-size: 0.85rem;
 }
-
-.author-input-field select option,
+*/
+/* .author-input-field select option,
 .author-input-field label,
 .input-field select option,
-.input-field label {
+.our-login-input-field label {
   position: absolute;
   top: -4px;
   pointer-events: none;
@@ -635,13 +602,13 @@ h3 {
 }
 
 .author-input-field label,
-.input-field label {
+.our-login-input-field label {
   font-size: 0.75rem;
   color: var(--light-color);
   background: var(--danger-color);
   padding: 2px 4px;
-}
-
+} */
+/*
 .input-field label:nth-of-type(3),
 .input-field label:nth-of-type(2),
 .input-field label:nth-of-type(1) {
@@ -662,7 +629,7 @@ h3 {
 /* .input-field select:not([value='']) + label, */
 /* .input-field input:optional + label { */
 /* .input-field input:valid + label { */
-/* .input-field.addBook textarea:focus + label,
+.input-field.addBook textarea:focus + label,
 .input-field.addBook textarea:not(:empty) + label,
 .input-field.add textarea:focus + label,
 .input-field.add textarea:not(:empty) + label,
@@ -677,7 +644,7 @@ h3 {
   color: var(--light-color);
   background: var(--danger-color);
   padding: 2px 6px;
-} */
+}
 
 /* input:-webkit-autofill,
 input:-webkit-autofill:hover,

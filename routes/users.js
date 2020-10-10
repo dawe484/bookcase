@@ -79,7 +79,6 @@ router.post(
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
-      console.log('Sign Up Error: ', signUpName, signUpEmail, signUpPassword);
     }
   }
 );
@@ -136,7 +135,7 @@ router.put('/:name', auth, async (req, res) => {
       name: req.params.username,
     });
 
-    if (!user) return res.status(404).json({ msg: 'User not found' });
+    if (!user) return res.status(404).json({ msg: 'User not found.' });
 
     // Only authorized user can update user data (do it on client side ??)
     user = await User.findOneAndUpdate(

@@ -51,13 +51,16 @@ router.post(
 
       const isMatch = await bcrypt.compare(signInPassword, user.password);
 
+      // Wrong password
       if (!isMatch) {
-        return res.status(400).json({ msg: 'Wrong email or password' }); // Wrong password
+        return res.status(400).json({ msg: 'Wrong email or password' });
       }
 
       const payload = {
         user: {
           id: user.id,
+          name: user.name,
+          role: user.role,
         },
       };
 

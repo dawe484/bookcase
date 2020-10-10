@@ -7,9 +7,32 @@ const Author = require('../models/Author');
 const User = require('../models/User');
 const Book = require('../models/Book');
 
+const urlName = (name) => {
+  return (urlAddress = name
+    .replace(/ /g, '-')
+    .replace(/:/g, '-')
+    .replace(/ě/gi, 'e')
+    .replace(/š/gi, 's')
+    .replace(/č/gi, 'c')
+    .replace(/ř/gi, 'r')
+    .replace(/ž/gi, 'z')
+    .replace(/ý/gi, 'y')
+    .replace(/á/gi, 'a')
+    .replace(/í/gi, 'i')
+    .replace(/é/gi, 'e')
+    .replace(/ú/gi, 'u')
+    .replace(/ů/gi, 'u')
+    .replace(/ň/gi, 'n')
+    .replace(/ď/gi, 'd')
+    .replace(/ť/gi, 't')
+    .replace(/ø/g, 'o')
+    .toLowerCase()
+    .concat('-', Math.floor(Math.random() * 9000) + 1000)); // returns a random integer from 1000 to 9999
+};
+
 // @route     POST api/authors
 // @desc      Add an author to DB
-// @access    Public
+// @access    Private
 router.post(
   '/',
   [check('name', "Please fill in the author's full name").not().isEmpty()],
@@ -22,7 +45,6 @@ router.post(
     }
 
     const {
-      urlAuthorName,
       name,
       pseudonym,
       birthdate,
@@ -43,115 +65,57 @@ router.post(
     } = req.body;
 
     try {
-      let author = await Author.findOne({ name }); // same as name: name => same name in ES6
+      if (req.user.role === 'superhero') {
+        const authorNotExists = await Author.find({ name });
+        const pseudonymExists = await Author.findOne({ pseudonym: name });
 
-      if (author) {
-        return res.status(400).json({ msg: 'Author already exists' });
+        if (pseudonymExists) {
+          return res.status(400).json({
+            msg: `Author of the name already exists under the given pseudonym.\nLook at the author ${pseudonymExists.name}`,
+          });
+        } else {
+          if (authorNotExists.length === 0) {
+            const urlAuthorName = urlName(name);
+
+            const newAuthor = new Author({
+              urlAuthorName,
+              name,
+              pseudonym,
+              birthdate,
+              deathdate,
+              nationality,
+              portraitAuthorName,
+              portraitAuthorLink,
+              portraitAuthorLicense,
+              portraitAuthorLicenseLink,
+              portrait,
+              resumeSource,
+              resume,
+              website,
+              facebook,
+              instagram,
+              twitter,
+              wikipedia,
+            });
+
+            const author = await newAuthor.save();
+
+            res.json(author);
+            console.log(`✔ ${req.user.name} added the author '${author.name}'`);
+          } else {
+            return res.status(400).json({ msg: `Author already exists.` });
+          }
+        }
       } else {
-        // const urlAuthorName = name
-        //   .replace(/ /g, '-')
-        //   .replace(/ě/gi, 'e')
-        //   .replace(/š/gi, 's')
-        //   .replace(/č/gi, 'c')
-        //   .replace(/ř/gi, 'r')
-        //   .replace(/ž/gi, 'z')
-        //   .replace(/ý/gi, 'y')
-        //   .replace(/á/gi, 'a')
-        //   .replace(/í/gi, 'i')
-        //   .replace(/é/gi, 'e')
-        //   .replace(/ú/gi, 'u')
-        //   .replace(/ů/gi, 'u')
-        //   .replace(/ň/gi, 'n')
-        //   .replace(/ď/gi, 'd')
-        //   .replace(/ť/gi, 't')
-        //   .toLowerCase()
-        //   .concat('-', Math.floor(Math.random() * 9000) + 1000); // returns a random integer from 1000 to 9999
-
-        author = new Author({
-          urlAuthorName,
-          name,
-          pseudonym,
-          birthdate,
-          deathdate,
-          nationality,
-          portraitAuthorName,
-          portraitAuthorLink,
-          portraitAuthorLicense,
-          portraitAuthorLicenseLink,
-          portrait,
-          resumeSource,
-          resume,
-          website,
-          facebook,
-          instagram,
-          twitter,
-          wikipedia,
-        });
+        return res
+          .status(401)
+          .json({ msg: `You don't have permission to save the new author.` });
       }
-
-      await author.save();
-      // res.send('Author saved');
-      res.json(author);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
-      console.log("Error: Can't save author", name);
+      console.log(`Error: Can't save the author '${name}'`);
     }
-
-    // try {
-    //   const authorNotExists = await Author.find({ name });
-    //   const pseudonymExists = await Author.findOne({ pseudonym: name });
-
-    //   if (pseudonymExists) {
-    //     return res.status(400).json({ msg: `Author of the name already exists under the given pseudonym.` });
-    //     // console.log(`Author of the name already exists under the given pseudonym.\nLook at the author ${pseudonymExists.name}`);
-    //   // if (pseudonymExists.length > 0) {
-    //     // console.log(pseudonymExists);
-
-    //     // pseudonymExists.forEach(element => {
-    //     //   if (element.pseudonym.includes(name)) {
-    //     //     console.log(`Author of the name already exists under the given pseudonym.\nLook at the author ${element.name}`);
-    //     //     // res.send(`Author of the name already exists under the given pseudonym.
-    //     //     // Look at the author ${element.name}`);
-    //     //   }
-    //     // });
-    //   } else {
-    //     if (authorNotExists.length === 0) {
-    //       const urlAuthorName = name
-    //         .replace(/ /g, '-')
-    //         .toLowerCase()
-    //         .concat('-', Math.floor(Math.random() * 9000) + 1000); // returns a random integer from 1000 to 9999
-
-    //       const newAuthor = new Author({
-    //         urlAuthorName,
-    //         name,
-    //         pseudonym,
-    //         birthdate,
-    //         deathdate,
-    //         nationality,
-    //         portraitAuthorName,
-    //         portrait,
-    //         resumeSource,
-    //         resume,
-    //         website,
-    //         facebook,
-    //         instagram,
-    //         twitter
-    //       });
-
-    //       const author = await newAuthor.save();
-
-    //       // res.send('Author saved');
-    //       res.json(author);
-    //     } else {
-    //       return res.status(400).json({ msg: `Author already exists` });
-    //       // res.json('Author already exists');
-    //     }
-    //   }
-    // } catch (err) {
-    //   console.error(err.message);
-    //   res.status(500).send('Server Error');
-    // }
   }
 );
 
@@ -203,28 +167,76 @@ router.put('/:urlAuthorName', auth, async (req, res) => {
   if (wikipedia) authorFields.wikipedia = wikipedia;
 
   try {
-    let author = await Author.findOne({
-      urlAuthorName: req.params.urlAuthorName,
-    });
+    if (req.user.role === 'superhero') {
+      let author = await Author.findOne({
+        urlAuthorName: req.params.urlAuthorName,
+      });
 
-    if (!author) return res.status(404).json({ msg: 'Author not found' });
+      if (!author) return res.status(404).json({ msg: 'Author not found.' });
 
-    // Make sure user can update author
-    let user = await User.findById(req.user.id).select(
-      '-_id -password -date -__v'
-    );
+      const t_name = author.name;
 
-    if (user.role !== 'superhero') {
-      return res.status(401).json({ msg: 'Not authorized' });
+      if (author.name === name) {
+        author = await Author.findOneAndUpdate(
+          { urlAuthorName: req.params.urlAuthorName },
+          { $set: authorFields },
+          { new: true }
+        );
+      } else {
+        authorFields.urlAuthorName = urlName(name);
+
+        author = await Author.findOneAndUpdate(
+          { urlAuthorName: req.params.urlAuthorName },
+          { $set: authorFields },
+          { new: true }
+        );
+      }
+
+      res.json(author);
+      console.log(
+        `✎ ${req.user.name} updated the author '${t_name}' to '${author.name}'`
+      );
+    } else {
+      return res
+        .status(401)
+        .json({ msg: `You don't have permission to update the author.` });
     }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
-    author = await Author.findOneAndUpdate(
-      { urlAuthorName: req.params.urlAuthorName },
-      { $set: authorFields },
-      { new: true }
-    );
+// @route     DELETE api/authors/:urlAuthorName
+// @desc      Delete author
+// @access    Private
+router.delete('/:urlAuthorName', auth, async (req, res) => {
+  try {
+    if (req.user.role === 'superhero') {
+      let author = await Author.findOne({
+        urlAuthorName: req.params.urlAuthorName,
+      });
 
-    res.json(author);
+      if (!author) return res.status(404).json({ msg: 'Author not found.' });
+
+      author.book.map(async (book_id) => {
+        let findBook = await Book.findByIdAndDelete(book_id);
+        console.log(
+          `✘ ${req.user.name} deleted the book '${findBook.title}' by '${author.name}'`
+        );
+      });
+
+      author = await Author.findOneAndDelete({
+        urlAuthorName: req.params.urlAuthorName,
+      });
+
+      res.json({ msg: 'Author removed.' });
+      console.log(`✘ ${req.user.name} deleted the author '${author.name}'`);
+    } else {
+      return res
+        .status(401)
+        .json({ msg: `You don't have permission to delete the author.` });
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -260,44 +272,6 @@ router.get('/', async (req, res) => {
     const authors = await Author.find({}).populate('book').sort({ date: -1 });
 
     res.json(authors);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
-// @route     DELETE api/authors/:id
-// @desc      Delete author
-// @access    Private - only superhero
-router.delete('/:urlAuthorName', auth, async (req, res) => {
-  let user;
-
-  try {
-    user = await User.findById(req.user.id).select('-_id -password -date -__v');
-    // res.json(user);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-
-  try {
-    const author = await Author.findById(req.params.id);
-    if (author) {
-      // Make sure user's role is 'superhero'
-      if (user.role === 'superhero') {
-        const authorsBooks = await Book.deleteMany({
-          author: req.params.id,
-        });
-        const author = await Author.findByIdAndRemove(req.params.id);
-        res.json({ msg: 'Author removed' });
-        console.log(`❗ ${user.name} deleted author: ${author.name}.`);
-      } else {
-        return res.status(401).json({ msg: 'Not authorized' });
-      }
-      // @TODO: dodělat i mazání knih, když se smaže autor
-    } else {
-      return res.status(404).json({ msg: 'Author not found' });
-    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -69,16 +69,19 @@ const Footer = (props) => {
                 className='option'
                 onClick={() => {
                   if (selected === undefined) window.location.reload();
-                  selected.innerHTML = document.getElementById(
-                    'czech'
-                  ).innerHTML;
-                  props.handleSetLanguage(
-                    document.getElementById('czech').htmlFor
-                  );
-                  document.getElementById('img_01').src =
-                    'img/pages/intro_section_cz_01.jpg';
-                  optionsContainer.classList.remove('active');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  else {
+                    selected.innerHTML = document.getElementById(
+                      'czech'
+                    ).innerHTML;
+                    props.handleSetLanguage(
+                      document.getElementById('czech').htmlFor
+                    );
+                    if (window.location.pathname === '/')
+                      document.getElementById('img_01').src =
+                        'img/pages/intro_section_cz_01.jpg';
+                    optionsContainer.classList.remove('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
                 }}
               >
                 <input
@@ -96,16 +99,19 @@ const Footer = (props) => {
                 className='option'
                 onClick={() => {
                   if (selected === undefined) window.location.reload();
-                  selected.innerHTML = document.getElementById(
-                    'english'
-                  ).innerHTML;
-                  props.handleSetLanguage(
-                    document.getElementById('english').htmlFor
-                  );
-                  document.getElementById('img_01').src =
-                    'img/pages/intro_section_en_01.jpg';
-                  optionsContainer.classList.remove('active');
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  else {
+                    selected.innerHTML = document.getElementById(
+                      'english'
+                    ).innerHTML;
+                    props.handleSetLanguage(
+                      document.getElementById('english').htmlFor
+                    );
+                    if (window.location.pathname === '/')
+                      document.getElementById('img_01').src =
+                        'img/pages/intro_section_en_01.jpg';
+                    optionsContainer.classList.remove('active');
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
                 }}
               >
                 <input
